@@ -256,9 +256,6 @@ export function RequisitionDraft({
                     {isOpen && (
                       <div className="row__card">
                         <PickCard pick={p} compact={settings.hideStats} />
-                        {!settings.hideStats && p.special && (
-                          <p className="card__special">★ {p.special.label}</p>
-                        )}
                       </div>
                     )}
                   </li>

@@ -4,6 +4,10 @@
  * - Lints every ACTIVE cell for ≥4 real choices.
  * - Enumerates the full lineup space for many daily boards: distribution,
  *   ceilings, perfect counts, combo counts.
+ *
+ * Coupled to RATINGS.md (stat budgets + band targets): when this report's band
+ * moves — roster edits or engine/BAL changes — re-center BAL.difficultyShift,
+ * bump the version constants, and update RATINGS.md § Change control.
  */
 import { QUOTAS, SLATE } from '../src/game/campaigns'
 import {

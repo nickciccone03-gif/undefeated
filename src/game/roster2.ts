@@ -9,6 +9,9 @@
  * assassination, real casualties, imprisonment/torture/coercion, or current
  * battlefield losses. Stats are sharp satire with an internally consistent
  * rationale. No Overall exists anywhere.
+ *
+ * All other cards follow the era-relative stat rubric in RATINGS.md (source of
+ * truth); the living-figure rubric above governs current-affairs numbers.
  */
 import type { Pick, Stats } from './types'
 
@@ -31,7 +34,7 @@ export const EXPANSION: Pick[] = [
     origin: 'Ayyubid Sultanate',
     year: 1187,
     blurb: 'Won the war, spared the city, invoiced only in reputation.',
-    stats: s(8, 7, 8, 7, 4, 8, 8),
+    stats: s(8, 7, 8, 7, 5, 8, 8),
     terrain: { desert: 3 },
     leadership: 9,
     adaptability: 8,
@@ -49,7 +52,7 @@ export const EXPANSION: Pick[] = [
     origin: 'Mongol Empire',
     year: 1220,
     blurb: 'Won 65 pitched battles on two continents. The deep cut that beats the famous pick.',
-    stats: s(9, 7, 10, 8, 4, 8, 9),
+    stats: s(9, 7, 10, 8, 6, 8, 9),
     terrain: { steppe: 3, winter: 2 },
     leadership: 9,
     adaptability: 9,
@@ -219,7 +222,7 @@ export const EXPANSION: Pick[] = [
     origin: 'Achaemenid Persia',
     year: -480,
     blurb: 'Always exactly ten thousand. The paperwork is the scariest part.',
-    stats: s(8, 7, 6, 7, 3, 8, 4),
+    stats: s(7, 7, 6, 8, 5, 8, 5),
     terrain: { desert: 2, open: 1 },
     lines: {
       win: 'The Immortals replaced every loss by morning muster, and the enemy began to take the name literally.',
@@ -234,7 +237,7 @@ export const EXPANSION: Pick[] = [
     origin: 'United States',
     year: 1944,
     blurb: 'Arrives from the ceiling, holds until relieved, complains the entire time. Elite.',
-    stats: s(8, 7, 9, 5, 7, 9, 5),
+    stats: s(8, 7, 9, 5, 7, 9, 6),
     terrain: { night: 2 },
     special: { trigger: 'amphibious', bonus: 1.1, label: 'Vertical envelopment' },
     lines: {
@@ -267,7 +270,7 @@ export const EXPANSION: Pick[] = [
     origin: 'Achaemenid Persia',
     year: -331,
     blurb: 'Terrifying on flat ground. There is a 45-degree workaround the enemy keeps finding.',
-    stats: s(8, 3, 8, 3, 3, 5, 2),
+    stats: s(7, 3, 8, 3, 4, 5, 2),
     terrain: { open: 3, mountain: -3 },
     special: { trigger: 'open', bonus: 1.1, label: 'Lanes of consequence' },
     lines: {
@@ -283,7 +286,7 @@ export const EXPANSION: Pick[] = [
     origin: 'Syracuse',
     year: -212,
     blurb: 'Precision bolt delivery, invented by a man who preferred circles.',
-    stats: s(8, 5, 3, 4, 6, 5, 4),
+    stats: s(7, 5, 3, 4, 7, 5, 4),
     terrain: { urban: 2 },
     special: { trigger: 'defense', bonus: 1.1, label: 'Pre-registered firing arcs' },
     lines: {
@@ -299,7 +302,7 @@ export const EXPANSION: Pick[] = [
     origin: 'United States',
     year: 1944,
     blurb: 'Not the best tank. The most tank. Arrives in quantities the enemy calls unfair.',
-    stats: s(7, 6, 8, 9, 7, 7, 3),
+    stats: s(7, 6, 8, 9, 7, 8, 4),
     terrain: { open: 2 },
     special: { trigger: 'logistics', bonus: 1.1, label: 'Factories win wars' },
     lines: {
@@ -363,7 +366,7 @@ export const EXPANSION: Pick[] = [
     origin: 'United States',
     year: 1942,
     blurb: 'Launched army bombers off a carrier with no plan for landing. Morale as a weapons system.',
-    stats: s(6, 3, 7, 3, 7, 10, 5),
+    stats: s(5, 3, 7, 3, 7, 10, 5),
     authenticity: 'historical',
     special: { trigger: 'propaganda', bonus: 1.3, label: 'The message IS the mission' },
     lines: {
@@ -412,7 +415,7 @@ export const EXPANSION: Pick[] = [
     origin: 'United States',
     year: 1812,
     blurb: 'British cannonballs bounced off the hull. The crew kept the nickname and the receipts.',
-    stats: s(8, 9, 6, 5, 6, 8, 4),
+    stats: s(8, 9, 7, 5, 6, 8, 4),
     terrain: { naval: 3 },
     lines: {
       win: 'Old Ironsides shrugged off the broadside, and the enemy gunnery officer began his memoir mid-battle.',
