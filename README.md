@@ -10,7 +10,8 @@ Can you go 50–0?
 **Stack:** Vite + React + TypeScript. No backend, no APIs, no accounts. Fonts self-hosted
 via Fontsource (Staatliches / Special Elite / IBM Plex Mono).
 
-Product spec: [SCOPE.md](SCOPE.md) · Decision log: [DECISIONS.md](DECISIONS.md)
+Product spec: [SCOPE.md](SCOPE.md) · Decision log: [DECISIONS.md](DECISIONS.md) ·
+Stat rubric: [RATINGS.md](RATINGS.md)
 
 ```bash
 npm install

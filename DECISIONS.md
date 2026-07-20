@@ -108,3 +108,19 @@ assembly / command consolidation, both still under Eisenhower's 9). Result: 53% 
 commander×ww2 measured healthy once ties were counted properly (Zhukov/Eisenhower/Nimitz
 61/26/13, 16/23 days tied — the earlier "Eisenhower 83%" was an enumeration-order
 tiebreak artifact) — no WW2 changes. ROSTER_VERSION 2 → 3.
+
+**2026-07-20 · Era-relative stat rubric codified in RATINGS.md; roster realism pass v1**
+· builder, executing owner's "make the ratings more realistic" · Rejected: absolute-scale
+ratings (SCOPE's old line — half-applied in practice: five stats were already era-relative
+while TECH/INTL were rated absolute, which is why every pre-modern card's warning chip read
+−TECH/−INTL). · 57 stat lines re-derived era-relative (5 = era-standard, 8+ = attested
+era-best, 1–3 = famous documented weakness), including 13 downward corrections; every 8+/≤3
+must cite a fact. Current-affairs cards keep the locked satirical rubric; the 8 bridge
+cards' stats untouched. Realism made optimal play stronger, so on scoring v3
+BAL.difficultyShift 0.9 → 1.2 re-centers the band (avg median 23.5 vs v3's 23.6 target; ceilings
+50×16/49×8; perfect-possible 16/24, down from v3's 20/24 because realism compressed the
+top-vs-field card spread — accepted, variable ceilings are content).
+ROSTER_VERSION 3 → 4 per versioned challenge identity. STANDING RULE: scoring and ratings
+move together — touching engine scoring/BAL/weights or card stats re-runs balance (and
+parity), re-centers difficultyShift, bumps versions, and updates RATINGS.md (§ Change
+control).

@@ -42,8 +42,8 @@ import {
 
 export const SEASON_LENGTH = SLATE.length // 50
 
-/** v3: bridge fields + 2020s commander-race rebalance (contested cell top). */
-export const ROSTER_VERSION = 3
+/** v4: era-relative realism pass (RATINGS.md) atop v3's bridge fields + 2020s rebalance. */
+export const ROSTER_VERSION = 4
 /** v3: seat-emphasis scoring + C2 as a mitigation delta (see warScore). */
 export const RULESET_VERSION = 3
 export const SCENARIO_VERSION = 1
@@ -56,7 +56,7 @@ export const BAL = {
   cmdBase: 0.85,
   cmdPerLeadership: 0.035,
   difficultyJitter: 0.3,
-  difficultyShift: 0.9,
+  difficultyShift: 1.2,
   // Compatibility model.
   sustainBase: 0.16,
   sustainLogWeight: 0.9,

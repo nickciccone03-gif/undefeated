@@ -59,8 +59,9 @@ Three named rules, each with a generated debrief sentence:
   bridge (doctrine/comms glue, 0–2, rare), authenticity(historical|experimental|legendary|improvised),
   ruleset(core|current-affairs|special-event), tone(documentary|comedic|satirical),
   version, sourceNote, editorialStatus` — schema-validated data, generated types.
-- Ratings are absolute-scale; ancient viability comes from scenario weights, compatibility,
-  and specials.
+- Ratings are era-relative — 5 = competent for its day, 8+ = attested era-best, 1–3 =
+  famous documented weakness; [RATINGS.md](RATINGS.md) is the stat source of truth.
+  Cross-era viability comes from scenario weights, compatibility, and specials.
 - **Real cards only (owner rule):** every card is an attested unit, system, institution, or
   event — the Emu War standard. No mythical or invented cards; the joke is that it really
   happened (Sacred Chickens, Snake Pots, Space Force). The authenticity field stays in the
