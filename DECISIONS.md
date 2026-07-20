@@ -64,3 +64,18 @@ A living figure is real; the treatment is satirical. Conflating them breaks filt
 
 **2026-07-20 · Sealed-record screen: one fixed line, no bespoke punchlines** · reviewer,
 adopted · Bespoke jokes would make excluded-monster searching collectible content.
+
+**2026-07-20 · Real cards only — no fictional units, no UI badges** · owner ·
+Rejected: invented/mythical comedy cards (Icarus Program, The Group Chat, Trojan Horse,
+General Winter, Tesla's Death Ray, Da Vinci's Ornithopter, the legendary Beacon Chain) and
+the SATIRE/authenticity badges ("dumb"). · The game's magic trick is "this really
+happened" — the Emu War standard. All seven cut; replaced with attested absurdities:
+Hannibal's Snake Pots (Justin/Nepos), US Space Force, the Polybius fire-signal telegraph
+(Histories X), the Olympic Pigeon Dispatch (Aelian), Caesar's Speculatores. Authenticity
+stays as a schema field for editorial control; it never renders in UI.
+
+**2026-07-20 · Distinct eras per board** · owner (caught 4×ANTIQUITY in live play) ·
+buildOrders now deals a seeded perfect matching — 8 slots, 8 different eras, same board
+for everyone; graceful repeat-fallback only if a future cell config makes matching
+impossible. CI lint asserts distinctness on sampled boards. Side effect at 1a: every board
+is a full rainbow, so a 50–0 lineup exists daily until 1b widens the era pool.

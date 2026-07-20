@@ -203,17 +203,7 @@ export function RequisitionDraft({
                       onClick={() => setExpanded(isOpen ? null : p.id)}
                       aria-expanded={isOpen}
                     >
-                      <span className="row__name">
-                        {p.name}
-                        {p.ruleset === 'current-affairs' && (
-                          <em className="row__satire" title="Satirical rating of a public figure">
-                            SATIRE
-                          </em>
-                        )}
-                        {p.authenticity && p.authenticity !== 'historical' && (
-                          <em className="row__auth">{p.authenticity.toUpperCase()}</em>
-                        )}
-                      </span>
+                      <span className="row__name">{p.name}</span>
                       <span className="row__meta">
                         {p.origin} · {yearLabel(p.year)}
                         {p.altSlot && ` · ${SLOT_SHORT[p.slot]}/${SLOT_SHORT[p.altSlot]}`}

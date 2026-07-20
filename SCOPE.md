@@ -55,6 +55,10 @@ Three named rules, each with a generated debrief sentence:
   version, sourceNote, editorialStatus` — schema-validated data, generated types.
 - Ratings are absolute-scale; ancient viability comes from scenario weights, compatibility,
   and specials.
+- **Real cards only (owner rule):** every card is an attested unit, system, institution, or
+  event — the Emu War standard. No mythical or invented cards; the joke is that it really
+  happened (Sacred Chickens, Snake Pots, Space Force). The authenticity field stays in the
+  schema for editorial control but never renders in the UI — no badges of any kind.
 
 ## Living leaders — LOCKED (owner decision, final)
 

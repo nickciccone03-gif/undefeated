@@ -535,21 +535,6 @@ export const ARMOR: Pick[] = [
 
 export const AIR: Pick[] = [
   {
-    id: 'air-ornithopter',
-    slot: 'air',
-    name: 'Da Vinci’s Ornithopter',
-    origin: 'Renaissance Italy',
-    year: 1490,
-    blurb: 'Technically a drawing. Morale through the roof.',
-    stats: s(1, 1, 3, 2, 7, 6, 4),
-    special: { trigger: 'absurd', bonus: 2.0, label: 'Style points (unlimited)' },
-    lines: {
-      win: 'The ornithopter did not fly, but the enemy could not stop watching it not fly, and we won meanwhile.',
-      loss: 'The ornithopter remains grounded pending the invention of several sciences.',
-      ana: 'Da Vinci saw the F-117 and sketched it from memory, correctly, adding “told you.”',
-    },
-  },
-  {
     id: 'air-balloons',
     slot: 'air',
     altSlot: 'intel',
@@ -1182,22 +1167,6 @@ export const LOGISTICS: Pick[] = [
 
 export const WILDCARD: Pick[] = [
   {
-    id: 'wld-winter',
-    slot: 'wildcard',
-    name: 'General Winter',
-    origin: 'Russia',
-    year: 1812,
-    blurb: 'Undefeated at home. Does not travel.',
-    stats: s(7, 9, 3, 2, 1, 10, 2),
-    terrain: { winter: 3, desert: -3 },
-    special: { trigger: 'winter', bonus: 1.6, label: 'Home-field advantage: the cold itself' },
-    lines: {
-      win: 'General Winter arrived in October, as scheduled, and the enemy’s timetable froze solid.',
-      loss: 'General Winter was deployed to the tropics, where he is, at best, General Drizzle.',
-      ana: 'General Winter met the heated tank cabins and filed a formal complaint about “soft doctrine.”',
-    },
-  },
-  {
     id: 'wld-greek-fire',
     slot: 'wildcard',
     altSlot: 'navy',
@@ -1212,23 +1181,6 @@ export const WILDCARD: Pick[] = [
       win: 'The siphons set the sea on fire, which the enemy navy considered against the rules. There are no rules.',
       loss: 'The one engineer who knew the recipe retired mid-war, as is tradition.',
       ana: 'The napalm chemists asked for the recipe, and Byzantium, dead for 500 years, still said no.',
-    },
-  },
-  {
-    id: 'wld-trojan-horse',
-    slot: 'wildcard',
-    altSlot: 'intel',
-    name: 'The Trojan Horse',
-    origin: 'Mycenaean Greece',
-    year: -1184,
-    blurb: 'One weird trick. City gates hate it.',
-    stats: s(7, 2, 3, 3, 3, 5, 9),
-    terrain: { urban: 3, night: 2 },
-    special: { trigger: 'urban', bonus: 1.4, label: 'It’s a gift (it is not)' },
-    lines: {
-      win: 'The enemy wheeled the horse inside, posted guards around it, and the guards are the part we replaced.',
-      loss: 'The enemy accepted the horse, appraised it, and returned it with a note: “we have one.”',
-      ana: 'The horse cleared modern customs as “agricultural equipment,” which is honestly its finest infiltration.',
     },
   },
   {
@@ -1295,21 +1247,6 @@ export const WILDCARD: Pick[] = [
       win: 'The war pigs were released, and the enemy line discovered it had somewhere else to be.',
       loss: 'The war pigs defected to the enemy camp, which had better snacks. Betrayal was always on the menu.',
       ana: 'The war pigs were issued tiny flak jackets, and the quartermaster refuses to discuss the fitting.',
-    },
-  },
-  {
-    id: 'wld-deathray',
-    slot: 'wildcard',
-    name: 'Tesla’s Death Ray',
-    origin: 'Wardenclyffe Tower',
-    year: 1899,
-    blurb: 'Does not exist. Investors remain confident.',
-    stats: s(2, 2, 1, 1, 10, 3, 6),
-    special: { trigger: 'airsup', bonus: 1.2, label: 'Theoretical air superiority' },
-    lines: {
-      win: 'The death ray did nothing, but the enemy could not PROVE it did nothing, and surrendered to be safe.',
-      loss: 'The death ray required, per the schematics, “more funding.” It always requires more funding.',
-      ana: 'The death ray was plugged into the modern grid, browned out three time zones, and produced one (1) pigeon.',
     },
   },
   {
