@@ -311,6 +311,12 @@ button {
   border-color: var(--ink);
 }
 
+.chip--cmd {
+  background: var(--red);
+  color: var(--paper-2);
+  border-color: var(--red-deep);
+}
+
 /* ---------- title screen ---------- */
 
 .title__mast {
@@ -637,6 +643,23 @@ button {
   font-size: 11px;
   width: 18px;
   text-align: right;
+}
+
+/* commander ratings (LEAD/ADPT) */
+
+.statbars--cmd {
+  margin-top: 7px;
+  padding-top: 7px;
+  border-top: 1px dashed rgba(157, 43, 29, 0.4);
+}
+
+.statbar--cmd .statbar__label,
+.statbar--cmd .statbar__num {
+  color: var(--red);
+}
+
+.statbar--cmd .statbar__track i.on {
+  background: var(--red);
 }
 
 /* ---------- roster ---------- */

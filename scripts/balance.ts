@@ -8,6 +8,7 @@
 import { QUOTAS, SLATE } from '../src/game/campaigns'
 import {
   ACTIVE_CELLS,
+  boardViolation,
   buildDaily,
   cellPicks,
   enumerateWins,
@@ -61,10 +62,10 @@ const combosPerDay: number[] = []
 
 for (let d = 0; d < DAYS; d++) {
   const { orders, games } = buildDaily(`2026-09-${String((d % 28) + 1).padStart(2, '0')}#${d}`)
-  const eras = orders.map((o) => o.era)
-  if (new Set(eras).size !== eras.length) {
+  const violation = boardViolation(orders)
+  if (violation) {
     lintFailed = true
-    console.log(`  ✗ FAIL day ${d}: repeated eras on board [${eras.join(' ')}]`)
+    console.log(`  ✗ FAIL day ${d}: ${violation} [${orders.map((o) => o.era).join(' ')}]`)
   }
   const cells = SLOT_ORDER.map((slot) => {
     const o = orders.find((x) => x.slot === slot)!

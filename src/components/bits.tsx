@@ -46,6 +46,32 @@ export function StatBars({ pick }: { pick: Pick }) {
   )
 }
 
+const CMD_RATINGS: ['leadership' | 'adaptability', string, string, string][] = [
+  ['leadership', 'LEAD', 'Leadership', 'multiplies the whole army'],
+  ['adaptability', 'ADPT', 'Adaptability', 'staff work that bridges era gaps (C2)'],
+]
+
+export function CommandBars({ pick }: { pick: Pick }) {
+  return (
+    <div className="statbars statbars--cmd">
+      {CMD_RATINGS.map(([key, short, label, hint]) => {
+        const v = pick[key] ?? 5
+        return (
+          <div className="statbar statbar--cmd" key={key} title={`${label}: ${v}/10 — ${hint}`}>
+            <span className="statbar__label">{short}</span>
+            <span className="statbar__track">
+              {Array.from({ length: 10 }, (_, i) => (
+                <i key={i} className={i < v ? 'on' : ''} />
+              ))}
+            </span>
+            <span className="statbar__num">{v}</span>
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+
 export function TerrainChips({ pick }: { pick: Pick }) {
   const entries = Object.entries(pick.terrain ?? {}) as [Terrain, number][]
   if (entries.length === 0 && !pick.special) return null
@@ -82,6 +108,7 @@ export function PickCard({
       </header>
       <p className="card__blurb">“{pick.blurb}”</p>
       {!compact && <StatBars pick={pick} />}
+      {!compact && pick.slot === 'commander' && <CommandBars pick={pick} />}
       {!compact && <TerrainChips pick={pick} />}
       {!compact && pick.special && (
         <p className="card__special" title={`Bonus in matching wars`}>

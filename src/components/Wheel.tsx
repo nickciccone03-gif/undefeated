@@ -98,10 +98,15 @@ export function RequisitionDraft({
   }, [order.slot, order.era, reduced])
 
   const pool = useMemo(() => {
-    let list = cellPicks(order.era, order.slot).filter((p) => !usedIds.has(p.id))
-    if (settings.excludeLeaders) list = list.filter((p) => p.ruleset !== 'current-affairs')
-    return list
+    const base = cellPicks(order.era, order.slot).filter((p) => !usedIds.has(p.id))
+    if (!settings.excludeLeaders) return base
+    const core = base.filter((p) => p.ruleset !== 'current-affairs')
+    // A cell that is politicians all the way down must still be draftable.
+    return core.length > 0 ? core : base
   }, [order.era, order.slot, usedIds, settings.excludeLeaders])
+
+  const leadersForced =
+    settings.excludeLeaders && pool.some((p) => p.ruleset === 'current-affairs')
 
   const shown = useMemo(() => {
     const q = query.trim().toLowerCase()
@@ -172,6 +177,13 @@ export function RequisitionDraft({
             </p>
           )}
 
+          {leadersForced && (
+            <p className="wheel__note">
+              ROSTER POLICY WAIVED: this cell is politicians all the way down. Your
+              exclusion request is noted, filed, and unfulfillable.
+            </p>
+          )}
+
           <div className="browse">
             <div className="browse__controls">
               <input
@@ -217,6 +229,16 @@ export function RequisitionDraft({
                       </span>
                       {!settings.hideStats && (
                         <span className="row__chips">
+                          {p.slot === 'commander' && (
+                            <>
+                              <i className="chip chip--cmd" title="Leadership — multiplies the whole army">
+                                LEAD {p.leadership ?? 5}
+                              </i>
+                              <i className="chip chip--cmd" title="Adaptability — staff work that bridges era gaps (C2)">
+                                ADPT {p.adaptability ?? 5}
+                              </i>
+                            </>
+                          )}
                           {top.map((k) => (
                             <i key={k} className="chip chip--good">
                               +{STAT_SHORT[k]} {p.stats[k]}

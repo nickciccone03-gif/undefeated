@@ -26,6 +26,7 @@ import { ALL_PICKS } from './roster'
 import { hashString, mulberry32, normal, shuffled } from './rng'
 import {
   ERA_LABELS,
+  ERA_ORDER,
   eraOf,
   SLOT_ORDER,
   STAT_KEYS,
@@ -46,7 +47,8 @@ export const SEASON_LENGTH = SLATE.length // 50
 export const ROSTER_VERSION = 3
 /** v3: seat-emphasis scoring + C2 as a mitigation delta (see warScore). */
 export const RULESET_VERSION = 3
-export const SCENARIO_VERSION = 1
+/** v2: uniform board dealer — era repeats (≤2) allowed, conflict pairs barred. */
+export const SCENARIO_VERSION = 2
 
 /** Balance constants — tuned via scripts/balance.ts. */
 export const BAL = {
@@ -89,6 +91,28 @@ export function cellPicks(era: EraId, slot: SlotId): Pick[] {
   ).sort((a, b) => a.year - b.year || a.name.localeCompare(b.name))
 }
 
+/**
+ * Slot pairs that may not share a dealt era: a dual-slot card sits in both
+ * cells, and one card can't hold two chairs — enumerateWins/rankTeams would
+ * otherwise count ghost armies fielding it twice.
+ */
+const ERA_CONFLICTS: Set<string> = (() => {
+  const out = new Set<string>()
+  for (const era of ERA_ORDER) {
+    const slots = SLOT_ORDER.filter((s) => ACTIVE_CELLS[s].includes(era))
+    for (let i = 0; i < slots.length; i++) {
+      const ids = new Set(cellPicks(era, slots[i]).map((p) => p.id))
+      for (let j = i + 1; j < slots.length; j++) {
+        if (cellPicks(era, slots[j]).some((p) => ids.has(p.id))) {
+          out.add(`${era}:${slots[i]}:${slots[j]}`)
+          out.add(`${era}:${slots[j]}:${slots[i]}`)
+        }
+      }
+    }
+  }
+  return out
+})()
+
 export function daySeedFrom(key: string): number {
   return hashString(`undefeated//${key}`)
 }
@@ -108,47 +132,64 @@ export function buildSeason(daySeed: number): Game[] {
 /**
  * The day's eight requisition orders, in a daily-shuffled slot sequence.
  *
- * Eras never repeat across the board: assignment is a seeded perfect matching
- * (slots → distinct eras), so a day can't deal ANTIQUITY four times. Most-
- * constrained slots are assigned first; if a future cell configuration makes
- * distinctness impossible, the leftover slots gracefully accept repeats.
- * An Era Override may still introduce a duplicate — that's the player's call.
+ * The deal is drawn uniformly from every legal board, so each one is equally
+ * likely and every active cell actually comes up in play. A board assigns each
+ * slot an era from its active cells, with two table rules: an era may repeat
+ * across at most two slots (a day can't deal ANTIQUITY four times), and two
+ * slots may share an era only if their cells share no card (see ERA_CONFLICTS).
+ * The space is small enough to enumerate outright — no biased backtracking.
+ * An Era Override may still introduce extra repeats — that's the player's call.
  */
 export function buildOrders(daySeed: number): Requisition[] {
   const rng = mulberry32((daySeed ^ 0x08de15) >>> 0)
   const sequence = shuffled(SLOT_ORDER, rng)
 
-  // Seeded preference order per slot, consumed in canonical order for determinism.
-  const prefs = new Map<SlotId, EraId[]>()
-  for (const slot of SLOT_ORDER) prefs.set(slot, shuffled(ACTIVE_CELLS[slot], rng))
-
-  // Assign most-constrained slots first (stable sort keeps this deterministic).
-  const solveOrder = [...SLOT_ORDER].sort(
-    (a, b) => ACTIVE_CELLS[a].length - ACTIVE_CELLS[b].length,
-  )
-  const assigned: Partial<Record<SlotId, EraId>> = {}
-  const used = new Set<EraId>()
-  const solve = (i: number): boolean => {
-    if (i >= solveOrder.length) return true
-    const slot = solveOrder[i]
-    for (const era of prefs.get(slot)!) {
-      if (used.has(era)) continue
-      used.add(era)
-      assigned[slot] = era
-      if (solve(i + 1)) return true
-      used.delete(era)
-      delete assigned[slot]
+  const boards: EraId[][] = []
+  const board: EraId[] = []
+  const eraCount = new Map<EraId, number>()
+  const dig = (i: number): void => {
+    if (i === SLOT_ORDER.length) {
+      boards.push([...board])
+      return
     }
-    return false
+    const slot = SLOT_ORDER[i]
+    for (const era of ACTIVE_CELLS[slot]) {
+      const n = eraCount.get(era) ?? 0
+      if (n >= 2) continue
+      if (n === 1 && ERA_CONFLICTS.has(`${era}:${SLOT_ORDER[board.indexOf(era)]}:${slot}`)) continue
+      eraCount.set(era, n + 1)
+      board.push(era)
+      dig(i + 1)
+      board.pop()
+      eraCount.set(era, n)
+    }
   }
-  solve(0)
+  dig(0)
 
+  // Fallback if future cell changes empty the space: independent seeded draws.
+  const dealt = boards.length
+    ? boards[Math.floor(rng() * boards.length)]
+    : SLOT_ORDER.map((slot) => ACTIVE_CELLS[slot][Math.floor(rng() * ACTIVE_CELLS[slot].length)])
+
+  const eraBySlot = new Map<SlotId, EraId>(SLOT_ORDER.map((s, i) => [s, dealt[i]]))
   return sequence.map((slot) => {
-    const era = assigned[slot] ?? prefs.get(slot)![0]
+    const era = eraBySlot.get(slot)!
     const others = ACTIVE_CELLS[slot].filter((e) => e !== era)
     const altEra = others[Math.floor(rng() * others.length)]
     return { slot, era, altEra }
   })
+}
+
+/** Table-rule check, shared with scripts/: null if the board is legal, else why not. */
+export function boardViolation(orders: Requisition[]): string | null {
+  const count = new Map<EraId, number>()
+  for (const o of orders) count.set(o.era, (count.get(o.era) ?? 0) + 1)
+  for (const [era, n] of count) if (n > 2) return `era ${era} dealt ${n} times`
+  for (const a of orders)
+    for (const b of orders)
+      if (a.slot < b.slot && a.era === b.era && ERA_CONFLICTS.has(`${a.era}:${a.slot}:${b.slot}`))
+        return `${a.slot}/${b.slot} share era ${a.era} but their cells share a card`
+  return null
 }
 
 export interface DailyContext {
