@@ -1,5 +1,7 @@
 # UNDEFEATED — The All-Time War Draft
 
+**Play it live: https://nickciccone03-gif.github.io/undefeated/**
+
 A daily parody war-draft game. Draft an army across 3,000 years of history — Genghis Khan
 commanding the US Air Force, Sacred Geese on night watch — then fight an 82-war season and
 try to go undefeated.
