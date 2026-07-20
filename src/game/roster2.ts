@@ -126,7 +126,7 @@ export const EXPANSION: Pick[] = [
     stats: s(4, 7, 5, 7, 4, 7, 6),
     ruleset: 'current-affairs',
     tone: 'satirical',
-    leadership: 7,
+    leadership: 8,
     adaptability: 5,
     special: { trigger: 'coalition', bonus: 1.4, label: 'The Forty-Nation Phone Tree' },
     lines: {
@@ -183,7 +183,7 @@ export const EXPANSION: Pick[] = [
     stats: s(5, 7, 5, 9, 8, 6, 7),
     ruleset: 'current-affairs',
     tone: 'satirical',
-    leadership: 7,
+    leadership: 8,
     adaptability: 5,
     special: { trigger: 'supply', bonus: 1.3, label: 'Shipyard Output (see appendix C)' },
     lines: {
@@ -203,7 +203,7 @@ export const EXPANSION: Pick[] = [
     ruleset: 'current-affairs',
     tone: 'satirical',
     leadership: 8,
-    adaptability: 8,
+    adaptability: 7,
     special: { trigger: 'propaganda', bonus: 1.4, label: 'The Address' },
     lines: {
       win: 'Zelensky delivered the victory address in a t-shirt, and four visiting empires apologized for overdressing.',

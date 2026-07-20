@@ -42,7 +42,8 @@ import {
 
 export const SEASON_LENGTH = SLATE.length // 50
 
-export const ROSTER_VERSION = 2
+/** v3: bridge fields + 2020s commander-race rebalance (contested cell top). */
+export const ROSTER_VERSION = 3
 /** v3: seat-emphasis scoring + C2 as a mitigation delta (see warScore). */
 export const RULESET_VERSION = 3
 export const SCENARIO_VERSION = 1

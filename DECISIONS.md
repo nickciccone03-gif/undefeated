@@ -97,3 +97,14 @@ gap widened 1.7 → 2.8 wins). RULESET_VERSION 2 → 3 — old records archived,
 recomputed. Correction to the rainbow-board note above: a 50–0 lineup exists on ~20 of 24
 sampled boards, not daily; "COMMAND HQ CEILING" (orders as dealt) replaces "BEST POSSIBLE
 TODAY" in the debrief, since Override/Transfer can legitimately beat it.
+
+**2026-07-20 · 2020s commander race rebalanced (Zelensky 97% → contested top)** · builder,
+measured via contest probe (best season per commander, 34 sampled twenties boards) ·
+Zelensky won the cell 97% of days at a 1.9-win average gap — an auto-pick. Fix on earned
+axes only: Zelensky adaptability 8→7 (his own loss line jokes twelve-parliament
+coordination; leadership 8 and grit 9 stand), Biden and Xi leadership 7→8 (coalition
+assembly / command consolidation, both still under Eisenhower's 9). Result: 53% / 44% /
+3% with a 0.7-win gap and 14/34 days tied. Putin/Kim stay far back by editorial design.
+commander×ww2 measured healthy once ties were counted properly (Zhukov/Eisenhower/Nimitz
+61/26/13, 16/23 days tied — the earlier "Eisenhower 83%" was an enumeration-order
+tiebreak artifact) — no WW2 changes. ROSTER_VERSION 2 → 3.
