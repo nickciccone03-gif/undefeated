@@ -61,8 +61,11 @@ export function Debrief({
               ARMY #{rank.rank.toLocaleString()} of {rank.totalTeams.toLocaleString()}
             </span>
             <span className="chip chip--ink">TOP {Math.max(1, 100 - rank.percentile)}%</span>
-            <span className="chip chip--ink">
-              BEST POSSIBLE TODAY: {rank.bestWins}–{50 - rank.bestWins} (×{rank.bestCount})
+            <span
+              className="chip chip--ink"
+              title="Command HQ plays the orders exactly as dealt — no Override, no Transfer. Beat it with your resources and that's legitimate bragging."
+            >
+              COMMAND HQ CEILING: {rank.bestWins}–{50 - rank.bestWins} (×{rank.bestCount})
             </span>
           </div>
         )}

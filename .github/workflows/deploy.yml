@@ -27,6 +27,9 @@ jobs:
       # Slate quotas, active-cell minimums, and board sampling (distinct eras,
       # ceilings) — the build fails before it can deploy a broken board.
       - run: npx tsx scripts/balance.ts
+      # Scoring-path parity: the season players watch and the enumerated
+      # rank/ceiling must come from the same formula.
+      - run: npx tsx scripts/parity.ts
       - run: npm run build
       - uses: actions/configure-pages@v5
         with:

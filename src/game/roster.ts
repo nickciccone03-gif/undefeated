@@ -606,6 +606,7 @@ export const AIR: Pick[] = [
     year: 1914,
     blurb: 'Cher Ami flew 25 miles shot through the chest and still delivered. Your Wi-Fi drops in rain.',
     stats: s(1, 2, 7, 6, 2, 6, 8),
+    bridge: 1,
     special: { trigger: 'intel', bonus: 1.2, label: 'Unjammable. Unbribable. Bird.' },
     lines: {
       win: 'The pigeons delivered the decisive order through fog, flak, and a hawk with opinions.',
@@ -853,6 +854,7 @@ export const INTEL: Pick[] = [
     year: 1942,
     blurb: 'Reads the enemy’s mail before the enemy does. Shortened a world war from a cottage.',
     stats: s(1, 5, 3, 6, 9, 6, 10),
+    bridge: 2,
     special: { trigger: 'intel', bonus: 1.4, label: 'Your codes are our newsletter' },
     lines: {
       win: 'Bletchley decrypted the enemy’s battle plan, lunch order, and group chat.',
@@ -870,6 +872,7 @@ export const INTEL: Pick[] = [
     blurb: 'Pony Express, but terrifying, and two centuries earlier.',
     stats: s(2, 3, 10, 9, 2, 7, 8),
     terrain: { steppe: 2 },
+    bridge: 2,
     special: { trigger: 'supply', bonus: 1.2, label: 'The message always arrives' },
     lines: {
       win: 'The yam riders moved the order 300 miles overnight, and the enemy is still blaming spies.',

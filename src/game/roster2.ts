@@ -575,6 +575,7 @@ export const EXPANSION: Pick[] = [
     year: 2020,
     blurb: 'Knows where everything is, including your mistakes, to within one meter.',
     stats: s(1, 5, 2, 8, 10, 3, 9),
+    bridge: 1,
     special: { trigger: 'logistics', bonus: 1.2, label: 'Nobody is lost anymore (allegedly)' },
     lines: {
       win: 'Every convoy arrived exactly where intended, a sentence no quartermaster in 3,000 years has been able to say.',
@@ -623,6 +624,7 @@ export const EXPANSION: Pick[] = [
     year: 2020,
     blurb: 'A real military branch. The members are called Guardians. The logo looked familiar. It is real.',
     stats: s(3, 6, 2, 5, 10, 4, 9),
+    bridge: 1,
     special: { trigger: 'airsup', bonus: 1.2, label: 'The orbital high ground' },
     lines: {
       win: 'Space Force saw the entire battlefield from orbit and relayed it in real time, which no one thanked them for, as is tradition.',
@@ -638,6 +640,7 @@ export const EXPANSION: Pick[] = [
     year: -150,
     blurb: 'Fire signals that spell out words, letter by letter. Antiquity invented dial-up.',
     stats: s(1, 3, 7, 4, 4, 4, 8),
+    bridge: 2,
     authenticity: 'historical',
     special: { trigger: 'blitz', bonus: 1.0, label: 'The signal outruns the army' },
     lines: {
@@ -654,6 +657,7 @@ export const EXPANSION: Pick[] = [
     year: -444,
     blurb: 'Taurosthenes sent news of his Olympic victory home by pigeon in one day. Antiquity had airmail.',
     stats: s(1, 2, 8, 4, 1, 5, 7),
+    bridge: 1,
     authenticity: 'historical',
     special: { trigger: 'intel', bonus: 1.0, label: 'First with the news' },
     lines: {
@@ -671,6 +675,7 @@ export const EXPANSION: Pick[] = [
     blurb: "Caesar's scouts and couriers. He knew what the enemy ate for breakfast, and when they'd run out.",
     stats: s(3, 4, 8, 4, 2, 7, 9),
     terrain: { night: 2 },
+    bridge: 1,
     authenticity: 'historical',
     special: { trigger: 'irregular', bonus: 1.1, label: 'Rides ahead of the rumor' },
     lines: {

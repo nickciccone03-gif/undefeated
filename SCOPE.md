@@ -33,24 +33,30 @@ Uniform era weighting on the wheel (2020s × Commander ≈ 1 day in 10, by natur
 - Default daily: stats visible. **Field Promotion mode** (stats hidden, own share badge)
   ships at launch as a toggle.
 
-## Compatibility model (no blanket era tax)
+## Compatibility model (no blanket era tax) — ruleset v3
+
+**SEAT EMPHASIS** — each war weights the seats it is about (naval wars listen to the navy
+chair, sieges to armor/ground); derived from the card's tags/tests, card-overridable via
+`slotWeights`. Whoever occupies the seat (Branch Transfer included) carries the weight.
 
 Three named rules, each with a generated debrief sentence:
 
 1. **SUSTAINMENT** — Logistics pick's era/tech vs. hungriest units, scaled by scenario
-   logistics weight. Logistics is the bridge pick.
-2. **COMMAND & CONTROL** — era spread creates the *problem*; the *penalty* is determined by
-   mitigations: commander adaptability (baseline), Intelligence pick's bridging value,
-   doctrine-relevant specials. Integration failure, not date arithmetic.
+   logistics weight. Supply runs on the Logistics pick's TECH (hinted in the draft UI).
+2. **COMMAND & CONTROL** — era spread sets the *stakes* (board-fixed on rainbow boards);
+   what you pay or earn is the *delta* between your staff work — commander adaptability,
+   Intelligence INT, doctrine-bridge picks (`bridge` field: GPS, the Yam network,
+   Bletchley, the Polybius Telegraph…) — and a reference staff. Great glue is a bonus,
+   not a smaller tax. Integration, not date arithmetic.
 3. **BASING** — air/naval picks vs. scenario infrastructure, applied only where the
-   scenario makes it relevant.
+   scenario makes it relevant (folded into SUSTAINMENT demand).
 
 ## Cards
 
 - Scale declared per slot (commander = individual at snapshot year; unit = force package at
   snapshot year). Long-lived forces get one card per era version.
 - Schema fields: `id, name, nation, snapshotYear, era, slots[], stats(7), terrain, special,
-  authenticity(historical|experimental|legendary|improvised),
+  bridge (doctrine/comms glue, 0–2, rare), authenticity(historical|experimental|legendary|improvised),
   ruleset(core|current-affairs|special-event), tone(documentary|comedic|satirical),
   version, sourceNote, editorialStatus` — schema-validated data, generated types.
 - Ratings are absolute-scale; ancient viability comes from scenario weights, compatibility,

@@ -88,6 +88,11 @@ export function PickCard({
           ★ {pick.special.label}
         </p>
       )}
+      {!compact && (pick.bridge ?? 0) > 0 && (
+        <p className="card__special" title="Eases Command & Control across era gaps">
+          ⌁ DOCTRINE BRIDGE +{pick.bridge} — the whole army shares one map
+        </p>
+      )}
       {onPick && (
         <button className="btn btn--ink card__draft" onClick={onPick}>
           Draft

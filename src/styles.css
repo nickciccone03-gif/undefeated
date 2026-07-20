@@ -1228,6 +1228,16 @@ button {
   margin-bottom: 14px;
 }
 
+.wheel__note {
+  max-width: 640px;
+  margin: 0 auto 14px;
+  font-family: var(--f-mono);
+  font-size: 12px;
+  letter-spacing: 0.5px;
+  text-align: center;
+  color: var(--ink-soft);
+}
+
 /* browse list */
 
 .browse {

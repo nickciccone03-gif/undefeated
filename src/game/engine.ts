@@ -1,5 +1,5 @@
 /**
- * Deterministic war engine — v2 (The Requisition Wheel).
+ * Deterministic war engine — ruleset v3 (The Requisition Wheel).
  *
  * Daily boards: 8 requisition orders (ERA × SLOT) derived from the local date.
  * The player drafts freely within each cell. Everyone gets the same orders,
@@ -10,12 +10,16 @@
  * "Command HQ" (the ceiling) plays the orders exactly as dealt — no Override,
  * no Transfer — so beating it with your resources is legitimate bragging.
  *
- * Compatibility model (v1, replaces the blanket era tax):
+ * Scoring model (ruleset v3):
+ *  - SEAT EMPHASIS: each war listens hardest to the seats it is about (naval
+ *    wars to the navy chair, sieges to armor/ground) — see slotEmphasisOf().
  *  - SUSTAINMENT: your Logistics pick's tech vs. your hungriest unit, scaled by
  *    the scenario's logistics weight. Air/naval wars raise the demand of your
  *    air/naval picks by one (basing, folded in — see SCOPE.md).
- *  - COMMAND & CONTROL: era spread creates the problem; commander adaptability
- *    and your Intelligence pick's INT determine how much of it you actually pay.
+ *  - COMMAND & CONTROL: era spread sets the stakes; what you pay (or earn) is
+ *    the delta between your staff work — commander adaptability, Intelligence
+ *    INT, doctrine-bridge picks — and a reference staff. Great glue is a bonus,
+ *    not merely a smaller tax.
  */
 import { SLATE } from './campaigns'
 import { ALL_PICKS } from './roster'
@@ -39,7 +43,8 @@ import {
 export const SEASON_LENGTH = SLATE.length // 50
 
 export const ROSTER_VERSION = 2
-export const RULESET_VERSION = 2
+/** v3: seat-emphasis scoring + C2 as a mitigation delta (see warScore). */
+export const RULESET_VERSION = 3
 export const SCENARIO_VERSION = 1
 
 /** Balance constants — tuned via scripts/balance.ts. */
@@ -50,12 +55,15 @@ export const BAL = {
   cmdBase: 0.85,
   cmdPerLeadership: 0.035,
   difficultyJitter: 0.3,
-  difficultyShift: -0.22,
+  difficultyShift: 0.9,
   // Compatibility model.
   sustainBase: 0.16,
   sustainLogWeight: 0.9,
-  c2Scale: 0.32,
-  c2MitigationMax: 0.75,
+  c2Scale: 0.45,
+  /** Mitigation of an unremarkable staff; better earns a bonus, worse pays. */
+  c2MitRef: 0.65,
+  /** Mitigation per point of Pick.bridge (doctrine/comms glue). */
+  bridgeWeight: 0.5,
 }
 
 /**
@@ -162,6 +170,91 @@ function normalizedWeights(kind: Game['kind']): Stats {
 }
 
 /**
+ * Seat emphasis: which chairs matter in this war. A naval war listens to the
+ * navy seat, a siege to armor and ground — whoever occupies the seat (Branch
+ * Transfer included) carries that responsibility. Derived from the card's
+ * tags/tests unless the card overrides via slotWeights. Returned in SLOT_ORDER,
+ * normalized to sum 1; a war with no relevant tags is uniform (1/8 each, the
+ * old model).
+ */
+export function slotEmphasisOf(kind: Game['kind']): number[] {
+  const e: Record<SlotId, number> = {
+    commander: 1,
+    ground: 1,
+    armor: 1,
+    air: 1,
+    navy: 1,
+    intel: 1,
+    logistics: 1,
+    wildcard: 1,
+  }
+  if (kind.slotWeights) {
+    for (const s of SLOT_ORDER) e[s] = kind.slotWeights[s] ?? 1
+  } else {
+    const tag = (t: string) => kind.tags.includes(t as never)
+    const test = (t: string) => kind.tests.includes(t)
+    const bump = (s: SlotId, v: number) => {
+      if (v > e[s]) e[s] = v
+    }
+    if (tag('naval') || test('naval') || test('blockade')) bump('navy', 3)
+    if (test('amphibious')) {
+      bump('navy', 2)
+      bump('ground', 1.5)
+    }
+    if (tag('air') || test('air') || test('airsup')) bump('air', 3)
+    if (tag('urban') || test('siege')) {
+      bump('armor', 2.5)
+      bump('ground', 1.5)
+    }
+    if (test('trench')) {
+      bump('ground', 2)
+      bump('armor', 1.5)
+    }
+    if (test('blitz')) {
+      bump('armor', 2.5)
+      bump('air', 1.5)
+    }
+    if (test('logistics') || test('supply') || test('expedition')) bump('logistics', 2)
+    if (test('intel') || test('irregular') || test('propaganda')) bump('intel', 2)
+    if (
+      tag('open') ||
+      tag('steppe') ||
+      tag('desert') ||
+      tag('winter') ||
+      tag('jungle') ||
+      tag('mountain')
+    ) {
+      bump('ground', 2)
+      bump('armor', 1.25)
+    }
+  }
+  const sum = SLOT_ORDER.reduce((a, s) => a + e[s], 0)
+  return SLOT_ORDER.map((s) => e[s] / sum)
+}
+
+/** Per-war scoring metadata, computed once and shared by both scoring paths. */
+interface WarMeta {
+  w: Stats
+  slotW: number[]
+  wLog: number
+  air: boolean
+  naval: boolean
+  threshold: number
+}
+
+function warMetaOf(game: Game): WarMeta {
+  const w = normalizedWeights(game.kind)
+  return {
+    w,
+    slotW: slotEmphasisOf(game.kind),
+    wLog: w.log,
+    air: game.kind.tags.includes('air'),
+    naval: game.kind.tags.includes('naval'),
+    threshold: game.difficulty + game.noise,
+  }
+}
+
+/**
  * Teams are ordered by SLOT_ORDER: [commander, ground, armor, air, navy, intel,
  * logistics, wildcard]. Occupancy order matters (Branch Transfer can seat a
  * pick outside its primary slot), so the engine reads roles by index.
@@ -222,9 +315,11 @@ export function compatOf(team: Pick[]): CompatReport {
   const supply = logi.stats.tech + 2
   const cmd = team[IDX.commander]
   const intel = team[IDX.intel]
+  let bridgeSum = 0
+  for (const p of team) bridgeSum += p.bridge ?? 0
   const c2Mitigation = Math.min(
     1,
-    ((cmd.adaptability ?? 5) * 0.6 + intel.stats.int * 0.4) / 10,
+    ((cmd.adaptability ?? 5) * 0.6 + intel.stats.int * 0.4 + bridgeSum * BAL.bridgeWeight) / 10,
   )
   return {
     demand,
@@ -235,44 +330,67 @@ export function compatOf(team: Pick[]): CompatReport {
   }
 }
 
-/** Per-game compatibility penalty. */
-function compatPenalty(compat: CompatReport, team: Pick[], game: Game, wLog: number): number {
-  // Basing, folded in: air/naval wars raise the effective demand of your
-  // air/naval pick by one.
-  let demand = compat.demand
-  if (game.kind.tags.includes('air')) demand = Math.max(demand, team[IDX.air].stats.tech + 1)
-  if (game.kind.tags.includes('naval')) demand = Math.max(demand, team[IDX.navy].stats.tech + 1)
-  const sustainGap = Math.max(0, demand - compat.supply)
-  const sustain = sustainGap * (BAL.sustainBase + wLog * BAL.sustainLogWeight)
-  const c2 =
-    Math.sqrt(compat.spreadCenturies) *
-    (1 - BAL.c2MitigationMax * compat.c2Mitigation) *
-    BAL.c2Scale
-  return sustain + c2
+/** Team-level scoring constants, fixed across all 50 wars. */
+interface TeamConstants {
+  cmdMult: number
+  supply: number
+  demand: number
+  airTech: number
+  navyTech: number
+  c2: number
+}
+
+function teamConstantsOf(team: Pick[], compat: CompatReport): TeamConstants {
+  const cmd = team[IDX.commander]
+  return {
+    cmdMult: BAL.cmdBase + (cmd.leadership ?? 5) * BAL.cmdPerLeadership,
+    supply: compat.supply,
+    demand: compat.demand,
+    airTech: team[IDX.air].stats.tech,
+    navyTech: team[IDX.navy].stats.tech,
+    c2:
+      Math.sqrt(compat.spreadCenturies) *
+      (BAL.c2MitRef - compat.c2Mitigation) *
+      BAL.c2Scale,
+  }
+}
+
+/**
+ * THE scoring formula. scoreGame (the player's season) and enumerateWins
+ * (rank/ceiling) both call this — a change here changes both, so the shared
+ * ARMY # / ceiling numbers can never drift from the season the player watched.
+ * Basing is folded in: air/naval wars raise the effective tech demand of the
+ * air/navy seat by one. wSum is the seat-emphasis-weighted stat sum; eSum the
+ * raw extras sum.
+ */
+function warScore(wSum: number, eSum: number, tc: TeamConstants, m: WarMeta): number {
+  let demand = tc.demand
+  if (m.air && tc.airTech + 1 > demand) demand = tc.airTech + 1
+  if (m.naval && tc.navyTech + 1 > demand) demand = tc.navyTech + 1
+  const sustain = Math.max(0, demand - tc.supply) * (BAL.sustainBase + m.wLog * BAL.sustainLogWeight)
+  return wSum * tc.cmdMult + eSum - sustain - tc.c2
 }
 
 export function scoreGame(
   team: Pick[],
   game: Game,
 ): { margin: number; contributions: Record<string, number> } {
-  const w = normalizedWeights(game.kind)
-  const cmd = team[IDX.commander]
-  const cmdMult = BAL.cmdBase + (cmd.leadership ?? 5) * BAL.cmdPerLeadership
-  const compat = compatOf(team)
+  const m = warMetaOf(game)
+  const tc = teamConstantsOf(team, compatOf(team))
 
-  let weightedSum = 0
-  let extras = 0
+  let wSum = 0
+  let eSum = 0
   const contributions: Record<string, number> = {}
-  for (const p of team) {
-    const wpart = pickWeighted(p, w) / team.length
-    const epart = pickExtras(p, game)
-    weightedSum += wpart
-    extras += epart
-    contributions[p.id] = wpart * cmdMult + epart
+  for (let s = 0; s < team.length; s++) {
+    const p = team[s]
+    const wp = pickWeighted(p, m.w) * m.slotW[s]
+    const ep = pickExtras(p, game)
+    wSum += wp
+    eSum += ep
+    contributions[p.id] = wp * tc.cmdMult + ep
   }
 
-  const score = weightedSum * cmdMult + extras - compatPenalty(compat, team, game, w.log)
-  return { margin: score - (game.difficulty + game.noise), contributions }
+  return { margin: warScore(wSum, eSum, tc, m) - m.threshold, contributions }
 }
 
 export function simulate(team: Pick[], games: Game[], daySeed: number): SeasonResult {
@@ -316,23 +434,24 @@ export function enumerateWins(cells: Pick[][], games: Game[]): number[] {
       o += c.length
     }
   }
-  const weights = games.map((g) => normalizedWeights(g.kind))
+  // Seat emphasis is baked into the weighted rows: a flattened pick belongs to
+  // exactly one seat, so its row value already carries that seat's war weight.
+  const metas = games.map(warMetaOf)
   const weightedByGame: Float64Array[] = []
   const extrasByGame: Float64Array[] = []
   for (let gi = 0; gi < games.length; gi++) {
     const wRow = new Float64Array(flat.length)
     const eRow = new Float64Array(flat.length)
-    for (let pi = 0; pi < flat.length; pi++) {
-      wRow[pi] = pickWeighted(flat[pi], weights[gi])
-      eRow[pi] = pickExtras(flat[pi], games[gi])
+    for (let s = 0; s < cells.length; s++) {
+      for (let j = 0; j < cells[s].length; j++) {
+        const pi = offsets[s] + j
+        wRow[pi] = pickWeighted(flat[pi], metas[gi].w) * metas[gi].slotW[s]
+        eRow[pi] = pickExtras(flat[pi], games[gi])
+      }
     }
     weightedByGame.push(wRow)
     extrasByGame.push(eRow)
   }
-  const thresholds = games.map((g) => g.difficulty + g.noise)
-  const wLogs = games.map((_, gi) => weights[gi].log)
-  const airTag = games.map((g) => g.kind.tags.includes('air'))
-  const navalTag = games.map((g) => g.kind.tags.includes('naval'))
 
   const winCounts: number[] = []
   const teamIdx = new Array<number>(cells.length)
@@ -346,15 +465,7 @@ export function enumerateWins(cells: Pick[][], games: Game[]): number[] {
       teamIdx[s] = offsets[s] + j
       team[s] = cells[s][j]
     }
-    const cmd = team[IDX.commander]
-    const cmdMult = BAL.cmdBase + (cmd.leadership ?? 5) * BAL.cmdPerLeadership
-    const compat = compatOf(team)
-    const airTech = team[IDX.air].stats.tech
-    const navyTech = team[IDX.navy].stats.tech
-    const c2 =
-      Math.sqrt(compat.spreadCenturies) *
-      (1 - BAL.c2MitigationMax * compat.c2Mitigation) *
-      BAL.c2Scale
+    const tc = teamConstantsOf(team, compatOf(team))
 
     let wins = 0
     for (let gi = 0; gi < games.length; gi++) {
@@ -367,13 +478,7 @@ export function enumerateWins(cells: Pick[][], games: Game[]): number[] {
         wSum += wRow[pi]
         eSum += eRow[pi]
       }
-      let demand = compat.demand
-      if (airTag[gi] && airTech + 1 > demand) demand = airTech + 1
-      if (navalTag[gi] && navyTech + 1 > demand) demand = navyTech + 1
-      const sustain =
-        Math.max(0, demand - compat.supply) * (BAL.sustainBase + wLogs[gi] * BAL.sustainLogWeight)
-      const score = (wSum / cells.length) * cmdMult + eSum - sustain - c2
-      if (score > thresholds[gi]) wins++
+      if (warScore(wSum, eSum, tc, metas[gi]) > metas[gi].threshold) wins++
     }
     winCounts.push(wins)
   }
@@ -392,14 +497,18 @@ export function compatSummary(team: Pick[]): string | null {
   } else if (compat.sustainGap >= 1) {
     notes.push(`${logi.name} kept the advanced equipment running on improvisation and prayer`)
   }
-  if (compat.spreadCenturies >= 10 && compat.c2Mitigation < 0.5) {
-    notes.push(
-      `orders crossed ${Math.round(compat.spreadCenturies)} centuries of doctrine with no one translating`,
-    )
-  } else if (compat.spreadCenturies >= 10) {
-    notes.push(
-      `${Math.round(compat.spreadCenturies)} centuries of doctrine gap, held together by adaptable command and good intelligence`,
-    )
+  if (compat.spreadCenturies >= 10) {
+    const span = Math.round(compat.spreadCenturies)
+    const bridgePick = [...team].sort((a, b) => (b.bridge ?? 0) - (a.bridge ?? 0))[0]
+    if (compat.c2Mitigation < BAL.c2MitRef) {
+      notes.push(`orders crossed ${span} centuries of doctrine with no one translating`)
+    } else if ((bridgePick.bridge ?? 0) > 0) {
+      notes.push(`${span} centuries of doctrine gap, wired together by ${bridgePick.name}`)
+    } else {
+      notes.push(
+        `${span} centuries of doctrine gap, held together by adaptable command and good intelligence`,
+      )
+    }
   }
   if (notes.length === 0) return null
   return `Integration report: ${notes.join('; ')}.`

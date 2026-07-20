@@ -179,6 +179,12 @@ export interface Pick {
   /** Commander-only. */
   leadership?: number
   adaptability?: number
+  /**
+   * Doctrine/comms glue (0–2): signalling systems, courier networks, universal
+   * references. Feeds C2 mitigation — the pick that lets eight centuries share
+   * one map. Rare by design; most picks have none.
+   */
+  bridge?: number
 }
 
 /** One daily requisition order: fill this slot from this era. */
@@ -214,6 +220,12 @@ export interface CampaignKind {
   tests: string[]
   /** Partial weights over stats; normalized by the engine. */
   weights: Partial<Stats>
+  /**
+   * Optional seat-emphasis override: which chairs matter in this war, as
+   * relative values (engine normalizes; unlisted seats default to 1). When
+   * absent, emphasis derives from tags/tests — see slotEmphasisOf().
+   */
+  slotWeights?: Partial<Record<SlotId, number>>
   baseD: number
   /** Boss cards: harder, held on-screen longer, narratively loud. */
   boss?: boolean

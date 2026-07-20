@@ -79,3 +79,21 @@ buildOrders now deals a seeded perfect matching — 8 slots, 8 different eras, s
 for everyone; graceful repeat-fallback only if a future cell config makes matching
 impossible. CI lint asserts distinctness on sampled boards. Side effect at 1a: every board
 is a full rainbow, so a 50–0 lineup exists daily until 1b widens the era pool.
+
+**2026-07-20 · Scoring v3: seat emphasis + C2 as a staff-work delta; shared kernel + CI
+parity gate** · builder, measured via enumeration probe · Rejected: flat 1/8 seat
+contribution (a navy's stats counted the same in a desert war as a naval one; the worst
+air pick cost 2.2 wins while the worst logistics cost 19) and C2 as a near-constant tax
+(SD 0.14 across lineups — rainbow boards fix the era spread, so √spread had become the
+date arithmetic the model was built to avoid). Now: each war weights the seats it is
+about (`slotEmphasisOf`, tags/tests-derived, card-overridable via `slotWeights`); C2
+pays/earns the delta between your staff (commander adaptability, Intel INT, new `bridge`
+field on 8 comms cards — GPS, Yam network, Bletchley, Polybius Telegraph, pigeons ×2,
+Speculatores, Space Force) and a reference staff. One shared `warScore` kernel feeds both
+simulate and enumerate, with a CI parity gate (`scripts/parity.ts`) so ARMY #/ceiling can
+never drift from the season the player watched. `difficultyShift` retuned −0.22 → 0.9;
+band restored (avg median 23.6, ceilings 50×20/49×4 over 24 sampled days; naive-vs-optimal
+gap widened 1.7 → 2.8 wins). RULESET_VERSION 2 → 3 — old records archived, never
+recomputed. Correction to the rainbow-board note above: a 50–0 lineup exists on ~20 of 24
+sampled boards, not daily; "COMMAND HQ CEILING" (orders as dealt) replaces "BEST POSSIBLE
+TODAY" in the debrief, since Override/Transfer can legitimately beat it.

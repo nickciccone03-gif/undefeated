@@ -7,6 +7,8 @@
     "dev": "vite",
     "build": "tsc -b && vite build",
     "lint": "oxlint",
+    "balance": "tsx scripts/balance.ts",
+    "parity": "tsx scripts/parity.ts",
     "preview": "vite preview"
   },
   "dependencies": {

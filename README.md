@@ -30,15 +30,18 @@ Everything is **deterministic per local calendar day** (Wordle convention):
   (Greco-Persian → Gulf), objective-framed ("establish and supply a beachhead" — never
   "defeat <population>"), WWII split by theater, five boss fights. Domain quotas
   (naval/air/siege/irregular/terrain/logistics/intel) linted by `scripts/balance.ts`.
-- `src/game/engine.ts` — scoring: weighted stats × commander multiplier + terrain +
-  specials − anachronism tax (era spread, softened by commander adaptability), vs.
-  per-war difficulty + shared daily "weather". Same picks ⇒ same record, globally.
-  - `rankTeams` evaluates all 3⁸ = 6,561 possible drafts for "Army #982 of 6,561" and
-    "BEST POSSIBLE TODAY".
-  - **Daily ceilings vary by design.** Some boards allow 50–0, some cap at 47–3 — hard
-    days are content, and the board is never rerolled to force perfection.
-  - Balance targets (via `scripts/balance.ts`): median draft ≈ 36–14, bosses at 52–64%
-    win rate, no war above 97% or below 3%.
+- `src/game/engine.ts` — scoring (ruleset v3): seat-emphasis-weighted stats (each war
+  listens hardest to the seats it is about) × commander multiplier + terrain + specials
+  − SUSTAINMENT (logistics tech vs. hungriest unit, basing folded in) − C2 (a delta vs.
+  a reference staff: adaptability + Intel INT + doctrine-bridge picks), vs. per-war
+  difficulty + shared daily "weather". Same picks ⇒ same record, globally.
+  - One `warScore` kernel feeds both the player's season and `rankTeams`' exhaustive
+    enumeration ("Army #982 of 92,331", COMMAND HQ CEILING); `scripts/parity.ts` gates
+    CI on the two paths agreeing exactly.
+  - **Daily ceilings vary by design.** Hard days are content, and the board is never
+    rerolled to force perfection. Command HQ plays the orders as dealt — Override or
+    Transfer can legitimately beat the ceiling.
+  - Balance band (via `scripts/balance.ts`): median lineup ≈ 24 wins, ceilings 49–50.
 - `src/game/narrate.ts` — deterministic comedy debrief: season report, featured campaigns
   (incl. THE FINAL EXAM — the Gulf War closer), MVP / court-martial medals (units only),
   fatal flaw, era-clash beat.

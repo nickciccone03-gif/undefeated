@@ -203,13 +203,13 @@ export function buildDebrief(
 
   let verdict = `The Department of Alternate History has graded your season: ${grade.title}.`
   if (rank) {
-    verdict += ` Of the ${rank.totalTeams.toLocaleString()} possible armies on today’s board, yours finished #${rank.rank.toLocaleString()}.`
+    verdict += ` Of the ${rank.totalTeams.toLocaleString()} armies Command HQ could raise from the orders as dealt, yours finished #${rank.rank.toLocaleString()}.`
     if (wins >= SEASON_LENGTH) {
       verdict += ` Only ${rank.perfectCount} draft${rank.perfectCount === 1 ? '' : 's'} could go 50–0 today. Yours is one of them.`
     } else if (rank.perfectCount > 0) {
       verdict += ` ${rank.perfectCount} possible draft${rank.perfectCount === 1 ? '' : 's'} could have gone 50–0 today. Yours, famously, was not among them.`
     } else {
-      verdict += ` No draft could go 50–0 today — the ceiling was ${rank.bestWins}–${SEASON_LENGTH - rank.bestWins}. The Department classifies boards like this one as “character-building.”`
+      verdict += ` No as-dealt draft could go 50–0 today — Command HQ’s ceiling was ${rank.bestWins}–${SEASON_LENGTH - rank.bestWins}. The Department classifies boards like this one as “character-building.”`
     }
   }
   paragraphs.push(verdict)

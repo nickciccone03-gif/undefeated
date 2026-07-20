@@ -165,6 +165,13 @@ export function RequisitionDraft({
               ))}
           </div>
 
+          {order.slot === 'logistics' && !settings.hideStats && (
+            <p className="wheel__note">
+              SUSTAINMENT NOTE: supply runs on TECH — this pick must maintain your most
+              advanced equipment, not just feed the troops.
+            </p>
+          )}
+
           <div className="browse">
             <div className="browse__controls">
               <input
