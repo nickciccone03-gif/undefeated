@@ -10,6 +10,7 @@ import {
   SLOT_ORDER,
   SLOT_SHORT,
   STAT_KEYS,
+  STAT_LABELS,
   eraOf,
   type EraId,
   type Pick,
@@ -239,14 +240,17 @@ export function RequisitionDraft({
                               </i>
                             </>
                           )}
-                          {top.map((k) => (
-                            <i key={k} className="chip chip--good">
-                              +{STAT_SHORT[k]} {p.stats[k]}
+                          {STAT_KEYS.map((k) => (
+                            <i
+                              key={k}
+                              className={`row__stat ${
+                                top.includes(k) ? 'row__stat--hi' : k === low ? 'row__stat--lo' : ''
+                              }`}
+                              title={`${STAT_LABELS[k]}: ${p.stats[k]}/10`}
+                            >
+                              {STAT_SHORT[k]} {p.stats[k]}
                             </i>
                           ))}
-                          <i className="chip chip--bad">
-                            −{STAT_SHORT[low]} {p.stats[low]}
-                          </i>
                         </span>
                       )}
                     </button>
