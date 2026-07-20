@@ -135,7 +135,11 @@ function fatalFlaw(season: SeasonResult): string | null {
   return FLAW_LINES[worst]
 }
 
-export function buildDebrief(season: SeasonResult, rank: RankInfo | null): Debrief {
+export function buildDebrief(
+  season: SeasonResult,
+  rank: RankInfo | null,
+  integrationNote?: string | null,
+): Debrief {
   const rng: Rng = mulberry32((season.daySeed ^ 0xdebf1e) >>> 0)
   const { wins } = season
   const grade = gradeFor(wins)
@@ -194,6 +198,8 @@ export function buildDebrief(season: SeasonResult, rank: RankInfo | null): Debri
       paragraphs.push(`Cross-era integration remained, per the after-action report, “a work in progress.” ${anaPick.lines.ana}`)
     }
   }
+
+  if (integrationNote) paragraphs.push(integrationNote)
 
   let verdict = `The Department of Alternate History has graded your season: ${grade.title}.`
   if (rank) {

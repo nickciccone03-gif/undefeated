@@ -6,6 +6,7 @@
  * This is a parody of fantasy sports, not a history exam.
  */
 import type { Pick, Stats } from './types'
+import { EXPANSION } from './roster2'
 
 const s = (
   atk: number,
@@ -226,6 +227,7 @@ export const GROUND: Pick[] = [
   {
     id: 'grd-legions',
     slot: 'ground',
+    altSlot: 'logistics',
     name: 'Roman Legions',
     origin: 'Roman Republic',
     year: -52,
@@ -289,6 +291,7 @@ export const GROUND: Pick[] = [
   {
     id: 'grd-marines',
     slot: 'ground',
+    altSlot: 'navy',
     name: 'US Marines',
     origin: 'United States',
     year: 1945,
@@ -305,6 +308,7 @@ export const GROUND: Pick[] = [
   {
     id: 'grd-vietcong',
     slot: 'ground',
+    altSlot: 'intel',
     name: 'Viet Cong',
     origin: 'Vietnam',
     year: 1968,
@@ -371,6 +375,7 @@ export const ARMOR: Pick[] = [
   {
     id: 'arm-elephants',
     slot: 'armor',
+    altSlot: 'ground',
     name: 'War Elephants',
     origin: 'Carthage',
     year: -218,
@@ -547,6 +552,7 @@ export const AIR: Pick[] = [
   {
     id: 'air-balloons',
     slot: 'air',
+    altSlot: 'intel',
     name: 'The Balloon Corps',
     origin: 'Revolutionary France',
     year: 1794,
@@ -609,6 +615,7 @@ export const AIR: Pick[] = [
   {
     id: 'air-pigeons',
     slot: 'air',
+    altSlot: 'intel',
     name: 'Carrier Pigeon Corps',
     origin: 'France',
     year: 1914,
@@ -639,6 +646,7 @@ export const AIR: Pick[] = [
   {
     id: 'air-hueys',
     slot: 'air',
+    altSlot: 'ground',
     name: 'Air Cavalry Hueys',
     origin: 'United States',
     year: 1968,
@@ -655,6 +663,7 @@ export const AIR: Pick[] = [
   {
     id: 'air-blackbird',
     slot: 'air',
+    altSlot: 'intel',
     name: 'SR-71 Blackbird',
     origin: 'United States',
     year: 1966,
@@ -705,6 +714,7 @@ export const NAVY: Pick[] = [
   {
     id: 'nav-longships',
     slot: 'navy',
+    altSlot: 'ground',
     name: 'Viking Longship Fleet',
     origin: 'Scandinavia',
     year: 865,
@@ -768,6 +778,7 @@ export const NAVY: Pick[] = [
   {
     id: 'nav-treasure-fleet',
     slot: 'navy',
+    altSlot: 'logistics',
     name: 'Zheng He’s Treasure Fleet',
     origin: 'Ming China',
     year: 1421,
@@ -800,6 +811,7 @@ export const NAVY: Pick[] = [
   {
     id: 'nav-carriers',
     slot: 'navy',
+    altSlot: 'air',
     name: 'US Pacific Carrier Fleet',
     origin: 'United States',
     year: 1944,
@@ -866,6 +878,7 @@ export const INTEL: Pick[] = [
   {
     id: 'int-yam',
     slot: 'intel',
+    altSlot: 'logistics',
     name: 'The Yam Courier Network',
     origin: 'Mongol Empire',
     year: 1240,
@@ -912,6 +925,7 @@ export const INTEL: Pick[] = [
   {
     id: 'int-codetalkers',
     slot: 'intel',
+    altSlot: 'ground',
     name: 'Navajo Code Talkers',
     origin: 'United States',
     year: 1944,
@@ -927,6 +941,7 @@ export const INTEL: Pick[] = [
   {
     id: 'int-shinobi',
     slot: 'intel',
+    altSlot: 'ground',
     name: 'Iga Shinobi',
     origin: 'Sengoku Japan',
     year: 1580,
@@ -989,6 +1004,7 @@ export const INTEL: Pick[] = [
   {
     id: 'int-oracle',
     slot: 'intel',
+    altSlot: 'wildcard',
     name: 'The Oracle at Delphi',
     origin: 'Ancient Greece',
     year: -550,
@@ -1053,6 +1069,7 @@ export const LOGISTICS: Pick[] = [
   {
     id: 'log-liberty',
     slot: 'logistics',
+    altSlot: 'navy',
     name: 'Liberty Shipyards',
     origin: 'United States',
     year: 1943,
@@ -1183,6 +1200,7 @@ export const WILDCARD: Pick[] = [
   {
     id: 'wld-greek-fire',
     slot: 'wildcard',
+    altSlot: 'navy',
     name: 'Greek Fire Siphons',
     origin: 'Byzantine Empire',
     year: 900,
@@ -1199,6 +1217,7 @@ export const WILDCARD: Pick[] = [
   {
     id: 'wld-trojan-horse',
     slot: 'wildcard',
+    altSlot: 'intel',
     name: 'The Trojan Horse',
     origin: 'Mycenaean Greece',
     year: -1184,
@@ -1215,6 +1234,7 @@ export const WILDCARD: Pick[] = [
   {
     id: 'wld-archimedes',
     slot: 'wildcard',
+    altSlot: 'armor',
     name: 'Archimedes’ War Machines',
     origin: 'Syracuse',
     year: -212,
@@ -1231,6 +1251,7 @@ export const WILDCARD: Pick[] = [
   {
     id: 'wld-geese',
     slot: 'wildcard',
+    altSlot: 'intel',
     name: 'The Sacred Geese of Rome',
     origin: 'Roman Republic',
     year: -390,
@@ -1310,6 +1331,7 @@ export const WILDCARD: Pick[] = [
   {
     id: 'wld-longbows',
     slot: 'wildcard',
+    altSlot: 'ground',
     name: 'The Longbow Corps',
     origin: 'England',
     year: 1415,
@@ -1325,7 +1347,7 @@ export const WILDCARD: Pick[] = [
   },
 ]
 
-export const POOLS: Record<string, Pick[]> = {
+const BASE: Record<string, Pick[]> = {
   commander: COMMANDERS,
   ground: GROUND,
   armor: ARMOR,
@@ -1335,6 +1357,14 @@ export const POOLS: Record<string, Pick[]> = {
   logistics: LOGISTICS,
   wildcard: WILDCARD,
 }
+
+/** Base pools plus the Phase 1a expansion, keyed by primary slot. */
+export const POOLS: Record<string, Pick[]> = Object.fromEntries(
+  Object.entries(BASE).map(([slot, arr]) => [
+    slot,
+    [...arr, ...EXPANSION.filter((p) => p.slot === slot)],
+  ]),
+)
 
 export const ALL_PICKS: Pick[] = Object.values(POOLS).flat()
 

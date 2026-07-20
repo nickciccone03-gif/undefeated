@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { ClassBar, PickCard, Stamp, WLGrid } from './bits'
-import { marginLabel } from '../game/engine'
+import { marginLabel, ROSTER_VERSION, RULESET_VERSION, SCENARIO_VERSION } from '../game/engine'
 import type { Debrief as DebriefData } from '../game/narrate'
 import { copyToClipboard, shareText } from '../game/share'
 import { renderShareCard } from '../game/shareCard'
@@ -167,6 +167,9 @@ export function Debrief({
         ) : (
           <p>Another timeline is always available.</p>
         )}
+        <p className="debrief__versions">
+          RULESET v{RULESET_VERSION} · ROSTER v{ROSTER_VERSION} · SCENARIOS v{SCENARIO_VERSION}
+        </p>
         <div className="debrief__footbtns">
           <button className="btn btn--ghost" onClick={onHome}>
             Back to HQ

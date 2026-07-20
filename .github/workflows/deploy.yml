@@ -24,6 +24,9 @@ jobs:
           node-version: 22
           cache: npm
       - run: npm ci
+      # Slate quotas, active-cell minimums, and board sampling (distinct eras,
+      # ceilings) — the build fails before it can deploy a broken board.
+      - run: npx tsx scripts/balance.ts
       - run: npm run build
       - uses: actions/configure-pages@v5
         with:

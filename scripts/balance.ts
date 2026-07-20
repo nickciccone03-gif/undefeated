@@ -1,18 +1,24 @@
 /**
- * Balance report for the 50-war slate.
- * - Lints the slate against the domain quotas (fails loudly).
- * - Win distribution across ALL 6,561 possible teams for many day seeds.
- * - Daily ceiling distribution (no reroll guarantee — ceilings vary by design).
- * - Per-war degeneracy check: wars everyone wins (>97%) or nobody wins (<3%).
+ * Balance report — Requisition Wheel edition.
+ * - Lints the 50-war slate against domain quotas.
+ * - Lints every ACTIVE cell for ≥4 real choices.
+ * - Enumerates the full lineup space for many daily boards: distribution,
+ *   ceilings, perfect counts, combo counts.
  */
 import { QUOTAS, SLATE } from '../src/game/campaigns'
-import { BAL, buildDraft, buildSeason, daySeedFrom, SEASON_LENGTH } from '../src/game/engine'
-import { STAT_KEYS, SLOT_ORDER, type Pick, type Stats } from '../src/game/types'
+import {
+  ACTIVE_CELLS,
+  buildDaily,
+  cellPicks,
+  enumerateWins,
+  SEASON_LENGTH,
+} from '../src/game/engine'
+import { ERA_LABELS, SLOT_ORDER, type SlotId } from '../src/game/types'
 
-const DAYS = 30
+const DAYS = 24
+let lintFailed = false
 
 // ---- slate lint ----
-let lintFailed = false
 console.log(`slate: ${SLATE.length} wars, ${SLATE.filter((k) => k.boss).length} bosses`)
 for (const q of QUOTAS) {
   const n = SLATE.filter(q.test).length
@@ -20,128 +26,59 @@ for (const q of QUOTAS) {
   if (!ok) lintFailed = true
   console.log(`  quota ${ok ? '✓' : '✗ FAIL'} ${q.label}: ${n} (min ${q.min})`)
 }
-const ids = new Set(SLATE.map((k) => k.id))
-if (ids.size !== SLATE.length) {
+
+// ---- active-cell lint ----
+console.log('--- active cells ---')
+let cellCount = 0
+for (const slot of SLOT_ORDER) {
+  const parts: string[] = []
+  for (const era of ACTIVE_CELLS[slot as SlotId]) {
+    const n = cellPicks(era, slot as SlotId).length
+    cellCount++
+    if (n < 4) {
+      lintFailed = true
+      parts.push(`${ERA_LABELS[era]}:${n} ✗`)
+    } else {
+      parts.push(`${ERA_LABELS[era]}:${n}`)
+    }
+  }
+  console.log(`  ${slot.padEnd(10)} ${parts.join('  ')}`)
+}
+console.log(`  ${cellCount} active cells`)
+
+const leaders = cellPicks('twenties', 'commander').filter((p) => p.ruleset === 'current-affairs')
+console.log(`  2020s commander cell: ${cellPicks('twenties', 'commander').length} picks (${leaders.length} current-affairs)`)
+if (leaders.length < 6) {
   lintFailed = true
-  console.log('  ✗ FAIL duplicate war ids')
+  console.log('  ✗ FAIL: 2020s commander pack short')
 }
 
-// ---- day analysis (lean re-implementation of the rankTeams inner loop) ----
-function normalizedWeights(weights: Partial<Stats>): Stats {
-  const w = {} as Stats
-  let sum = 0
-  for (const k of STAT_KEYS) sum += weights[k] ?? 0
-  for (const k of STAT_KEYS) w[k] = (weights[k] ?? 0) / (sum || 1)
-  return w
-}
+// ---- daily-board sampling ----
+const medians: number[] = []
+const maxes: number[] = []
+const perfects: number[] = []
+const combosPerDay: number[] = []
 
-interface DayStats {
-  min: number
-  median: number
-  p90: number
-  max: number
-  perfect: number
-  perGameWinRate: number[]
-}
-
-function analyzeDay(daySeed: number): DayStats {
-  const board = buildDraft(daySeed)
-  const games = buildSeason(daySeed)
-  const slots = SLOT_ORDER.map((s) => board.options[s])
-  const flat: Pick[] = slots.flat()
-  const idx = new Map(flat.map((p, i) => [p.id, i]))
-
-  const weights = games.map((g) => normalizedWeights(g.kind.weights))
-  const weightedByGame: Float64Array[] = []
-  const extrasByGame: Float64Array[] = []
-  for (let gi = 0; gi < games.length; gi++) {
-    const wRow = new Float64Array(flat.length)
-    const eRow = new Float64Array(flat.length)
-    for (let pi = 0; pi < flat.length; pi++) {
-      const p = flat[pi]
-      let s = 0
-      for (const k of STAT_KEYS) s += weights[gi][k] * p.stats[k]
-      wRow[pi] = s
-      let extra = 0
-      for (const tag of games[gi].kind.tags) extra += (p.terrain?.[tag] ?? 0) * BAL.terrainScale
-      const sp = p.special
-      if (
-        sp &&
-        (sp.trigger === 'any' ||
-          sp.trigger === games[gi].kind.id ||
-          games[gi].kind.tags.includes(sp.trigger as never) ||
-          games[gi].kind.tests.includes(sp.trigger))
-      ) {
-        extra += sp.bonus * BAL.specialScale
-      }
-      eRow[pi] = extra
-    }
-    weightedByGame.push(wRow)
-    extrasByGame.push(eRow)
-  }
-  const thresholds = games.map((g) => g.difficulty + g.noise)
-  const taxBase = games.map((_, gi) => BAL.taxK * (0.55 + weights[gi].log * 2.2))
-
-  const winCounts: number[] = []
-  const perGameWins = new Array<number>(games.length).fill(0)
-  const teamIdx = new Array<number>(8)
-  const total = Math.pow(3, 8)
-
-  for (let t = 0; t < total; t++) {
-    let rem = t
-    let minYear = Infinity
-    let maxYear = -Infinity
-    for (let s = 0; s < 8; s++) {
-      const p = slots[s][rem % 3]
-      rem = Math.floor(rem / 3)
-      teamIdx[s] = idx.get(p.id)!
-      if (p.year < minYear) minYear = p.year
-      if (p.year > maxYear) maxYear = p.year
-    }
-    // teamIdx[0] indexes into flat[], where commander options come first.
-    const cmdPick = flat[teamIdx[0]]
-    const cmdMult = BAL.cmdBase + (cmdPick.leadership ?? 5) * BAL.cmdPerLeadership
-    const adaptFactor = 1.05 - (cmdPick.adaptability ?? 5) * 0.055
-    const spreadTerm = Math.sqrt(Math.max(0, (maxYear - minYear) / 100)) * adaptFactor
-
-    let wins = 0
-    for (let gi = 0; gi < games.length; gi++) {
-      const wRow = weightedByGame[gi]
-      const eRow = extrasByGame[gi]
-      let wSum = 0
-      let eSum = 0
-      for (let s = 0; s < 8; s++) {
-        wSum += wRow[teamIdx[s]]
-        eSum += eRow[teamIdx[s]]
-      }
-      const score = (wSum / 8) * cmdMult + eSum - taxBase[gi] * spreadTerm
-      if (score > thresholds[gi]) {
-        wins++
-        perGameWins[gi]++
-      }
-    }
-    winCounts.push(wins)
-  }
-
-  winCounts.sort((a, b) => a - b)
-  const n = winCounts.length
-  return {
-    min: winCounts[0],
-    median: winCounts[Math.floor(n / 2)],
-    p90: winCounts[Math.floor(n * 0.9)],
-    max: winCounts[n - 1],
-    perfect: winCounts.filter((w) => w >= SEASON_LENGTH).length,
-    perGameWinRate: perGameWins.map((w) => w / n),
-  }
-}
-
-const days: DayStats[] = []
 for (let d = 0; d < DAYS; d++) {
-  const stats = analyzeDay(daySeedFrom(`2026-08-${String((d % 28) + 1).padStart(2, '0')}#${d}`))
-  days.push(stats)
+  const { orders, games } = buildDaily(`2026-09-${String((d % 28) + 1).padStart(2, '0')}#${d}`)
+  const eras = orders.map((o) => o.era)
+  if (new Set(eras).size !== eras.length) {
+    lintFailed = true
+    console.log(`  ✗ FAIL day ${d}: repeated eras on board [${eras.join(' ')}]`)
+  }
+  const cells = SLOT_ORDER.map((slot) => {
+    const o = orders.find((x) => x.slot === slot)!
+    return cellPicks(o.era, slot)
+  })
+  const wins = enumerateWins(cells, games).sort((a, b) => a - b)
+  const n = wins.length
+  combosPerDay.push(n)
+  medians.push(wins[Math.floor(n / 2)])
+  maxes.push(wins[n - 1])
+  perfects.push(wins.filter((w) => w >= SEASON_LENGTH).length)
   if (d < 8) {
     console.log(
-      `day ${d}: min ${stats.min}  median ${stats.median}  p90 ${stats.p90}  max ${stats.max}  perfect ${stats.perfect}`,
+      `day ${d}: lineups ${n}  min ${wins[0]}  median ${wins[Math.floor(n / 2)]}  p90 ${wins[Math.floor(n * 0.9)]}  max ${wins[n - 1]}  perfect ${wins.filter((w) => w >= SEASON_LENGTH).length}  [${orders.map((o) => `${o.slot}:${o.era}`).join(' ')}]`,
     )
   }
 }
@@ -149,35 +86,16 @@ for (let d = 0; d < DAYS; d++) {
 const avg = (a: number[]) => a.reduce((x, y) => x + y, 0) / a.length
 console.log('---')
 console.log(
-  `avg min ${avg(days.map((d) => d.min)).toFixed(1)}  avg median ${avg(days.map((d) => d.median)).toFixed(1)}  avg p90 ${avg(days.map((d) => d.p90)).toFixed(1)}  avg max ${avg(days.map((d) => d.max)).toFixed(1)}`,
-)
-const ceilings = days.map((d) => d.max)
-console.log(
-  `ceiling distribution: 50×${ceilings.filter((c) => c >= 50).length}  49×${ceilings.filter((c) => c === 49).length}  48×${ceilings.filter((c) => c === 48).length}  ≤47×${ceilings.filter((c) => c <= 47).length}`,
+  `avg lineups ${Math.round(avg(combosPerDay)).toLocaleString()}  avg median ${avg(medians).toFixed(1)}  avg max ${avg(maxes).toFixed(1)}`,
 )
 console.log(
-  `perfect-possible days: ${days.filter((d) => d.perfect > 0).length}/${DAYS}  (avg perfects when possible: ${(
-    avg(days.filter((d) => d.perfect > 0).map((d) => d.perfect)) || 0
-  ).toFixed(1)})`,
+  `ceiling distribution: 50×${maxes.filter((c) => c >= 50).length}  49×${maxes.filter((c) => c === 49).length}  48×${maxes.filter((c) => c === 48).length}  ≤47×${maxes.filter((c) => c <= 47).length}`,
 )
-
-// Per-war degeneracy across days.
-console.log('--- per-war win rates (avg across days) ---')
-const perWar = SLATE.map((k, gi) => ({
-  id: k.id,
-  boss: !!k.boss,
-  rate: avg(days.map((d) => d.perGameWinRate[gi])),
-}))
-for (const w of perWar) {
-  const flag = w.rate > 0.97 ? '  ← FREE WIN' : w.rate < 0.03 ? '  ← WALL' : ''
-  if (flag || w.boss) {
-    console.log(`  ${w.id}${w.boss ? ' [BOSS]' : ''}: ${(w.rate * 100).toFixed(1)}%${flag}`)
-  }
-}
-console.log(`hardest: ${[...perWar].sort((a, b) => a.rate - b.rate).slice(0, 5).map((w) => `${w.id} ${(w.rate * 100).toFixed(0)}%`).join(', ')}`)
-console.log(`easiest: ${[...perWar].sort((a, b) => b.rate - a.rate).slice(0, 5).map((w) => `${w.id} ${(w.rate * 100).toFixed(0)}%`).join(', ')}`)
+console.log(
+  `perfect-possible days: ${perfects.filter((p) => p > 0).length}/${DAYS} (avg when possible: ${(avg(perfects.filter((p) => p > 0)) || 0).toFixed(1)})`,
+)
 
 if (lintFailed) {
-  console.error('\nSLATE LINT FAILED')
+  console.error('\nLINT FAILED')
   process.exit(1)
 }

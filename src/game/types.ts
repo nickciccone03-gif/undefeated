@@ -43,6 +43,63 @@ export const SLOT_SHORT: Record<SlotId, string> = {
   wildcard: 'WILD',
 }
 
+/** The ten draft eras. Rosters may be modern; scenarios stay ≤1991. */
+export type EraId =
+  | 'antiquity'
+  | 'medieval'
+  | 'gunpowder'
+  | 'sail'
+  | 'industrial'
+  | 'ww1'
+  | 'ww2'
+  | 'coldwar'
+  | 'postcold'
+  | 'twenties'
+
+export const ERA_ORDER: EraId[] = [
+  'antiquity',
+  'medieval',
+  'gunpowder',
+  'sail',
+  'industrial',
+  'ww1',
+  'ww2',
+  'coldwar',
+  'postcold',
+  'twenties',
+]
+
+export const ERA_LABELS: Record<EraId, string> = {
+  antiquity: 'ANTIQUITY',
+  medieval: 'MEDIEVAL',
+  gunpowder: 'GUNPOWDER',
+  sail: 'SAIL & EMPIRE',
+  industrial: 'INDUSTRIAL',
+  ww1: 'WWI & INTERWAR',
+  ww2: 'WORLD WAR II',
+  coldwar: 'COLD WAR',
+  postcold: 'POST-COLD WAR',
+  twenties: 'THE 2020s',
+}
+
+/** Era bucket from a snapshot year. */
+export function eraOf(year: number): EraId {
+  if (year <= 500) return 'antiquity'
+  if (year <= 1450) return 'medieval'
+  if (year <= 1700) return 'gunpowder'
+  if (year <= 1850) return 'sail'
+  if (year <= 1913) return 'industrial'
+  if (year <= 1938) return 'ww1'
+  if (year <= 1945) return 'ww2'
+  if (year <= 1991) return 'coldwar'
+  if (year <= 2019) return 'postcold'
+  return 'twenties'
+}
+
+export type Authenticity = 'historical' | 'experimental' | 'legendary' | 'improvised'
+export type Ruleset = 'core' | 'current-affairs' | 'special-event'
+export type Tone = 'documentary' | 'comedic' | 'satirical'
+
 export type StatKey = 'atk' | 'def' | 'mob' | 'log' | 'tech' | 'grit' | 'int'
 
 export const STAT_KEYS: StatKey[] = ['atk', 'def', 'mob', 'log', 'tech', 'grit', 'int']
@@ -94,15 +151,24 @@ export interface Special {
 
 export interface Pick {
   id: string
+  /** Primary slot (pool membership). */
   slot: SlotId
+  /** Secondary slot eligibility, if any — powers Branch Transfer and cell lists. */
+  altSlot?: SlotId
   name: string
   origin: string
-  /** Negative = BCE. */
+  /** Snapshot year. Negative = BCE. Era bucket derives from this via eraOf(). */
   year: number
   blurb: string
   stats: Stats
   terrain?: Partial<Record<Terrain, number>>
   special?: Special
+  /** Card provenance label. Default: 'historical'. */
+  authenticity?: Authenticity
+  /** Content ruleset. Default: 'core'. 'current-affairs' = living-figure satire (toggleable). */
+  ruleset?: Ruleset
+  /** Editorial register. Default: 'comedic'. */
+  tone?: Tone
   /** Bespoke joke lines used by the debrief generator. */
   lines: {
     win: string
@@ -113,6 +179,14 @@ export interface Pick {
   /** Commander-only. */
   leadership?: number
   adaptability?: number
+}
+
+/** One daily requisition order: fill this slot from this era. */
+export interface Requisition {
+  slot: SlotId
+  era: EraId
+  /** Predefined alternate era for the (single) Era Override — same for every player. */
+  altEra: EraId
 }
 
 /**
@@ -180,7 +254,3 @@ export interface RankInfo {
   percentile: number
 }
 
-export interface DraftBoard {
-  /** For each slot, the 3 candidate picks offered today. */
-  options: Record<SlotId, Pick[]>
-}

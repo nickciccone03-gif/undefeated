@@ -1,24 +1,48 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { Debrief } from './components/Debrief'
-import { Draft } from './components/Draft'
+import { RequisitionDraft } from './components/Wheel'
 import { Roster } from './components/Roster'
 import { Season } from './components/Season'
 import { Title } from './components/Title'
-import { buildDaily, rankTeams, simulate } from './game/engine'
+import { buildDaily, cellPicks, compatSummary, rankTeams, simulate } from './game/engine'
 import { buildDebrief, type Debrief as DebriefData } from './game/narrate'
 import { dayNumber, todayKey } from './game/rng'
 import { ALL_PICKS } from './game/roster'
-import { getDayRecord, getStats, setDayRecord } from './game/storage'
-import { SLOT_ORDER, type DraftBoard, type Game, type Pick, type RankInfo, type SeasonResult, type SlotId } from './game/types'
+import {
+  getDayRecord,
+  getSettings,
+  getStats,
+  isCurrentVersion,
+  setDayRecord,
+  setSettings,
+  type Settings,
+} from './game/storage'
+import {
+  SLOT_ORDER,
+  type EraId,
+  type Game,
+  type Pick,
+  type RankInfo,
+  type Requisition,
+  type SeasonResult,
+  type SlotId,
+} from './game/types'
 
 type Phase = 'title' | 'draft' | 'roster' | 'season' | 'debrief'
 
 interface Run {
   mode: 'daily' | 'free'
+  key: string
   daySeed: number
   dayNo: number | null
-  board: DraftBoard
+  orders: Requisition[]
   games: Game[]
+  eraOverrides: Partial<Record<SlotId, EraId>>
+  overrideUsed: boolean
+  transferUsed: boolean
+  roundIdx: number
+  redoSlot: SlotId | null
+  returnToRoster: boolean
   picks: Partial<Record<SlotId, Pick>>
 }
 
@@ -31,96 +55,182 @@ interface Outcome {
 export default function App() {
   const [phase, setPhase] = useState<Phase>('title')
   const [run, setRun] = useState<Run | null>(null)
-  const [activeSlot, setActiveSlot] = useState<SlotId>('commander')
-  const [returnToRoster, setReturnToRoster] = useState(false)
   const [outcome, setOutcome] = useState<Outcome | null>(null)
+  const [settings, setSettingsState] = useState<Settings>(() => getSettings())
   const [statsTick, setStatsTick] = useState(0)
 
-  // Every screen (and each draft slot) reads top-down; snap the scroll back.
   useEffect(() => {
     window.scrollTo(0, 0)
-  }, [phase, activeSlot])
+  }, [phase, run?.roundIdx, run?.redoSlot])
 
-  // statsTick invalidates after each recorded daily run; phase re-checks on navigation.
   const stats = useMemo(() => getStats(), [statsTick, phase])
-  const playedToday = useMemo(() => getDayRecord(todayKey()), [statsTick, phase])
+  const playedToday = useMemo(() => {
+    const r = getDayRecord(todayKey())
+    return r && isCurrentVersion(r) ? r : null
+  }, [statsTick, phase])
+
+  const updateSettings = useCallback((patch: Partial<Settings>) => {
+    setSettingsState(setSettings(patch))
+  }, [])
+
+  const freshRun = (mode: 'daily' | 'free', key: string): Run => {
+    const { daySeed, orders, games } = buildDaily(key)
+    return {
+      mode,
+      key,
+      daySeed,
+      dayNo: mode === 'daily' ? dayNumber() : null,
+      orders,
+      games,
+      eraOverrides: {},
+      overrideUsed: false,
+      transferUsed: false,
+      roundIdx: 0,
+      redoSlot: null,
+      returnToRoster: false,
+      picks: {},
+    }
+  }
+
+  /** Command HQ plays the orders as dealt: base eras, no override, no transfer. */
+  const baseCells = useCallback(
+    (r: Run) =>
+      SLOT_ORDER.map((slot) => {
+        const o = r.orders.find((x) => x.slot === slot)!
+        return cellPicks(o.era, slot)
+      }),
+    [],
+  )
+
+  const finish = useCallback(
+    (r: Run, team: Pick[]) => {
+      const season = simulate(team, r.games, r.daySeed)
+      const rank = rankTeams(baseCells(r), r.games, season.wins)
+      const debrief = buildDebrief(season, rank, compatSummary(team))
+      setOutcome({ season, rank, debrief })
+      if (r.mode === 'daily') {
+        setDayRecord(r.key, {
+          picks: team.map((p) => p.id),
+          wins: season.wins,
+          losses: season.losses,
+        })
+        setStatsTick((t) => t + 1)
+      }
+    },
+    [baseCells],
+  )
 
   const startDaily = useCallback(() => {
     const key = todayKey()
-    const { daySeed, board, games } = buildDaily(key)
     const existing = getDayRecord(key)
 
-    if (existing) {
-      // Deterministic engine: rebuild the exact season from the stored picks.
+    if (existing && isCurrentVersion(existing)) {
+      // Deterministic replay from stored picks (same versions only — old-version
+      // records are archived, never silently recomputed).
       const picks = existing.picks
         .map((id) => ALL_PICKS.find((p) => p.id === id))
         .filter((p): p is Pick => Boolean(p))
       if (picks.length === SLOT_ORDER.length) {
-        const season = simulate(picks, games, daySeed)
-        const rank = rankTeams(board, games, season.wins)
-        setRun({ mode: 'daily', daySeed, dayNo: dayNumber(), board, games, picks: byslot(picks) })
-        setOutcome({ season, rank, debrief: buildDebrief(season, rank) })
+        const r = freshRun('daily', key)
+        const bySlot: Partial<Record<SlotId, Pick>> = {}
+        SLOT_ORDER.forEach((s, i) => (bySlot[s] = picks[i]))
+        setRun({ ...r, picks: bySlot, roundIdx: r.orders.length })
+        finish(r, picks)
         setPhase('debrief')
         return
       }
     }
 
-    setRun({ mode: 'daily', daySeed, dayNo: dayNumber(), board, games, picks: {} })
-    setActiveSlot('commander')
-    setReturnToRoster(false)
+    setRun(freshRun('daily', key))
     setOutcome(null)
     setPhase('draft')
-  }, [])
+  }, [finish])
 
   const startFree = useCallback(() => {
-    const key = `free-${((Math.random() * 0xffffffff) >>> 0).toString(16)}`
-    const { daySeed, board, games } = buildDaily(key)
-    setRun({ mode: 'free', daySeed, dayNo: null, board, games, picks: {} })
-    setActiveSlot('commander')
-    setReturnToRoster(false)
+    setRun(freshRun('free', `free-${((Math.random() * 0xffffffff) >>> 0).toString(16)}`))
     setOutcome(null)
     setPhase('draft')
   }, [])
 
-  const onPick = useCallback(
-    (slot: SlotId, pick: Pick) => {
-      if (!run) return
-      const picks = { ...run.picks, [slot]: pick }
-      setRun({ ...run, picks })
-      const nextEmpty = SLOT_ORDER.find((s) => !picks[s])
-      if (returnToRoster || !nextEmpty) {
-        setReturnToRoster(false)
-        setPhase('roster')
-      } else {
-        setActiveSlot(nextEmpty)
-      }
+  // ---- draft-round machinery ----
+
+  const currentOrder = useMemo(() => {
+    if (!run) return null
+    const slot = run.redoSlot ?? run.orders[run.roundIdx]?.slot
+    if (!slot) return null
+    const base = run.orders.find((o) => o.slot === slot)!
+    return { ...base, era: run.eraOverrides[slot] ?? base.era }
+  }, [run])
+
+  const advance = (r: Run, nextPicks: Partial<Record<SlotId, Pick>>): void => {
+    const wasRedo = r.redoSlot !== null
+    const nextIdx = wasRedo ? r.roundIdx : r.roundIdx + 1
+    const complete = SLOT_ORDER.every((s) => nextPicks[s])
+    const next: Run = {
+      ...r,
+      picks: nextPicks,
+      redoSlot: null,
+      roundIdx: wasRedo && !r.returnToRoster ? r.roundIdx + 1 : nextIdx,
+      returnToRoster: false,
+    }
+    setRun(next)
+    if (complete && (next.roundIdx >= next.orders.length || r.returnToRoster)) {
+      setPhase('roster')
+    }
+  }
+
+  const onDraft = useCallback(
+    (pick: Pick) => {
+      if (!run || !currentOrder) return
+      advance(run, { ...run.picks, [currentOrder.slot]: pick })
     },
-    [run, returnToRoster],
+    [run, currentOrder],
   )
 
-  const onSwap = useCallback((slot: SlotId) => {
-    setActiveSlot(slot)
-    setReturnToRoster(true)
-    setPhase('draft')
-  }, [])
+  const onOverride = useCallback(() => {
+    if (!run || !currentOrder || run.overrideUsed) return
+    setRun({
+      ...run,
+      overrideUsed: true,
+      eraOverrides: { ...run.eraOverrides, [currentOrder.slot]: currentOrder.altEra },
+    })
+  }, [run, currentOrder])
+
+  const onTransfer = useCallback(
+    (fromSlot: SlotId, pick: Pick) => {
+      if (!run || !currentOrder || run.transferUsed) return
+      const picks = { ...run.picks, [currentOrder.slot]: pick }
+      delete picks[fromSlot]
+      setRun({ ...run, picks, transferUsed: true, redoSlot: fromSlot })
+    },
+    [run, currentOrder],
+  )
+
+  const onSwap = useCallback(
+    (slot: SlotId) => {
+      if (!run) return
+      const picks = { ...run.picks }
+      delete picks[slot]
+      setRun({ ...run, picks, redoSlot: slot, returnToRoster: true })
+      setPhase('draft')
+    },
+    [run],
+  )
 
   const declareWar = useCallback(() => {
     if (!run) return
     const team = SLOT_ORDER.map((s) => run.picks[s]).filter((p): p is Pick => Boolean(p))
     if (team.length !== SLOT_ORDER.length) return
-    const season = simulate(team, run.games, run.daySeed)
-    const rank = rankTeams(run.board, run.games, season.wins)
-    setOutcome({ season, rank, debrief: buildDebrief(season, rank) })
-    if (run.mode === 'daily') {
-      setDayRecord(todayKey(), {
-        picks: team.map((p) => p.id),
-        wins: season.wins,
-        losses: season.losses,
-      })
-      setStatsTick((t) => t + 1)
-    }
+    finish(run, team)
     setPhase('season')
-  }, [run])
+  }, [run, finish])
+
+  const usedIds = useMemo(
+    () => new Set(Object.values(run?.picks ?? {}).map((p) => (p as Pick).id)),
+    [run?.picks],
+  )
+
+  const filledCount = run ? SLOT_ORDER.filter((s) => run.picks[s]).length : 0
 
   return (
     <div className="shell">
@@ -131,15 +241,39 @@ export default function App() {
       )}
 
       {phase === 'title' && (
-        <Title playedToday={playedToday} stats={stats} onDaily={startDaily} onFree={startFree} />
+        <Title
+          playedToday={playedToday}
+          stats={stats}
+          settings={settings}
+          onSettings={updateSettings}
+          onDaily={startDaily}
+          onFree={startFree}
+        />
       )}
 
-      {phase === 'draft' && run && (
-        <Draft board={run.board} picks={run.picks} activeSlot={activeSlot} onPick={onPick} />
+      {phase === 'draft' && run && currentOrder && (
+        <RequisitionDraft
+          order={currentOrder}
+          roundNo={Math.min(filledCount + 1, run.orders.length)}
+          totalRounds={run.orders.length}
+          picks={run.picks}
+          usedIds={usedIds}
+          overrideUsed={run.overrideUsed}
+          transferUsed={run.transferUsed}
+          isRedo={run.redoSlot !== null && !run.returnToRoster}
+          settings={settings}
+          onDraft={onDraft}
+          onOverride={onOverride}
+          onTransfer={onTransfer}
+        />
       )}
 
-      {phase === 'roster' && run && allPicked(run.picks) && (
-        <Roster picks={run.picks as Record<SlotId, Pick>} onSwap={onSwap} onDeclare={declareWar} />
+      {phase === 'roster' && run && SLOT_ORDER.every((s) => run.picks[s]) && (
+        <Roster
+          picks={run.picks as Record<SlotId, Pick>}
+          onSwap={onSwap}
+          onDeclare={declareWar}
+        />
       )}
 
       {phase === 'season' && outcome && (
@@ -160,19 +294,9 @@ export default function App() {
       <footer className="shell__foot">
         <p>
           UNDEFEATED is a parody. All commanders are on loan from history and will be returned
-          lightly used.
+          lightly used. Living leaders are rated satirically; the numbers argue back.
         </p>
       </footer>
     </div>
   )
-}
-
-function byslot(picks: Pick[]): Partial<Record<SlotId, Pick>> {
-  const out: Partial<Record<SlotId, Pick>> = {}
-  for (const p of picks) out[p.slot] = p
-  return out
-}
-
-function allPicked(picks: Partial<Record<SlotId, Pick>>): boolean {
-  return SLOT_ORDER.every((s) => picks[s])
 }

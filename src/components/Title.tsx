@@ -1,15 +1,20 @@
 import { useState } from 'react'
 import { ClassBar, Stamp } from './bits'
 import { dayNumber } from '../game/rng'
+import type { Settings } from '../game/storage'
 
 export function Title({
   playedToday,
   stats,
+  settings,
+  onSettings,
   onDaily,
   onFree,
 }: {
   playedToday: { wins: number; losses: number } | null
   stats: { played: number; best: number; streak: number }
+  settings: Settings
+  onSettings: (patch: Partial<Settings>) => void
   onDaily: () => void
   onFree: () => void
 }) {
@@ -57,6 +62,25 @@ export function Title({
           <dd>{stats.streak}</dd>
         </div>
       </dl>
+
+      <div className="title__toggles">
+        <label className="toggle">
+          <input
+            type="checkbox"
+            checked={settings.hideStats}
+            onChange={(e) => onSettings({ hideStats: e.target.checked })}
+          />
+          <span>Field Promotion mode — draft blind, stats hidden</span>
+        </label>
+        <label className="toggle">
+          <input
+            type="checkbox"
+            checked={settings.excludeLeaders}
+            onChange={(e) => onSettings({ excludeLeaders: e.target.checked })}
+          />
+          <span>Exclude current leaders (hides 2020s politicians from your lists)</span>
+        </label>
+      </div>
 
       <button className="linkish" onClick={() => setDossierOpen((v) => !v)}>
         {dossierOpen ? '▾ Close the dossier' : '▸ Open the dossier (how it works)'}

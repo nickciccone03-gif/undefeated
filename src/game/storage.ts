@@ -1,17 +1,32 @@
-/** localStorage persistence: daily results, streaks, bests. */
+/** localStorage persistence: daily results (versioned), streaks, bests, settings. */
+import { ROSTER_VERSION, RULESET_VERSION, SCENARIO_VERSION } from './engine'
 
 export interface DayRecord {
   picks: string[]
   wins: number
   losses: number
+  rosterVersion: number
+  rulesetVersion: number
+  scenarioVersion: number
+}
+
+export interface Settings {
+  /** Hide current-affairs (living-leader) cards from YOUR draft lists. */
+  excludeLeaders: boolean
+  /** Field Promotion mode: draft blind — stats hidden. */
+  hideStats: boolean
 }
 
 interface SaveData {
   days: Record<string, DayRecord>
+  settings?: Settings
 }
 
-// v2: the 50-war historical slate. v1 (82-war) records are retired with honors.
-const KEY = 'undefeated:v2'
+// v3: Requisition Wheel + compatibility model. Older records are retired with honors —
+// the scoring model changed, and old results are never silently recomputed.
+const KEY = 'undefeated:v3'
+
+const DEFAULT_SETTINGS: Settings = { excludeLeaders: false, hideStats: false }
 
 function load(): SaveData {
   try {
@@ -35,10 +50,35 @@ export function getDayRecord(dayKey: string): DayRecord | null {
   return load().days[dayKey] ?? null
 }
 
-export function setDayRecord(dayKey: string, record: DayRecord): void {
+/** A record is replayable only under the exact content versions that produced it. */
+export function isCurrentVersion(r: DayRecord): boolean {
+  return (
+    r.rosterVersion === ROSTER_VERSION &&
+    r.rulesetVersion === RULESET_VERSION &&
+    r.scenarioVersion === SCENARIO_VERSION
+  )
+}
+
+export function setDayRecord(dayKey: string, record: Omit<DayRecord, 'rosterVersion' | 'rulesetVersion' | 'scenarioVersion'>): void {
   const data = load()
-  data.days[dayKey] = record
+  data.days[dayKey] = {
+    ...record,
+    rosterVersion: ROSTER_VERSION,
+    rulesetVersion: RULESET_VERSION,
+    scenarioVersion: SCENARIO_VERSION,
+  }
   save(data)
+}
+
+export function getSettings(): Settings {
+  return { ...DEFAULT_SETTINGS, ...(load().settings ?? {}) }
+}
+
+export function setSettings(patch: Partial<Settings>): Settings {
+  const data = load()
+  data.settings = { ...DEFAULT_SETTINGS, ...(data.settings ?? {}), ...patch }
+  save(data)
+  return data.settings
 }
 
 export function getStats(): { played: number; best: number; streak: number } {
