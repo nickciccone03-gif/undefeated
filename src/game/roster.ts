@@ -216,7 +216,7 @@ export const GROUND: Pick[] = [
     blurb: 'Three hundred guys who never stopped talking about it.',
     stats: s(8, 9, 4, 2, 2, 10, 3),
     terrain: { mountain: 2, open: 1, winter: -1 },
-    special: { trigger: 'great-defense', bonus: 1.2, label: 'Excellent at doorways' },
+    special: { trigger: 'defense', bonus: 1.2, label: 'Excellent at doorways' },
     lines: {
       win: 'The Spartans held the line like it was a group photo.',
       loss: 'The Spartans requested the enemy come back and lose properly in a narrow doorway.',
@@ -264,7 +264,7 @@ export const GROUND: Pick[] = [
     blurb: 'Arrive late, wearing literal wings, win instantly. The soundtrack is implied.',
     stats: s(10, 7, 8, 4, 4, 9, 3),
     terrain: { open: 3 },
-    special: { trigger: 'great-defense', bonus: 1.3, label: 'Then the winged hussars arrived' },
+    special: { trigger: 'defense', bonus: 1.3, label: 'Then the winged hussars arrived' },
     lines: {
       win: 'Then the Winged Hussars arrived, exactly as the song requires.',
       loss: 'The Winged Hussars arrived late, which usually works, but this time the war had also left.',
@@ -311,7 +311,7 @@ export const GROUND: Pick[] = [
     blurb: 'You control everything you can see. You can see nothing.',
     stats: s(6, 7, 8, 5, 4, 10, 9),
     terrain: { jungle: 3, night: 3, open: -2 },
-    special: { trigger: 'jungle-shadow', bonus: 1.4, label: 'The jungle votes last' },
+    special: { trigger: 'jungle', bonus: 1.4, label: 'The jungle votes last' },
     lines: {
       win: 'The enemy secured every position on the map except the ones that mattered: all of them.',
       loss: 'Open field, high noon, no tree line — someone in scheduling owes the tunnels an apology.',
@@ -440,7 +440,7 @@ export const ARMOR: Pick[] = [
     blurb: 'Top speed: walking. Effect on morale: immeasurable.',
     stats: s(7, 8, 3, 4, 7, 6, 2),
     terrain: { open: 1, urban: 1 },
-    special: { trigger: 'trench-grind', bonus: 1.3, label: 'Trenches are speed bumps' },
+    special: { trigger: 'trench', bonus: 1.3, label: 'Trenches are speed bumps' },
     lines: {
       win: 'The Mark IVs crossed no-man’s-land at a stately 6 km/h, and nothing on Earth could stop them politely enough.',
       loss: 'The Mark IVs were outmaneuvered by, among other things, the concept of turning.',
@@ -503,7 +503,7 @@ export const ARMOR: Pick[] = [
     blurb: 'Invented the armored column 500 years early, out of farm carts and audacity.',
     stats: s(7, 9, 5, 6, 4, 8, 3),
     terrain: { open: 2 },
-    special: { trigger: 'great-defense', bonus: 1.2, label: 'Instant fortress, just add wagons' },
+    special: { trigger: 'defense', bonus: 1.2, label: 'Instant fortress, just add wagons' },
     lines: {
       win: 'The war wagons circled up, and the enemy cavalry discovered the concept of a wall that shoots.',
       loss: 'The war wagons were defeated by terrain rated “too silly for wagons.”',
@@ -519,7 +519,7 @@ export const ARMOR: Pick[] = [
     blurb: 'Two hundred rockets per cart. The question was never “why.”',
     stats: s(9, 4, 4, 5, 6, 5, 2),
     terrain: { urban: 2 },
-    special: { trigger: 'great-defense', bonus: 1.1, label: '200 answers per cart' },
+    special: { trigger: 'defense', bonus: 1.1, label: '200 answers per cart' },
     lines: {
       win: 'The hwachas asked the sky to be arrows for a moment, and the sky agreed.',
       loss: 'The hwachas ran out of rockets, which took longer than the enemy expected, but still.',
@@ -552,7 +552,7 @@ export const AIR: Pick[] = [
     year: 1794,
     blurb: 'The first air force: one balloon, infinite audacity.',
     stats: s(2, 2, 3, 3, 4, 4, 7),
-    special: { trigger: 'spy-war', bonus: 1.0, label: 'The original eye in the sky' },
+    special: { trigger: 'intel', bonus: 1.0, label: 'The original eye in the sky' },
     lines: {
       win: 'The balloon saw everything, told everyone, and accepted no follow-up questions.',
       loss: 'The wind changed, and with it, our entire air doctrine.',
@@ -583,7 +583,7 @@ export const AIR: Pick[] = [
     blurb: 'Eighty confirmed victories and a paint job that says “come find out.”',
     stats: s(7, 4, 8, 4, 6, 7, 4),
     terrain: { air: 3 },
-    special: { trigger: 'air-supremacy', bonus: 1.2, label: 'Dogfighting, the artisanal way' },
+    special: { trigger: 'airsup', bonus: 1.2, label: 'Dogfighting, the artisanal way' },
     lines: {
       win: 'The Flying Circus won the duel with style points the judges hadn’t invented yet.',
       loss: 'The Flying Circus lost the war but won every individual argument inside it.',
@@ -599,7 +599,7 @@ export const AIR: Pick[] = [
     blurb: 'Never was so much owed by so many to so few — these few, specifically.',
     stats: s(8, 7, 8, 6, 8, 9, 5),
     terrain: { air: 3 },
-    special: { trigger: 'great-defense', bonus: 1.3, label: 'Their finest hour, on repeat' },
+    special: { trigger: 'airsup', bonus: 1.3, label: 'Their finest hour, on repeat' },
     lines: {
       win: 'The Spitfires held the sky like it was a promise.',
       loss: 'The few were, on this occasion, too few.',
@@ -614,7 +614,7 @@ export const AIR: Pick[] = [
     year: 1914,
     blurb: 'Cher Ami flew 25 miles shot through the chest and still delivered. Your Wi-Fi drops in rain.',
     stats: s(1, 2, 7, 6, 2, 6, 8),
-    special: { trigger: 'spy-war', bonus: 1.2, label: 'Unjammable. Unbribable. Bird.' },
+    special: { trigger: 'intel', bonus: 1.2, label: 'Unjammable. Unbribable. Bird.' },
     lines: {
       win: 'The pigeons delivered the decisive order through fog, flak, and a hawk with opinions.',
       loss: 'The message arrived; the general it was addressed to had been reassigned in 1911.',
@@ -645,7 +645,7 @@ export const AIR: Pick[] = [
     blurb: 'The sound of the 20th century clearing its throat.',
     stats: s(7, 5, 10, 7, 7, 7, 5),
     terrain: { jungle: 3 },
-    special: { trigger: 'jungle-shadow', bonus: 1.2, label: 'The LZ is wherever we say' },
+    special: { trigger: 'jungle', bonus: 1.2, label: 'The LZ is wherever we say' },
     lines: {
       win: 'The Hueys put a company anywhere on the map in eleven minutes, and the map gave up.',
       loss: 'The one valley without a landing zone contained, regrettably, the war.',
@@ -660,7 +660,7 @@ export const AIR: Pick[] = [
     year: 1966,
     blurb: 'Outran every missile ever fired at it. Standard evasive maneuver: accelerate.',
     stats: s(1, 9, 10, 3, 10, 5, 10),
-    special: { trigger: 'spy-war', bonus: 1.4, label: 'Sees everything, apologizes never' },
+    special: { trigger: 'intel', bonus: 1.4, label: 'Sees everything, apologizes never' },
     lines: {
       win: 'The Blackbird photographed the enemy’s entire plan, including the parts they hadn’t admitted to themselves.',
       loss: 'The Blackbird saw the defeat coming in perfect detail and could do absolutely nothing about it, which it calls “someone else’s job.”',
@@ -676,7 +676,7 @@ export const AIR: Pick[] = [
     blurb: 'Achieved air supremacy in 38 minutes, then spent the rest of the war showing off.',
     stats: s(10, 8, 9, 6, 10, 7, 8),
     terrain: { air: 3, night: 2 },
-    special: { trigger: 'air-supremacy', bonus: 1.4, label: 'The sky is a home game' },
+    special: { trigger: 'airsup', bonus: 1.4, label: 'The sky is a home game' },
     lines: {
       win: 'The Air Force won the war before breakfast and spent the afternoon doing donuts in the stratosphere.',
       loss: 'The Air Force was flawless; unfortunately the war was in a basement.',
@@ -727,7 +727,7 @@ export const NAVY: Pick[] = [
     blurb: 'An ironclad 250 years early, with a dragon head that breathes smoke. Overkill? Correct.',
     stats: s(9, 10, 5, 5, 7, 8, 4),
     terrain: { naval: 3 },
-    special: { trigger: 'naval-blockade', bonus: 1.3, label: 'The strait is closed' },
+    special: { trigger: 'blockade', bonus: 1.3, label: 'The strait is closed' },
     lines: {
       win: 'The turtle ships sailed through the enemy line, then turned around and did it again for the historians.',
       loss: 'The turtle ships were unbeatable at sea, which is why the enemy rudely stayed ashore.',
@@ -758,7 +758,7 @@ export const NAVY: Pick[] = [
     blurb: 'England expects. The rest is cannon smoke and paperwork.',
     stats: s(10, 8, 7, 8, 7, 9, 6),
     terrain: { naval: 3 },
-    special: { trigger: 'naval-blockade', bonus: 1.3, label: 'The blockade is a lifestyle' },
+    special: { trigger: 'blockade', bonus: 1.3, label: 'The blockade is a lifestyle' },
     lines: {
       win: 'The Royal Navy crossed the enemy’s T, dotted their i’s, and impounded their alphabet.',
       loss: 'The Admiralty has classified this loss as “weather.”',
@@ -774,7 +774,7 @@ export const NAVY: Pick[] = [
     blurb: 'Ships so large historians still argue. Came back with giraffes. GIRAFFES.',
     stats: s(6, 7, 6, 10, 7, 6, 7),
     terrain: { naval: 2 },
-    special: { trigger: 'supply-race', bonus: 1.3, label: 'The fleet IS the supply line' },
+    special: { trigger: 'supply', bonus: 1.3, label: 'The fleet IS the supply line' },
     lines: {
       win: 'The treasure fleet won the campaign and returned with two new trade routes and a giraffe.',
       loss: 'The treasure fleet lost gracefully and still out-catered every navy involved.',
@@ -806,7 +806,7 @@ export const NAVY: Pick[] = [
     blurb: 'A floating city that launches the end of your empire in waves.',
     stats: s(10, 8, 8, 9, 9, 8, 7),
     terrain: { naval: 3, air: 2 },
-    special: { trigger: 'island-hop', bonus: 1.4, label: 'Islands are stepping stones' },
+    special: { trigger: 'amphibious', bonus: 1.4, label: 'Islands are stepping stones' },
     lines: {
       win: 'The carriers won a battle nobody on either side could technically see.',
       loss: 'The carriers lost the one engagement that happened indoors.',
@@ -822,7 +822,7 @@ export const NAVY: Pick[] = [
     blurb: 'Lit fuses in his beard before meetings. HR was not consulted.',
     stats: s(6, 4, 8, 3, 3, 7, 7),
     terrain: { naval: 2, night: 1 },
-    special: { trigger: 'supply-race', bonus: 1.2, label: 'Your supplies now (finders keepers)' },
+    special: { trigger: 'supply', bonus: 1.2, label: 'Your supplies now (finders keepers)' },
     lines: {
       win: 'The pirates won and, more importantly, kept the enemy’s stuff.',
       loss: 'The pirates lost the battle but stole the enemy’s victory party.',
@@ -838,7 +838,7 @@ export const NAVY: Pick[] = [
     blurb: 'Sailed 18,000 miles to lose in 45 minutes. Legendary commitment to the bit.',
     stats: s(4, 4, 2, 3, 4, 5, 2),
     terrain: { naval: 1 },
-    special: { trigger: 'long-retreat', bonus: 1.5, label: 'Extremely experienced travelers' },
+    special: { trigger: 'expedition', bonus: 1.5, label: 'Extremely experienced travelers' },
     lines: {
       win: 'The Baltic Fleet WON?! The crew is as surprised as you are. The band has been playing for nine hours.',
       loss: 'The Baltic Fleet arrived on time, which is to say, seven months late, and performed as scheduled.',
@@ -856,7 +856,7 @@ export const INTEL: Pick[] = [
     year: 1942,
     blurb: 'Reads the enemy’s mail before the enemy does. Shortened a world war from a cottage.',
     stats: s(1, 5, 3, 6, 9, 6, 10),
-    special: { trigger: 'spy-war', bonus: 1.4, label: 'Your codes are our newsletter' },
+    special: { trigger: 'intel', bonus: 1.4, label: 'Your codes are our newsletter' },
     lines: {
       win: 'Bletchley decrypted the enemy’s battle plan, lunch order, and group chat.',
       loss: 'Bletchley knew we would lose, but the memo was classified above our own clearance.',
@@ -872,7 +872,7 @@ export const INTEL: Pick[] = [
     blurb: 'Pony Express, but terrifying, and two centuries earlier.',
     stats: s(2, 3, 10, 9, 2, 7, 8),
     terrain: { steppe: 2 },
-    special: { trigger: 'supply-race', bonus: 1.2, label: 'The message always arrives' },
+    special: { trigger: 'supply', bonus: 1.2, label: 'The message always arrives' },
     lines: {
       win: 'The yam riders moved the order 300 miles overnight, and the enemy is still blaming spies.',
       loss: 'The rider arrived, on time, with the wrong scroll, which contained a recipe.',
@@ -887,7 +887,7 @@ export const INTEL: Pick[] = [
     year: 1587,
     blurb: 'Elizabeth I’s inbox zero. Every plot, pre-read.',
     stats: s(1, 4, 4, 4, 3, 5, 10),
-    special: { trigger: 'spy-war', bonus: 1.2, label: 'Your conspiracy has a subscriber' },
+    special: { trigger: 'intel', bonus: 1.2, label: 'Your conspiracy has a subscriber' },
     lines: {
       win: 'Walsingham’s agents joined the enemy plot, rose to management, and scheduled its failure.',
       loss: 'Walsingham knew everything except, on this one occasion, the thing.',
@@ -917,7 +917,7 @@ export const INTEL: Pick[] = [
     year: 1944,
     blurb: 'The only battlefield code never broken. Not once. Not ever.',
     stats: s(3, 5, 6, 5, 6, 9, 10),
-    special: { trigger: 'spy-war', bonus: 1.3, label: 'Unbroken, unbreakable' },
+    special: { trigger: 'intel', bonus: 1.3, label: 'Unbroken, unbreakable' },
     lines: {
       win: 'The Code Talkers moved the entire plan in the open, and the enemy heard only weather.',
       loss: 'Communications were flawless; the plan they carried, regrettably, was not.',
@@ -933,7 +933,7 @@ export const INTEL: Pick[] = [
     blurb: 'You have already hired them. You found out just now.',
     stats: s(5, 4, 8, 3, 4, 8, 9),
     terrain: { night: 3 },
-    special: { trigger: 'night-ambush', bonus: 1.4, label: 'The night shift' },
+    special: { trigger: 'night', bonus: 1.4, label: 'The night shift' },
     lines: {
       win: 'The shinobi ended the war on a Tuesday; the enemy noticed the following spring.',
       loss: 'The shinobi were never found — unfortunately, this included by our own payroll.',
@@ -979,7 +979,7 @@ export const INTEL: Pick[] = [
     year: 1960,
     blurb: 'Photographs your secrets from 70,000 feet, files them alphabetically.',
     stats: s(1, 4, 8, 4, 10, 4, 10),
-    special: { trigger: 'air-supremacy', bonus: 1.0, label: 'Sees the whole board' },
+    special: { trigger: 'intel', bonus: 1.0, label: 'Sees the whole board' },
     lines: {
       win: 'The U-2 photographed the enemy’s reserves, then their reserves’ reserves, then their diary.',
       loss: 'The photos were perfect; the interpretation, notably, was vibes.',
@@ -1012,7 +1012,7 @@ export const LOGISTICS: Pick[] = [
     year: 100,
     blurb: 'All roads lead to your supply depot. Still under warranty, 2,000 years later.',
     stats: s(2, 6, 7, 10, 5, 6, 4),
-    special: { trigger: 'supply-race', bonus: 1.3, label: 'Paved. Straight. Forever.' },
+    special: { trigger: 'supply', bonus: 1.3, label: 'Paved. Straight. Forever.' },
     lines: {
       win: 'Supplies arrived early, on roads that will outlive every empire in this fight.',
       loss: 'The roads were perfect; the map of which roads, less so.',
@@ -1059,7 +1059,7 @@ export const LOGISTICS: Pick[] = [
     blurb: 'Builds a cargo ship in four days. The ocean is a conveyor belt now.',
     stats: s(2, 5, 4, 10, 7, 6, 3),
     terrain: { naval: 2 },
-    special: { trigger: 'island-hop', bonus: 1.2, label: 'Ships faster than sinkings' },
+    special: { trigger: 'supply', bonus: 1.2, label: 'Ships faster than sinkings' },
     lines: {
       win: 'The enemy sank three ships; the yards built five during the meeting about it.',
       loss: 'The ships arrived in glorious numbers at the wrong hemisphere.',
@@ -1107,7 +1107,7 @@ export const LOGISTICS: Pick[] = [
     blurb: 'Supplied an entire city by air. Included candy. Especially the candy.',
     stats: s(1, 4, 8, 10, 8, 7, 4),
     terrain: { air: 2, winter: 1 },
-    special: { trigger: 'winter-march', bonus: 1.3, label: 'Gravity is a supply route' },
+    special: { trigger: 'supply', bonus: 1.3, label: 'Gravity is a supply route' },
     lines: {
       win: 'A plane landed every 45 seconds until the siege gave up out of embarrassment.',
       loss: 'The airlift was perfect; the army below kept moving the city.',
@@ -1221,7 +1221,7 @@ export const WILDCARD: Pick[] = [
     blurb: 'Give him a lever and he will flip your flagship.',
     stats: s(8, 8, 2, 2, 9, 4, 8),
     terrain: { naval: 2, urban: 2 },
-    special: { trigger: 'great-defense', bonus: 1.4, label: 'Do not disturb his circles' },
+    special: { trigger: 'defense', bonus: 1.4, label: 'Do not disturb his circles' },
     lines: {
       win: 'The Claw lifted the enemy flagship out of the water, and the rest of the fleet remembered other appointments.',
       loss: 'Archimedes solved the war on paper an hour after it was lost, and the proof is elegant.',
@@ -1237,7 +1237,7 @@ export const WILDCARD: Pick[] = [
     blurb: 'Woke up once, saved the Republic. Undefeated since 390 BCE.',
     stats: s(2, 6, 4, 2, 1, 9, 9),
     terrain: { night: 3 },
-    special: { trigger: 'night-ambush', bonus: 1.6, label: 'The geese are awake' },
+    special: { trigger: 'night', bonus: 1.6, label: 'The geese are awake' },
     lines: {
       win: 'The night attack was foiled at 3 a.m. by an unpayable, unbribable, extremely loud security system.',
       loss: 'The geese slept through it. After 2,400 years, they felt they’d earned one.',
@@ -1284,7 +1284,7 @@ export const WILDCARD: Pick[] = [
     year: 1899,
     blurb: 'Does not exist. Investors remain confident.',
     stats: s(2, 2, 1, 1, 10, 3, 6),
-    special: { trigger: 'air-supremacy', bonus: 1.2, label: 'Theoretical air superiority' },
+    special: { trigger: 'airsup', bonus: 1.2, label: 'Theoretical air superiority' },
     lines: {
       win: 'The death ray did nothing, but the enemy could not PROVE it did nothing, and surrendered to be safe.',
       loss: 'The death ray required, per the schematics, “more funding.” It always requires more funding.',

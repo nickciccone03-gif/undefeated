@@ -112,8 +112,8 @@ export function WLGrid({
       {results.map((r, i) => (
         <span
           key={i}
-          className={`wlcell ${i < shown ? (r.won ? 'wlcell--w' : 'wlcell--l') : ''} ${r.game.marquee ? 'wlcell--marquee' : ''}`}
-          title={`War ${i + 1}: ${r.won ? 'W' : 'L'} — ${r.game.name} vs ${r.game.enemy}`}
+          className={`wlcell ${i < shown ? (r.won ? 'wlcell--w' : 'wlcell--l') : ''} ${r.game.kind.boss ? 'wlcell--boss' : ''}`}
+          title={`War ${i + 1}: ${r.won ? 'W' : 'L'} — ${r.game.kind.name} (${r.game.kind.era})`}
         />
       ))}
     </div>

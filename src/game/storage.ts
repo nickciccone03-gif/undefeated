@@ -10,7 +10,8 @@ interface SaveData {
   days: Record<string, DayRecord>
 }
 
-const KEY = 'undefeated:v1'
+// v2: the 50-war historical slate. v1 (82-war) records are retired with honors.
+const KEY = 'undefeated:v2'
 
 function load(): SaveData {
   try {

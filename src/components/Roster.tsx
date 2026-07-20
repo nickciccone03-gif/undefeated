@@ -55,7 +55,9 @@ export function Roster({
       <button className="btn btn--red btn--big roster__go" onClick={onDeclare}>
         ⚔ Declare war on history
       </button>
-      <p className="roster__fine">82 wars. No preseason. No mercy. Some paperwork.</p>
+      <p className="roster__fine">
+        50 wars, in chronological order, Thermopylae to the Gulf. No preseason. No mercy.
+      </p>
     </div>
   )
 }

@@ -1,4 +1,5 @@
 /** Turns a simulated season into the After-Action Report. Deterministic per (day, team). */
+import { SEASON_LENGTH } from './engine'
 import { mulberry32, pickOne, type Rng } from './rng'
 import { yearLabel } from './roster'
 import type { GameResult, Pick, RankInfo, SeasonResult, StatKey } from './types'
@@ -22,12 +23,12 @@ export interface Debrief {
 }
 
 export function gradeFor(wins: number): { title: string; sub: string } {
-  if (wins >= 82) return { title: 'PERFECT SEASON', sub: 'The timeline has formally surrendered.' }
-  if (wins >= 76) return { title: 'FEARED ACROSS ALL ERAS', sub: 'Historians are pretending this was inevitable.' }
-  if (wins >= 68) return { title: 'HALL OF FAME', sub: 'Statues are being argued about.' }
-  if (wins >= 58) return { title: 'RESPECTABLE MENACE', sub: 'Neighboring centuries have requested a buffer zone.' }
-  if (wins >= 48) return { title: 'MID EMPIRE', sub: 'Rises, falls, gets a two-part documentary.' }
-  if (wins >= 38) return { title: 'CAUTIONARY TALE', sub: 'Taught in academies under “please don’t.”' }
+  if (wins >= 50) return { title: 'PERFECT SEASON', sub: 'History has formally surrendered.' }
+  if (wins >= 46) return { title: 'FEARED ACROSS ALL ERAS', sub: 'Historians are pretending this was inevitable.' }
+  if (wins >= 41) return { title: 'HALL OF FAME', sub: 'Statues are being argued about.' }
+  if (wins >= 35) return { title: 'RESPECTABLE MENACE', sub: 'Neighboring centuries have requested a buffer zone.' }
+  if (wins >= 29) return { title: 'MID EMPIRE', sub: 'Rises, falls, gets a two-part documentary.' }
+  if (wins >= 23) return { title: 'CAUTIONARY TALE', sub: 'Taught in academies under “please don’t.”' }
   return { title: 'MUSEUM EXHIBIT', sub: 'Cautionary wing. Children point.' }
 }
 
@@ -42,14 +43,14 @@ const FLAW_LINES: Record<StatKey, string> = {
 }
 
 const OPENINGS = [
-  'In the year of nobody-in-particular, {cmd} assembled an army spanning {span} centuries and declared war on the concept of losing.',
-  'The recruiting posters made no sense in any single century, and yet they worked: {cmd} took command of an army {span} centuries deep.',
-  '{cmd} looked at 3,000 years of military history, said “all of it,” and signed the requisition form.',
+  'In the year of nobody-in-particular, {cmd} assembled an army spanning {span} centuries and marched it into all fifty wars at once, chronologically.',
+  'The recruiting posters made no sense in any single century, and yet they worked: {cmd} took an army {span} centuries deep to face history’s entire syllabus.',
+  '{cmd} looked at fifty of history’s hardest military problems, said “all of them,” and signed the requisition form.',
 ]
 
 const ARC_DOMINANT = [
-  'What followed was less a season than a procession. Enemy coalitions formed, met your army, and dissolved into strongly worded memoirs.',
-  'The campaign map ran out of red push-pins by spring. Quartermasters began issuing victories in bulk.',
+  'What followed was less a season than a procession: three millennia of famous problems, dispatched in order, with receipts.',
+  'The campaign map ran out of red push-pins somewhere around the gunpowder era. Quartermasters began issuing victories in bulk.',
 ]
 const ARC_STRONG = [
   'The season was a drumbeat of victories interrupted by the occasional educational disaster.',
@@ -57,10 +58,10 @@ const ARC_STRONG = [
 ]
 const ARC_MIXED = [
   'It was a season of magnificent wins and losses so instructive that three military academies changed their syllabus mid-year.',
-  'The army alternated between unstoppable and deeply confused, sometimes within the same afternoon.',
+  'The army alternated between unstoppable and deeply confused, sometimes within the same century.',
 ]
 const ARC_ROUGH = [
-  'The season is best described as a controlled experiment in humility, conducted at scale.',
+  'The season is best described as a controlled experiment in humility, conducted across 2,500 years.',
   'The war college has requested your campaign records “for the blooper reel.”',
 ]
 
@@ -156,6 +157,7 @@ export function buildDebrief(season: SeasonResult, rank: RankInfo | null): Debri
   const bestWin = sortedByMargin.find((r) => r.won) ?? null
   const worstLoss = [...sortedByMargin].reverse().find((r) => !r.won) ?? null
   const closest = [...season.results].sort((a, b) => Math.abs(a.margin) - Math.abs(b.margin))[0]
+  const finalBoss = season.results[season.results.length - 1]
 
   const paragraphs: string[] = []
   paragraphs.push(
@@ -163,14 +165,14 @@ export function buildDebrief(season: SeasonResult, rank: RankInfo | null): Debri
       ` The oldest soldiers answered to ${oldest.name} standards (${yearLabel(oldest.year)}); the newest arrived from ${yearLabel(newest.year)}. History filed an objection. It was overruled.`,
   )
 
-  const arcPool = wins >= 74 ? ARC_DOMINANT : wins >= 60 ? ARC_STRONG : wins >= 45 ? ARC_MIXED : ARC_ROUGH
+  const arcPool = wins >= 44 ? ARC_DOMINANT : wins >= 36 ? ARC_STRONG : wins >= 27 ? ARC_MIXED : ARC_ROUGH
   paragraphs.push(pickOne(arcPool, rng))
 
   if (bestWin) {
     const star = topUnitInGame(season, bestWin)
     paragraphs.push(
-      `The masterpiece was ${bestWin.game.name} against ${bestWin.game.enemy}. ` +
-        fill(pickOne(bestWin.game.kind.winTemplates, rng), { unit: star.name, enemy: bestWin.game.enemy }) +
+      `The masterpiece was ${bestWin.game.kind.name} (${bestWin.game.kind.era}). ` +
+        fill(pickOne(bestWin.game.kind.winTemplates, rng), { unit: star.name }) +
         ` ${star.lines.win}`,
     )
   }
@@ -179,8 +181,8 @@ export function buildDebrief(season: SeasonResult, rank: RankInfo | null): Debri
     const goat = worstUnitInGame(season, worstLoss)
     const flaw = fatalFlaw(season)
     paragraphs.push(
-      `The disaster was ${worstLoss.game.name} against ${worstLoss.game.enemy}. ` +
-        fill(pickOne(worstLoss.game.kind.lossTemplates, rng), { unit: goat.name, enemy: worstLoss.game.enemy }) +
+      `The disaster was ${worstLoss.game.kind.name} (${worstLoss.game.kind.era}). ` +
+        fill(pickOne(worstLoss.game.kind.lossTemplates, rng), { unit: goat.name }) +
         ` ${goat.lines.loss}` +
         (flaw ? ` The inquiry found the root cause: ${flaw.toLowerCase()}` : ''),
     )
@@ -196,12 +198,12 @@ export function buildDebrief(season: SeasonResult, rank: RankInfo | null): Debri
   let verdict = `The Department of Alternate History has graded your season: ${grade.title}.`
   if (rank) {
     verdict += ` Of the ${rank.totalTeams.toLocaleString()} possible armies on today’s board, yours finished #${rank.rank.toLocaleString()}.`
-    if (wins >= 82) {
-      verdict += ` Only ${rank.perfectCount} draft${rank.perfectCount === 1 ? '' : 's'} could go undefeated today. Yours is one of them.`
+    if (wins >= SEASON_LENGTH) {
+      verdict += ` Only ${rank.perfectCount} draft${rank.perfectCount === 1 ? '' : 's'} could go 50–0 today. Yours is one of them.`
     } else if (rank.perfectCount > 0) {
-      verdict += ` ${rank.perfectCount} possible draft${rank.perfectCount === 1 ? '' : 's'} could have gone 82–0 today. Yours, famously, was not among them.`
+      verdict += ` ${rank.perfectCount} possible draft${rank.perfectCount === 1 ? '' : 's'} could have gone 50–0 today. Yours, famously, was not among them.`
     } else {
-      verdict += ` No possible draft could go undefeated today — the best available was ${rank.bestWins} wins, so hold your head high.`
+      verdict += ` No draft could go 50–0 today — the ceiling was ${rank.bestWins}–${SEASON_LENGTH - rank.bestWins}. The Department classifies boards like this one as “character-building.”`
     }
   }
   paragraphs.push(verdict)
@@ -212,7 +214,7 @@ export function buildDebrief(season: SeasonResult, rank: RankInfo | null): Debri
     featured.push({
       label: 'CAMPAIGN OF THE YEAR',
       result: bestWin,
-      writeup: fill(pickOne(bestWin.game.kind.winTemplates, rng), { unit: star.name, enemy: bestWin.game.enemy }),
+      writeup: fill(pickOne(bestWin.game.kind.winTemplates, rng), { unit: star.name }),
       unitLine: star.lines.win,
     })
   }
@@ -221,7 +223,7 @@ export function buildDebrief(season: SeasonResult, rank: RankInfo | null): Debri
     featured.push({
       label: 'THE DISASTER',
       result: worstLoss,
-      writeup: fill(pickOne(worstLoss.game.kind.lossTemplates, rng), { unit: goat.name, enemy: worstLoss.game.enemy }),
+      writeup: fill(pickOne(worstLoss.game.kind.lossTemplates, rng), { unit: goat.name }),
       unitLine: goat.lines.loss,
     })
   }
@@ -235,14 +237,15 @@ export function buildDebrief(season: SeasonResult, rank: RankInfo | null): Debri
         : `A coin-flip war that landed on its edge, wobbled, and fell the wrong way.`,
     })
   }
-  const marquee = season.results.find((r) => r.game.marquee && r !== bestWin && r !== worstLoss && r !== closest)
-  if (marquee) {
+  if (finalBoss && finalBoss !== bestWin && finalBoss !== worstLoss && finalBoss !== closest) {
+    const star = finalBoss.won ? topUnitInGame(season, finalBoss) : worstUnitInGame(season, finalBoss)
     featured.push({
-      label: 'THE GRUDGE MATCH',
-      result: marquee,
-      writeup: marquee.won
-        ? `A rivalry war circled on every calendar in every century. Your army arrived angry and left legendary.`
-        : `A rivalry war circled on every calendar. The less said, the better; the enemy has said plenty.`,
+      label: 'THE FINAL EXAM',
+      result: finalBoss,
+      writeup: fill(
+        pickOne(finalBoss.won ? finalBoss.game.kind.winTemplates : finalBoss.game.kind.lossTemplates, rng),
+        { unit: star.name },
+      ),
     })
   }
 

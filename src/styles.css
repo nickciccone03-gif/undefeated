@@ -763,13 +763,13 @@ button {
   min-height: 218px;
 }
 
-.season__now--marquee {
+.season__now--boss {
   border-color: var(--red);
   outline: 1px solid var(--red);
   outline-offset: 3px;
 }
 
-.season__grudge {
+.season__boss {
   font-family: var(--f-mono);
   font-weight: 600;
   color: var(--red);
@@ -839,9 +839,9 @@ button {
 
 .wlgrid {
   display: grid;
-  grid-template-columns: repeat(14, 1fr);
-  gap: 5px;
-  max-width: 560px;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 6px;
+  max-width: 480px;
   margin: 0 auto;
 }
 
@@ -863,7 +863,7 @@ button {
   animation: popIn 200ms ease both;
 }
 
-.wlcell--marquee {
+.wlcell--boss {
   box-shadow: 0 0 0 2px var(--brass);
 }
 

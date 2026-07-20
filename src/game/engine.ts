@@ -1,11 +1,17 @@
 /**
  * Deterministic war engine.
  *
- * Everyone playing the same day sees the same draft board, the same 82-war schedule,
- * and the same per-war "weather" (noise). Outcomes depend only on (day, your picks) —
- * identical armies always produce identical records, so records are globally comparable.
+ * Everyone playing the same day sees the same draft board and the same fixed,
+ * chronological 50-war slate with the same per-war "weather" (noise). Outcomes
+ * depend only on (day, your picks) — identical armies always produce identical
+ * records, so records are globally comparable.
+ *
+ * Daily ceilings vary on purpose: some boards can go 50–0, some max out at 47–3.
+ * The board is never rerolled to guarantee perfection — hard days are content
+ * ("DAILY CEILING: 47–3"), and rerolling would bias the game away from its
+ * funniest requisitions. See DECISIONS.md.
  */
-import { CAMPAIGN_KINDS, ENEMIES } from './campaigns'
+import { SLATE } from './campaigns'
 import { POOLS } from './roster'
 import { hashString, mulberry32, normal, shuffled } from './rng'
 import {
@@ -21,7 +27,7 @@ import {
   type Stats,
 } from './types'
 
-export const SEASON_LENGTH = 82
+export const SEASON_LENGTH = SLATE.length // 50
 export const OPTIONS_PER_SLOT = 3
 
 /** Balance constants — tuned via scripts/balance.ts. */
@@ -32,17 +38,15 @@ export const BAL = {
   taxK: 0.26,
   cmdBase: 0.85,
   cmdPerLeadership: 0.035,
-  difficultyJitter: 0.5,
-  difficultyShift: -0.75,
-  marqueeBoost: 1.05,
-  marqueeCount: 6,
+  difficultyJitter: 0.3,
+  difficultyShift: -0.22,
 }
 
 export function daySeedFrom(key: string): number {
   return hashString(`undefeated//${key}`)
 }
 
-/** The day's draft board: 3 candidates per slot, same for every player. */
+/** A draft board: 3 candidates per slot, derived purely from the seed. */
 export function buildDraft(daySeed: number): DraftBoard {
   const options = {} as Record<SlotId, Pick[]>
   for (const slot of SLOT_ORDER) {
@@ -52,48 +56,28 @@ export function buildDraft(daySeed: number): DraftBoard {
   return { options }
 }
 
-/** The day's 82-war schedule, shared by every player. */
+/** The 50 wars in chronological order, with seeded difficulty jitter and weather. */
 export function buildSeason(daySeed: number): Game[] {
   const rng = mulberry32((daySeed ^ 0x51ed270b) >>> 0)
   const noiseRng = mulberry32((daySeed ^ 0x9e3779b9) >>> 0)
+  return SLATE.map((kind, index) => ({
+    index,
+    kind,
+    difficulty: kind.baseD + BAL.difficultyShift + (rng() * 2 - 1) * BAL.difficultyJitter,
+    noise: normal(noiseRng) * BAL.noiseSigma,
+  }))
+}
 
-  const kindSequence: typeof CAMPAIGN_KINDS = []
-  while (kindSequence.length < SEASON_LENGTH) {
-    kindSequence.push(...shuffled(CAMPAIGN_KINDS, rng))
-  }
+export interface DailyContext {
+  daySeed: number
+  board: DraftBoard
+  games: Game[]
+}
 
-  const enemyPool: string[] = []
-  while (enemyPool.length < SEASON_LENGTH) {
-    enemyPool.push(...shuffled(ENEMIES, rng))
-  }
-
-  const marquee = new Set<number>()
-  while (marquee.size < BAL.marqueeCount) {
-    marquee.add(8 + Math.floor(rng() * (SEASON_LENGTH - 8)))
-  }
-
-  const kindCounts = new Map<string, number>()
-  const games: Game[] = []
-  for (let i = 0; i < SEASON_LENGTH; i++) {
-    const kind = kindSequence[i]
-    const seen = kindCounts.get(kind.id) ?? 0
-    kindCounts.set(kind.id, seen + 1)
-    const isMarquee = marquee.has(i)
-    games.push({
-      index: i,
-      kind,
-      name: kind.names[seen % kind.names.length],
-      enemy: enemyPool[i],
-      difficulty:
-        kind.baseD +
-        BAL.difficultyShift +
-        (rng() * 2 - 1) * BAL.difficultyJitter +
-        (isMarquee ? BAL.marqueeBoost : 0),
-      noise: normal(noiseRng) * BAL.noiseSigma,
-      marquee: isMarquee,
-    })
-  }
-  return games
+/** One key → one board. No rerolls: the ceiling is whatever history dealt today. */
+export function buildDaily(key: string): DailyContext {
+  const daySeed = daySeedFrom(key)
+  return { daySeed, board: buildDraft(daySeed), games: buildSeason(daySeed) }
 }
 
 function normalizedWeights(kind: Game['kind']): Stats {
@@ -122,7 +106,13 @@ function pickExtras(pick: Pick, game: Game): number {
     extra += (pick.terrain?.[tag] ?? 0) * BAL.terrainScale
   }
   const sp = pick.special
-  if (sp && (sp.trigger === 'any' || sp.trigger === game.kind.id || game.kind.tags.includes(sp.trigger as never))) {
+  if (
+    sp &&
+    (sp.trigger === 'any' ||
+      sp.trigger === game.kind.id ||
+      game.kind.tags.includes(sp.trigger as never) ||
+      game.kind.tests.includes(sp.trigger))
+  ) {
     extra += sp.bonus * BAL.specialScale
   }
   return extra
@@ -176,8 +166,8 @@ export function simulate(team: Pick[], games: Game[], daySeed: number): SeasonRe
 }
 
 /**
- * Evaluate every possible team from today's board (3^8 = 6,561) and rank the player's
- * record among them. Runs in well under a second on anything with a battery.
+ * Evaluate every possible team from today's board (3^8 = 6,561) and rank the
+ * player's record among them. Also powers the daily perfect-season reroll.
  */
 export function rankTeams(board: DraftBoard, games: Game[], userWins: number): RankInfo {
   const slots = SLOT_ORDER.map((s) => board.options[s])
@@ -199,7 +189,7 @@ export function rankTeams(board: DraftBoard, games: Game[], userWins: number): R
     extrasByGame.push(eRow)
   }
   const thresholds = games.map((g) => g.difficulty + g.noise)
-  const taxBase = games.map((g) => BAL.taxK * (0.55 + weights[games.indexOf(g)].log * 2.2))
+  const taxBase = games.map((_, gi) => BAL.taxK * (0.55 + weights[gi].log * 2.2))
 
   const winCounts: number[] = []
   const combo = new Array<number>(8).fill(0)

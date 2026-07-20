@@ -84,14 +84,14 @@ export async function renderShareCard(
   ctx.fillText(grade.title, 0, 14)
   ctx.restore()
 
-  // W/L grid.
-  const cols = 14
-  const cell = 30
-  const gap = 8
+  // W/L grid — 50 wars, five rows of ten.
+  const cols = 10
+  const cell = 38
+  const gap = 9
   const rows = Math.ceil(season.results.length / cols)
   const gridW = cols * cell + (cols - 1) * gap
   const gx = (W - gridW) / 2
-  let gy = 772
+  let gy = 756
   season.results.forEach((r, i) => {
     const cx = gx + (i % cols) * (cell + gap)
     const cy = gy + Math.floor(i / cols) * (cell + gap)

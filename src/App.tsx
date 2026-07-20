@@ -4,12 +4,12 @@ import { Draft } from './components/Draft'
 import { Roster } from './components/Roster'
 import { Season } from './components/Season'
 import { Title } from './components/Title'
-import { buildDraft, buildSeason, daySeedFrom, rankTeams, simulate } from './game/engine'
+import { buildDaily, rankTeams, simulate } from './game/engine'
 import { buildDebrief, type Debrief as DebriefData } from './game/narrate'
 import { dayNumber, todayKey } from './game/rng'
 import { ALL_PICKS } from './game/roster'
 import { getDayRecord, getStats, setDayRecord } from './game/storage'
-import { SLOT_ORDER, type DraftBoard, type Pick, type RankInfo, type SeasonResult, type SlotId } from './game/types'
+import { SLOT_ORDER, type DraftBoard, type Game, type Pick, type RankInfo, type SeasonResult, type SlotId } from './game/types'
 
 type Phase = 'title' | 'draft' | 'roster' | 'season' | 'debrief'
 
@@ -18,6 +18,7 @@ interface Run {
   daySeed: number
   dayNo: number | null
   board: DraftBoard
+  games: Game[]
   picks: Partial<Record<SlotId, Pick>>
 }
 
@@ -46,8 +47,7 @@ export default function App() {
 
   const startDaily = useCallback(() => {
     const key = todayKey()
-    const daySeed = daySeedFrom(key)
-    const board = buildDraft(daySeed)
+    const { daySeed, board, games } = buildDaily(key)
     const existing = getDayRecord(key)
 
     if (existing) {
@@ -56,17 +56,16 @@ export default function App() {
         .map((id) => ALL_PICKS.find((p) => p.id === id))
         .filter((p): p is Pick => Boolean(p))
       if (picks.length === SLOT_ORDER.length) {
-        const games = buildSeason(daySeed)
         const season = simulate(picks, games, daySeed)
         const rank = rankTeams(board, games, season.wins)
-        setRun({ mode: 'daily', daySeed, dayNo: dayNumber(), board, picks: byslot(picks) })
+        setRun({ mode: 'daily', daySeed, dayNo: dayNumber(), board, games, picks: byslot(picks) })
         setOutcome({ season, rank, debrief: buildDebrief(season, rank) })
         setPhase('debrief')
         return
       }
     }
 
-    setRun({ mode: 'daily', daySeed, dayNo: dayNumber(), board, picks: {} })
+    setRun({ mode: 'daily', daySeed, dayNo: dayNumber(), board, games, picks: {} })
     setActiveSlot('commander')
     setReturnToRoster(false)
     setOutcome(null)
@@ -74,8 +73,9 @@ export default function App() {
   }, [])
 
   const startFree = useCallback(() => {
-    const daySeed = (Math.random() * 0xffffffff) >>> 0
-    setRun({ mode: 'free', daySeed, dayNo: null, board: buildDraft(daySeed), picks: {} })
+    const key = `free-${((Math.random() * 0xffffffff) >>> 0).toString(16)}`
+    const { daySeed, board, games } = buildDaily(key)
+    setRun({ mode: 'free', daySeed, dayNo: null, board, games, picks: {} })
     setActiveSlot('commander')
     setReturnToRoster(false)
     setOutcome(null)
@@ -108,9 +108,8 @@ export default function App() {
     if (!run) return
     const team = SLOT_ORDER.map((s) => run.picks[s]).filter((p): p is Pick => Boolean(p))
     if (team.length !== SLOT_ORDER.length) return
-    const games = buildSeason(run.daySeed)
-    const season = simulate(team, games, run.daySeed)
-    const rank = rankTeams(run.board, games, season.wins)
+    const season = simulate(team, run.games, run.daySeed)
+    const rank = rankTeams(run.board, run.games, season.wins)
     setOutcome({ season, rank, debrief: buildDebrief(season, rank) })
     if (run.mode === 'daily') {
       setDayRecord(todayKey(), {

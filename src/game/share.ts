@@ -7,8 +7,8 @@ export function shareText(season: SeasonResult, rank: RankInfo | null, dayNo: nu
   const cmd = season.team.find((p) => p.slot === 'commander')
   const rows: string[] = []
   const cells = season.results.map((r) => (r.won ? '🟩' : '🟥'))
-  for (let i = 0; i < cells.length; i += 14) {
-    rows.push(cells.slice(i, i + 14).join(''))
+  for (let i = 0; i < cells.length; i += 10) {
+    rows.push(cells.slice(i, i + 10).join(''))
   }
   const lines = [
     `UNDEFEATED ${dayNo ? `— Draft No. ${dayNo}` : '— Free Play'}`,

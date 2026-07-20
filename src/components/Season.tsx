@@ -3,8 +3,8 @@ import { ClassBar, Stamp, WLGrid } from './bits'
 import type { SeasonResult } from '../game/types'
 
 const FIRST_MS = 500
-const BASE_MS = 110
-const MARQUEE_HOLD_MS = 1100
+const BASE_MS = 120
+const BOSS_HOLD_MS = 1050
 const FINISH_MS = 900
 
 export function Season({ season, onDone }: { season: SeasonResult; onDone: () => void }) {
@@ -29,8 +29,8 @@ export function Season({ season, onDone }: { season: SeasonResult; onDone: () =>
       }
       return
     }
-    // Hold longer on a just-resolved grudge match so the stamp can land.
-    const delay = idx === 0 ? FIRST_MS : season.results[idx - 1].game.marquee ? MARQUEE_HOLD_MS : BASE_MS
+    // Hold longer on a just-resolved boss war so the stamp can land.
+    const delay = idx === 0 ? FIRST_MS : season.results[idx - 1].game.kind.boss ? BOSS_HOLD_MS : BASE_MS
     const t = setTimeout(() => setIdx((i) => i + 1), delay)
     return () => clearTimeout(t)
   }, [idx, total, season, onDone, reduced])
@@ -40,10 +40,13 @@ export function Season({ season, onDone }: { season: SeasonResult; onDone: () =>
   const shown = season.results[Math.max(0, Math.min(idx - 1, total - 1))]
   const resolved = idx > 0
   const finished = idx >= total
+  const kind = shown.game.kind
 
   return (
     <div className="season">
-      <ClassBar>LIVE FROM EVERY FRONT IN HISTORY · WAR {Math.max(1, Math.min(idx, 82))} OF 82</ClassBar>
+      <ClassBar>
+        MARCHING THROUGH HISTORY · WAR {Math.max(1, Math.min(idx, total))} OF {total}
+      </ClassBar>
 
       <div className="season__score" aria-live="polite">
         <span className="season__record">
@@ -52,14 +55,15 @@ export function Season({ season, onDone }: { season: SeasonResult; onDone: () =>
         <span className="season__recordLabel">RUNNING RECORD</span>
       </div>
 
-      <div
-        className={`season__now ${shown.game.marquee ? 'season__now--marquee' : ''}`}
-        key={resolved ? idx : 'first'}
-      >
-        {shown.game.marquee && <p className="season__grudge">★ GRUDGE MATCH ★</p>}
-        <h2 className="season__war">{shown.game.name}</h2>
-        <p className="season__enemy">vs {shown.game.enemy}</p>
-        <p className="season__desc">{shown.game.kind.desc}</p>
+      <div className={`season__now ${kind.boss ? 'season__now--boss' : ''}`} key={resolved ? idx : 'first'}>
+        {kind.boss && <p className="season__boss">★ BOSS FIGHT ★</p>}
+        <h2 className="season__war">{kind.name}</h2>
+        <p className="season__enemy">
+          {kind.era} · {kind.subtitle}
+        </p>
+        <p className="season__desc">
+          {kind.role === 'attacker' ? 'You attack' : 'You defend'} — {kind.objective}
+        </p>
         <div className="season__stampzone">
           {resolved ? (
             <div className="season__stamp" key={`stamp-${idx}`}>

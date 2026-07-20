@@ -62,7 +62,7 @@ export function Debrief({
             </span>
             <span className="chip chip--ink">TOP {Math.max(1, 100 - rank.percentile)}%</span>
             <span className="chip chip--ink">
-              BEST POSSIBLE TODAY: {rank.bestWins}–{82 - rank.bestWins} (×{rank.bestCount})
+              BEST POSSIBLE TODAY: {rank.bestWins}–{50 - rank.bestWins} (×{rank.bestCount})
             </span>
           </div>
         )}
@@ -88,10 +88,10 @@ export function Debrief({
                   {f.result.won ? 'W' : 'L'}
                 </Stamp>
               </header>
-              <h3 className="feat__war">{f.result.game.name}</h3>
+              <h3 className="feat__war">{f.result.game.kind.name}</h3>
               <p className="feat__enemy">
-                vs {f.result.game.enemy} · war {f.result.game.index + 1} of 82 ·{' '}
-                {marginLabel(f.result.margin)}
+                {f.result.game.kind.subtitle} · {f.result.game.kind.era} · war{' '}
+                {f.result.game.index + 1} of 50 · {marginLabel(f.result.margin)}
               </p>
               <p className="feat__body">{f.writeup}</p>
               {f.unitLine && <p className="feat__quote">“{f.unitLine}”</p>}
@@ -123,8 +123,8 @@ export function Debrief({
         <p className="debrief__legend">
           <span className="wlcell wlcell--w wlcell--inline" /> victory ·{' '}
           <span className="wlcell wlcell--l wlcell--inline" /> defeat ·{' '}
-          <span className="wlcell wlcell--marquee wlcell--inline" /> grudge match — hover any square
-          for the war
+          <span className="wlcell wlcell--boss wlcell--inline" /> boss fight — hover any square for
+          the war
         </p>
       </section>
 

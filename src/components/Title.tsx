@@ -24,7 +24,7 @@ export function Title({
         <p className="title__pre">THE ALL-TIME WAR DRAFT</p>
         <h1 className="title__word">UNDEFEATED</h1>
         <p className="title__tag">
-          Draft an army across 3,000 years. Fight all 82 wars. <em>Try</em> to go undefeated.
+          Fifty wars. One impossible army. <em>Can you go 50–0?</em>
         </p>
       </div>
 
@@ -50,7 +50,7 @@ export function Title({
         </div>
         <div>
           <dt>Best record</dt>
-          <dd>{stats.played ? `${stats.best}–${82 - stats.best}` : '—'}</dd>
+          <dd>{stats.played ? `${stats.best}–${50 - stats.best}` : '—'}</dd>
         </div>
         <div>
           <dt>Day streak</dt>
@@ -72,8 +72,9 @@ export function Title({
               today.
             </li>
             <li>
-              <strong>Fight the season</strong> — 82 wars across every terrain history offers:
-              frozen marches, jungle labyrinths, absurd fronts.
+              <strong>March through history</strong> — all 50 of its defining wars, in
+              chronological order, from the Hot Gates to the Gulf. Five are boss fights.
+              The ceiling varies by day; perfection is not always on the menu.
             </li>
             <li>
               <strong>Mind the timeline</strong> — an army spanning 25 centuries pays an

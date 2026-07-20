@@ -115,17 +115,35 @@ export interface Pick {
   adaptability?: number
 }
 
+/**
+ * One of the 50 historical challenge cards. Each is a military problem, not a
+ * re-enactment: the player's anachronistic army faces the war's defining challenge.
+ */
 export interface CampaignKind {
   id: string
-  /** Display name variants, cycled for repeat appearances. */
-  names: string[]
+  /** Historical name, e.g. "Normandy". */
+  name: string
+  /** The comedy subtitle, e.g. "The Stormed Shore". */
+  subtitle: string
+  /** Display era, e.g. "1944" or "480 BCE". */
+  era: string
+  /** The military problem, phrased as an objective. */
+  objective: string
+  role: 'attacker' | 'defender'
   tags: Terrain[]
+  /**
+   * What this war tests — controlled vocabulary used for special-rule triggers
+   * and slate-balance linting: naval, air, airsup, siege, irregular, logistics,
+   * supply, intel, coalition, defense, amphibious, blitz, trench, expedition,
+   * propaganda, absurd, blockade.
+   */
+  tests: string[]
   /** Partial weights over stats; normalized by the engine. */
   weights: Partial<Stats>
   baseD: number
-  /** Short descriptor for schedule rows, e.g. "winter offensive". */
-  desc: string
-  /** Templates for featured-game write-ups. {unit}, {enemy} are substituted. */
+  /** Boss cards: harder, held on-screen longer, narratively loud. */
+  boss?: boolean
+  /** Templates for featured-game write-ups. {unit} is substituted. */
   winTemplates: string[]
   lossTemplates: string[]
 }
@@ -133,11 +151,8 @@ export interface CampaignKind {
 export interface Game {
   index: number
   kind: CampaignKind
-  name: string
-  enemy: string
   difficulty: number
   noise: number
-  marquee: boolean
 }
 
 export interface GameResult {
