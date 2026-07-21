@@ -2,6 +2,63 @@
 
 Format: date · decision · who · rejected alternatives · why.
 
+**2026-07-20 · Depth floor of 5, per-round overrides, plain-language era hints** · owner
+("still seeing 4s; eras need to be approachable; one era and one branch override per
+round") · Rejected: renaming the eras (the DECLASSIFIED-file register is the aesthetic —
+hints beat renames); rejected: unlimited transfers within a round (transfer chains must
+terminate; one per chair per round keeps the re-draft loop finite). · (1) `roster6.ts`
+adds 32 cards, one per remaining 4-pick cell: every menu on the 58-cell grid now shows
+5–7 choices (roster 271). (2) Every era now carries a cheat line (`ERA_HINTS`: year span
++ three touchstones, e.g. ANTIQUITY "to 500 CE · legions, phalanxes, war elephants"),
+rendered under the wheel reels, on the Era Override tooltip, and in the dossier; the
+stale "three candidates per slot" dossier copy replaced with the wheel + overrides
+rules. (3) The strategy layer becomes TWO BLIND RE-ROLLS PER ROUND (owner spec, reversing both
+the 1a opportunity-cost design and the builder's first misread of it as per-round
+Branch *Transfer*, then a second misread as a destination-previewing "Branch Override"
+button): every round you may spin the era again, spin the branch again, or both — once
+each, destination hidden until the reel lands. Determinism holds: the landing era is
+the round's seeded `altEra`, the landing branch the seeded `altSlot`, same for every
+player. A re-rolled branch trades chairs with the (undrafted) round holding it — the
+branch you leave returns later under that round's era — because the engine requires
+all eight chairs filled exactly once; `swapIsLegal` re-validates at click time, and a
+chair whose traded-in era can't host the seeded altEra simply loses that button (rare).
+Branch Transfer (dual-role units) stays as a third lever, also per-round. Command HQ
+still plays orders-as-dealt — more beatable by design, the honest yardstick, not a cap.
+Old records aren't comparable → SCENARIO_VERSION 3 → 5; ROSTER_VERSION 5 → 6;
+difficultyShift 1.6 → 1.7 re-holds the ceiling texture (median ≈26.6, perfect 13/24).
+Parity ✓, worst legal board 972k lineups (budget holds).
+
+**2026-07-20 · Phase 1b ships whole: 124 cards, 58 active cells, no more four-card
+menus** · owner ("more options for the whole game, don't hold the player to 4"),
+overriding 1a's prove-the-loop gate; builder executed · Rejected: commander-only fix
+(shipped first, owner widened scope same day); rejected: sub-sampling big cells (random
+4 of N per day) — nondeterministic menus break "same board for everyone" and Command HQ
+enumeration; rejected: literal unlimited pools — ceiling/ARMY# enumerate the full lineup
+space, so cells cap near 7 to keep the worst legal board under ~1M lineups (measured
+907k; enumeration stays browser-fast). · `roster3.ts` (24 commanders, nine eras),
+`roster4.ts` (56: ground/armor/air/navy), `roster5.ts` (44: intel/logistics/wildcard);
+roster 139 → 239. Every previously-active cell deepens to 4–7; ground/navy/logistics
+open to eight eras, armor/intel/wildcard to seven; stranded cards (Emu War Veterans,
+the Balloon Corps, La Grande Batterie, Mark IV Tanks, M1 Abrams, U-boats, Airlift
+Command, the Baltic Fleet) become dealable. POSTCOLD stays closed everywhere
+(active-conflict adjacency), as do the historically empty corners (medieval flight,
+industrial armor). Sensitivity calls: Schwarzkopf over Manekshaw (slate dropped
+Indo-Pak '71 for tone), Kemal snapshot 1915 pre-surname, Giap snapshot 1954 (French
+war, resolved), no Confederate or Wehrmacht cards (Emden passes as the enemy-eulogized
+gentleman raider; WWI Imperial Germany ≠ WWII), Assassins of Alamut jokes stay on
+contracts, not victims. New bridge fields only on true signal systems (Chappe, Beacon
+Line, Hotline; plus commander Moltke) — C2 glue stays rare. Dealer: outright board
+enumeration died at this grid size (millions of boards, app-load cost); `buildOrders`
+v3 rejection-samples a uniform proposal against the same two table rules — still
+seeded, still exactly uniform over legal boards, 2,000 boards dealt in 17ms, zero
+violations in sample. Band re-baselined per standing rule (owner call): deeper menus
+raise the field median by design, so difficultyShift 1.2 → 1.6 preserves the ceiling
+texture instead (field median ≈26, ceilings 50×15/49×5/48×3/≤47×1, perfect 15/24;
+forcing median back to 23.5 at shift 1.8 cost the 50–0 chase — 9/24 — rejected).
+Contest probes: commander cells (all nine) and navy cells (all five sampled)
+multi-winner, no Zelensky-pattern auto-picks. ROSTER_VERSION 4 → 5; SCENARIO_VERSION
+2 → 3; RULESET_VERSION unchanged (no scoring-kernel edits). Parity gate ✓.
+
 **2026-07-20 · 50-war named historical slate replaces 24 abstract archetypes** · owner+builder
 · Rejected: 82 abstract wars with fake enemies. · Named wars ("my army lost NORMANDY") are
 the better screenshot; objective framing ("establish and supply a beachhead") solves the

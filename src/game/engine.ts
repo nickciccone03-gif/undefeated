@@ -43,12 +43,12 @@ import {
 
 export const SEASON_LENGTH = SLATE.length // 50
 
-/** v4: era-relative realism pass (RATINGS.md) atop v3's bridge fields + 2020s rebalance. */
-export const ROSTER_VERSION = 4
+/** v6: Phase 1b depth pass — every cell floored at 5 picks (roster6, 156 cards over v4). */
+export const ROSTER_VERSION = 6
 /** v3: seat-emphasis scoring + C2 as a mitigation delta (see warScore). */
 export const RULESET_VERSION = 3
-/** v2: uniform board dealer — era repeats (≤2) allowed, conflict pairs barred. */
-export const SCENARIO_VERSION = 2
+/** v5: two seeded re-rolls per round (era via altEra, branch via altSlot trade) + per-round Transfer. */
+export const SCENARIO_VERSION = 5
 
 /** Balance constants — tuned via scripts/balance.ts. */
 export const BAL = {
@@ -58,7 +58,7 @@ export const BAL = {
   cmdBase: 0.85,
   cmdPerLeadership: 0.035,
   difficultyJitter: 0.3,
-  difficultyShift: 1.2,
+  difficultyShift: 1.7,
   // Compatibility model.
   sustainBase: 0.16,
   sustainLogWeight: 0.9,
@@ -70,18 +70,31 @@ export const BAL = {
 }
 
 /**
- * Phase 1a active cells: only these (era × slot) requisitions can be dealt.
- * Every active cell has ≥4 real choices. Inactive cells open in Phase 1b.
+ * Active cells: only these (era × slot) requisitions can be dealt. Every
+ * active cell has ≥4 real choices (linted by scripts/balance.ts). Phase 1b
+ * opened the full grid — 58 cells — leaving only POSTCOLD closed everywhere
+ * (active-conflict adjacency) plus the historically empty corners (medieval
+ * flight, industrial armor, gunpowder skies).
  */
 export const ACTIVE_CELLS: Record<SlotId, EraId[]> = {
-  commander: ['antiquity', 'medieval', 'ww2', 'twenties'],
-  ground: ['antiquity', 'medieval', 'gunpowder', 'ww2'],
-  armor: ['antiquity', 'ww2'],
+  commander: [
+    'antiquity',
+    'medieval',
+    'gunpowder',
+    'sail',
+    'industrial',
+    'ww1',
+    'ww2',
+    'coldwar',
+    'twenties',
+  ],
+  ground: ['antiquity', 'medieval', 'gunpowder', 'sail', 'industrial', 'ww1', 'ww2', 'coldwar'],
+  armor: ['antiquity', 'medieval', 'gunpowder', 'sail', 'ww1', 'ww2', 'coldwar'],
   air: ['antiquity', 'ww1', 'ww2', 'coldwar'],
-  navy: ['medieval', 'sail', 'ww2'],
-  intel: ['antiquity', 'ww2', 'coldwar'],
-  logistics: ['antiquity', 'medieval', 'ww2'],
-  wildcard: ['antiquity', 'twenties'],
+  navy: ['antiquity', 'medieval', 'gunpowder', 'sail', 'industrial', 'ww1', 'ww2', 'coldwar'],
+  intel: ['antiquity', 'medieval', 'gunpowder', 'sail', 'ww1', 'ww2', 'coldwar'],
+  logistics: ['antiquity', 'medieval', 'gunpowder', 'sail', 'industrial', 'ww1', 'ww2', 'coldwar'],
+  wildcard: ['antiquity', 'medieval', 'sail', 'ww1', 'ww2', 'coldwar', 'twenties'],
 }
 
 /** All picks eligible for a cell: era matches and the slot is primary or secondary. */
@@ -137,47 +150,89 @@ export function buildSeason(daySeed: number): Game[] {
  * slot an era from its active cells, with two table rules: an era may repeat
  * across at most two slots (a day can't deal ANTIQUITY four times), and two
  * slots may share an era only if their cells share no card (see ERA_CONFLICTS).
- * The space is small enough to enumerate outright — no biased backtracking.
- * An Era Override may still introduce extra repeats — that's the player's call.
+ *
+ * v3 (Phase 1b grid): the legal space is millions of boards, so outright
+ * enumeration is gone. Instead we rejection-sample: propose independent
+ * uniform era draws per slot, accept iff the table rules hold. A uniform
+ * proposal filtered to the legal set is still exactly uniform over legal
+ * boards, and the draw stays seeded and deterministic — same board for
+ * everyone. An Era Override may still introduce extra repeats — player's call.
  */
+/**
+ * Would trading branches between rounds i and j leave a legal board? `eras`
+ * are the rounds' EFFECTIVE eras (era overrides applied) — the dealer passes
+ * the dealt ones. A branch trade never changes era counts, so only two things
+ * need checking: both traded cells are active, and no same-era slot pair
+ * shares a card (ERA_CONFLICTS) on the traded board.
+ */
+export function swapIsLegal(
+  orders: Requisition[],
+  i: number,
+  j: number,
+  eras: EraId[],
+): boolean {
+  const slots = orders.map((o) => o.slot)
+  const si = slots[i]
+  slots[i] = slots[j]
+  slots[j] = si
+  if (!ACTIVE_CELLS[slots[i]].includes(eras[i])) return false
+  if (!ACTIVE_CELLS[slots[j]].includes(eras[j])) return false
+  for (let a = 0; a < slots.length; a++)
+    for (let b = a + 1; b < slots.length; b++)
+      if (eras[a] === eras[b] && ERA_CONFLICTS.has(`${eras[a]}:${slots[a]}:${slots[b]}`))
+        return false
+  return true
+}
+
 export function buildOrders(daySeed: number): Requisition[] {
   const rng = mulberry32((daySeed ^ 0x08de15) >>> 0)
   const sequence = shuffled(SLOT_ORDER, rng)
 
-  const boards: EraId[][] = []
-  const board: EraId[] = []
-  const eraCount = new Map<EraId, number>()
-  const dig = (i: number): void => {
-    if (i === SLOT_ORDER.length) {
-      boards.push([...board])
-      return
-    }
-    const slot = SLOT_ORDER[i]
-    for (const era of ACTIVE_CELLS[slot]) {
-      const n = eraCount.get(era) ?? 0
-      if (n >= 2) continue
-      if (n === 1 && ERA_CONFLICTS.has(`${era}:${SLOT_ORDER[board.indexOf(era)]}:${slot}`)) continue
-      eraCount.set(era, n + 1)
-      board.push(era)
-      dig(i + 1)
-      board.pop()
-      eraCount.set(era, n)
-    }
-  }
-  dig(0)
+  const propose = (): EraId[] =>
+    SLOT_ORDER.map((slot) => ACTIVE_CELLS[slot][Math.floor(rng() * ACTIVE_CELLS[slot].length)])
 
-  // Fallback if future cell changes empty the space: independent seeded draws.
-  const dealt = boards.length
-    ? boards[Math.floor(rng() * boards.length)]
-    : SLOT_ORDER.map((slot) => ACTIVE_CELLS[slot][Math.floor(rng() * ACTIVE_CELLS[slot].length)])
+  const legal = (board: EraId[]): boolean => {
+    const count = new Map<EraId, number>()
+    for (const era of board) {
+      const n = (count.get(era) ?? 0) + 1
+      if (n > 2) return false
+      count.set(era, n)
+    }
+    for (let i = 0; i < board.length; i++)
+      for (let j = i + 1; j < board.length; j++)
+        if (
+          board[i] === board[j] &&
+          ERA_CONFLICTS.has(`${board[i]}:${SLOT_ORDER[i]}:${SLOT_ORDER[j]}`)
+        )
+          return false
+    return true
+  }
+
+  // Acceptance runs ~50% on the 1b grid; 4096 tries cannot practically miss.
+  let dealt = propose()
+  for (let tries = 0; tries < 4096 && !legal(dealt); tries++) dealt = propose()
 
   const eraBySlot = new Map<SlotId, EraId>(SLOT_ORDER.map((s, i) => [s, dealt[i]]))
-  return sequence.map((slot) => {
+  const orders: Requisition[] = sequence.map((slot) => {
     const era = eraBySlot.get(slot)!
     const others = ACTIVE_CELLS[slot].filter((e) => e !== era)
     const altEra = others[Math.floor(rng() * others.length)]
-    return { slot, era, altEra }
+    return { slot, era, altEra, altSlot: slot }
   })
+
+  // Branch Override partners: drawn after everything above, so the board and
+  // altEras are byte-identical to scenario v4. Each round offers the first
+  // legal trade from a seeded shuffle; altSlot === slot means no legal trade.
+  const eras = orders.map((o) => o.era)
+  const indices = orders.map((_, k) => k)
+  for (let i = 0; i < orders.length; i++) {
+    const partner = shuffled(
+      indices.filter((k) => k !== i),
+      rng,
+    ).find((k) => swapIsLegal(orders, i, k, eras))
+    if (partner !== undefined) orders[i].altSlot = orders[partner].slot
+  }
+  return orders
 }
 
 /** Table-rule check, shared with scripts/: null if the board is legal, else why not. */

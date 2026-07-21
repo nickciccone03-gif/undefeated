@@ -14,6 +14,10 @@
  */
 import type { Pick, Stats } from './types'
 import { EXPANSION } from './roster2'
+import { COMMANDERS_1B } from './roster3'
+import { AIR_1B, ARMOR_1B, GROUND_1B, NAVY_1B } from './roster4'
+import { INTEL_1B, LOGISTICS_1B, WILDCARD_1B } from './roster5'
+import { DEPTH_1B } from './roster6'
 
 const s = (
   atk: number,
@@ -1305,11 +1309,27 @@ const BASE: Record<string, Pick[]> = {
   wildcard: WILDCARD,
 }
 
-/** Base pools plus the Phase 1a expansion, keyed by primary slot. */
+/** Base pools plus the Phase 1a expansion and the full Phase 1b packs, keyed by primary slot. */
+const PHASE_1B: Pick[] = [
+  ...COMMANDERS_1B,
+  ...GROUND_1B,
+  ...ARMOR_1B,
+  ...AIR_1B,
+  ...NAVY_1B,
+  ...INTEL_1B,
+  ...LOGISTICS_1B,
+  ...WILDCARD_1B,
+  ...DEPTH_1B,
+]
+
 export const POOLS: Record<string, Pick[]> = Object.fromEntries(
   Object.entries(BASE).map(([slot, arr]) => [
     slot,
-    [...arr, ...EXPANSION.filter((p) => p.slot === slot)],
+    [
+      ...arr,
+      ...EXPANSION.filter((p) => p.slot === slot),
+      ...PHASE_1B.filter((p) => p.slot === slot),
+    ],
   ]),
 )
 

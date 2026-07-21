@@ -1237,6 +1237,16 @@ button {
   filter: blur(0.4px);
 }
 
+.wheel__hint {
+  display: block;
+  margin-top: 5px;
+  font-family: var(--f-mono);
+  font-size: 11px;
+  letter-spacing: 0.4px;
+  line-height: 1.35;
+  color: var(--ink-soft);
+}
+
 .wheel__x {
   font-family: var(--f-display);
   font-size: 30px;

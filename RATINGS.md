@@ -1,7 +1,8 @@
 # RATINGS.md — The Stat Rubric (Source of Truth)
 
 Every card's seven stats follow this document. If a number in `roster.ts` / `roster2.ts`
-disagrees with this rubric, one of them is wrong — fix it here first, then in the data.
+/ `roster3.ts` disagrees with this rubric, one of them is wrong — fix it here first,
+then in the data.
 Read this before adding or re-rating **any** card.
 
 ## The scale: era-relative, 1–10
@@ -78,13 +79,17 @@ the reputation ("the numbers argue back").
 ## Balance band (the numbers this roster is tuned to)
 
 Measured by `scripts/balance.ts` on 24 sampled daily boards, scoring v3
-(RULESET_VERSION 3), `difficultyShift: 1.2`, ROSTER_VERSION 4:
+(RULESET_VERSION 3), `difficultyShift: 1.7`, ROSTER_VERSION 6, SCENARIO_VERSION 5:
 
-- avg optimal-play median ≈ 23.5, avg ceiling ≈ 49.7
-- ceiling distribution ≈ 50×16 · 49×8
-- perfect-possible days ≈ 16/24 (the realism pass compressed the top-vs-field
-  spread; fewer guaranteed-perfect days is accepted content per the
-  variable-ceilings decision)
+- avg field median ≈ 26.6, avg ceiling ≈ 49.2
+- ceiling distribution ≈ 50×13 · 49×8 · 48×1 · ≤47×2
+- perfect-possible days ≈ 13/24
+
+Re-baselined for Phase 1b (owner call): the field median runs ~2.5 wins above
+the old 23.5 target **by design** — every menu now holds 4–7 real choices, so
+the average lineup is simply better. The ceiling texture (≈15/24 perfect days,
+avg ceiling ≈ 49.4) is the preserved constant; pushing the median back to 23.5
+would have cost the 50–0 chase (9/24 perfect days at shift 1.8 — rejected).
 
 If a stat change moves these materially, either the change is wrong or
 `difficultyShift` needs re-centering — decide explicitly, never drift silently.
@@ -109,6 +114,33 @@ merge (difficultyShift 0.9 → 1.2 for the stronger roster). The parity gate
 
 ## Changelog
 
+- **2026-07-20 — v3.** Depth floor (`roster6.ts`): +32 cards, one per remaining
+  4-pick cell — every menu on the 58-cell grid now holds 5–7 choices (roster
+  239 → 271). Same rubric discipline: era-relative silhouettes with citable
+  extremes (Nelson FIRE 10/DEF 5 and the blind-eye loss line; the Ever Given
+  DEF 9/MOB 1 — it is famous for exactly those two numbers; Foch MRLE 10, the
+  quote is the citation; Panjandrum INTL 1, direction was a suggestion).
+  Field strengthened again → `difficultyShift` 1.6 → 1.7 (field median ≈26.6,
+  ceilings 50×13/49×8/48×1/≤47×2, perfect 13/24 — ceiling texture held).
+  ROSTER_VERSION 5 → 6; SCENARIO_VERSION 3 → 5 (two seeded re-rolls per round —
+  era and branch — plus per-round Branch Transfer; a rules-of-play change,
+  scoring kernel untouched).
+- **2026-07-20 — v2.** Phase 1b (`roster3/4/5.ts`): 124 new cards (roster 139 →
+  239), all rated era-relative under this rubric; the active grid opens 30 → 58
+  cells and every menu deepens to 4–7 choices. Commander row alone: 24 new
+  commanders across nine eras, totals 44–56 by design (multiplier seat); every
+  8+/≤3 citable (MacArthur INTL 3: dismissed intervention warnings; Washington
+  LOG 4: Valley Forge; Garibaldi LOG 3: the Thousand; Suvorov TECH 4: "the
+  bullet is a fool"; Pershing MOB 4: the Meuse-Argonne road jam). New attested
+  absurdities rated as what they literally were (Kettle War 21, Napoleon's
+  Rabbit Ambush 27, Tsar Cannon 29 — the Baltic Fleet standard). New `bridge`
+  cards are true signal systems only (Chappe Telegraph, the Beacon Line, the
+  Hotline, each 1) plus Moltke the Elder (1 — the general staff is doctrine
+  glue by definition). Contest probes: commander and navy cells all
+  multi-winner (top-vs-2nd ≤0.4 wins; Slim leadership trimmed 10 → 9 to keep
+  Eisenhower's 9 as the era benchmark). Deeper menus strengthen the field →
+  `difficultyShift` 1.2 → 1.6 and the band re-baselined (see above);
+  ROSTER_VERSION 4 → 5, SCENARIO_VERSION 2 → 3 (rejection-sampled dealer).
 - **2026-07-20 — v1.** Rubric codified; realism pass across 57 cards (44 raises,
   13 downward corrections). Killed the half-applied absolute scale that dumped
   TECH/INTL on every pre-modern card (worst-chip share: −TECH 31%→23%, −INTL

@@ -91,9 +91,15 @@ export function Title({
           <h2 className="h-rule">FIELD MANUAL</h2>
           <ol>
             <li>
-              <strong>Draft 8 units</strong> — commander, ground, armor, air, navy, intelligence,
-              logistics, and one wild card. Three candidates per slot. Everyone gets the same board
-              today.
+              <strong>Draft 8 units</strong> — the wheel deals each chair an era (ANTIQUITY through
+              THE 2020s — each comes with a plain-language cheat line) and you pick anyone from that
+              era's full pool. Everyone gets the same board today.
+            </li>
+            <li>
+              <strong>Two re-rolls per round</strong> — don't like the deal? Spin the era again,
+              spin the branch again, or both. You keep what you land on, and a re-rolled branch
+              comes back up in a later round (the army still needs all eight chairs). Dual-role
+              units can also Branch Transfer between chairs, once per round.
             </li>
             <li>
               <strong>March through history</strong> — all 50 of its defining wars, in

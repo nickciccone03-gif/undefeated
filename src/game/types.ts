@@ -82,6 +82,20 @@ export const ERA_LABELS: Record<EraId, string> = {
   twenties: 'THE 2020s',
 }
 
+/** Plain-language era anchors: year span + three touchstones. Shown under the wheel. */
+export const ERA_HINTS: Record<EraId, string> = {
+  antiquity: 'to 500 CE · legions, phalanxes, war elephants',
+  medieval: '500–1450 · knights, Mongols, castles',
+  gunpowder: '1450–1700 · muskets, galleons, samurai',
+  sail: '1700–1850 · Napoleon, redcoats, frigates',
+  industrial: '1850–1913 · railroads, ironclads, empires',
+  ww1: '1914–1938 · trenches, biplanes, the first tanks',
+  ww2: '1939–1945 · the big one',
+  coldwar: '1946–1991 · jets, submarines, spies',
+  postcold: '1992–2019 · precision wars, peacekeepers',
+  twenties: '2020s · drones, satellites, the news',
+}
+
 /** Era bucket from a snapshot year. */
 export function eraOf(year: number): EraId {
   if (year <= 500) return 'antiquity'
@@ -191,8 +205,16 @@ export interface Pick {
 export interface Requisition {
   slot: SlotId
   era: EraId
-  /** Predefined alternate era for the (single) Era Override — same for every player. */
+  /** Predefined alternate era for this round's Era Override — same for every player. */
   altEra: EraId
+  /**
+   * Predefined partner chair for this round's Branch Override — same for every
+   * player. Using it trades branches with the round that holds this chair: you
+   * draft altSlot from this round's era now, and your original branch comes up
+   * later under the partner round's era. Equals `slot` when the dealt board
+   * offers no legal trade.
+   */
+  altSlot: SlotId
 }
 
 /**

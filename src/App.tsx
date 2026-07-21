@@ -4,7 +4,15 @@ import { RequisitionDraft } from './components/Wheel'
 import { Roster } from './components/Roster'
 import { Season } from './components/Season'
 import { Title } from './components/Title'
-import { buildDaily, cellPicks, compatSummary, rankTeams, simulate } from './game/engine'
+import {
+  ACTIVE_CELLS,
+  buildDaily,
+  cellPicks,
+  compatSummary,
+  rankTeams,
+  simulate,
+  swapIsLegal,
+} from './game/engine'
 import { buildDebrief, type Debrief as DebriefData } from './game/narrate'
 import { dayNumber, todayKey } from './game/rng'
 import { ALL_PICKS } from './game/roster'
@@ -37,9 +45,12 @@ interface Run {
   dayNo: number | null
   orders: Requisition[]
   games: Game[]
-  eraOverrides: Partial<Record<SlotId, EraId>>
-  overrideUsed: boolean
-  transferUsed: boolean
+  /** Era flips, keyed by ROUND INDEX — eras belong to rounds, and branch trades move chairs between rounds. */
+  eraOverrides: Partial<Record<number, EraId>>
+  /** Rounds that already spent their one Branch Override (paired branch trade). */
+  branchUsed: Partial<Record<number, true>>
+  /** Chairs that already spent their one Branch Transfer while being drafted. */
+  transfersUsed: Partial<Record<SlotId, true>>
   roundIdx: number
   redoSlot: SlotId | null
   returnToRoster: boolean
@@ -83,8 +94,8 @@ export default function App() {
       orders,
       games,
       eraOverrides: {},
-      overrideUsed: false,
-      transferUsed: false,
+      branchUsed: {},
+      transfersUsed: {},
       roundIdx: 0,
       redoSlot: null,
       returnToRoster: false,
@@ -156,10 +167,12 @@ export default function App() {
 
   const currentOrder = useMemo(() => {
     if (!run) return null
-    const slot = run.redoSlot ?? run.orders[run.roundIdx]?.slot
-    if (!slot) return null
-    const base = run.orders.find((o) => o.slot === slot)!
-    return { ...base, era: run.eraOverrides[slot] ?? base.era }
+    const idx = run.redoSlot
+      ? run.orders.findIndex((o) => o.slot === run.redoSlot)
+      : run.roundIdx
+    const base = run.orders[idx]
+    if (!base) return null
+    return { ...base, era: run.eraOverrides[idx] ?? base.era, idx }
   }, [run])
 
   const advance = (r: Run, nextPicks: Partial<Record<SlotId, Pick>>): void => {
@@ -187,21 +200,69 @@ export default function App() {
     [run, currentOrder],
   )
 
-  const onOverride = useCallback(() => {
-    if (!run || !currentOrder || run.overrideUsed) return
+  /**
+   * Era re-roll: one per round. The landing era is seeded into the day's
+   * orders (altEra) — the same gamble for every player — and only revealed by
+   * the reel. Unavailable if a branch re-roll moved a chair here whose active
+   * eras don't include the seeded result.
+   */
+  const eraRerollAvailable = Boolean(
+    run &&
+      currentOrder &&
+      !run.eraOverrides[currentOrder.idx] &&
+      ACTIVE_CELLS[currentOrder.slot].includes(currentOrder.altEra),
+  )
+
+  const onRerollEra = useCallback(() => {
+    if (!run || !currentOrder || !eraRerollAvailable) return
     setRun({
       ...run,
-      overrideUsed: true,
-      eraOverrides: { ...run.eraOverrides, [currentOrder.slot]: currentOrder.altEra },
+      eraOverrides: { ...run.eraOverrides, [currentOrder.idx]: currentOrder.altEra },
     })
+  }, [run, currentOrder, eraRerollAvailable])
+
+  /**
+   * Branch re-roll: one per round. The landing branch is seeded into the
+   * day's orders (altSlot); under the hood the two rounds trade chairs so the
+   * army still fills all eight — the branch you leave comes back up later
+   * under the partner round's era.
+   */
+  const branchTarget = useMemo(() => {
+    if (!run || !currentOrder || run.redoSlot) return null
+    const i = currentOrder.idx
+    if (run.branchUsed[i]) return null
+    const targetSlot = run.orders[i].altSlot
+    if (targetSlot === run.orders[i].slot) return null
+    const j = run.orders.findIndex((o) => o.slot === targetSlot)
+    if (j < 0 || j === i || run.picks[targetSlot]) return null
+    const eras = run.orders.map((o, k) => run.eraOverrides[k] ?? o.era)
+    if (!swapIsLegal(run.orders, i, j, eras)) return null
+    return { partnerIdx: j, slot: targetSlot }
   }, [run, currentOrder])
+
+  const onRerollBranch = useCallback(() => {
+    if (!run || !currentOrder || !branchTarget) return
+    const i = currentOrder.idx
+    const j = branchTarget.partnerIdx
+    const orders = run.orders.map((o) => ({ ...o }))
+    const traded = orders[i].slot
+    orders[i].slot = orders[j].slot
+    orders[j].slot = traded
+    setRun({ ...run, orders, branchUsed: { ...run.branchUsed, [i]: true } })
+  }, [run, currentOrder, branchTarget])
 
   const onTransfer = useCallback(
     (fromSlot: SlotId, pick: Pick) => {
-      if (!run || !currentOrder || run.transferUsed) return
+      // One branch transfer per round: each chair may pull one drafted unit across once.
+      if (!run || !currentOrder || run.transfersUsed[currentOrder.slot]) return
       const picks = { ...run.picks, [currentOrder.slot]: pick }
       delete picks[fromSlot]
-      setRun({ ...run, picks, transferUsed: true, redoSlot: fromSlot })
+      setRun({
+        ...run,
+        picks,
+        transfersUsed: { ...run.transfersUsed, [currentOrder.slot]: true },
+        redoSlot: fromSlot,
+      })
     },
     [run, currentOrder],
   )
@@ -258,12 +319,14 @@ export default function App() {
           totalRounds={run.orders.length}
           picks={run.picks}
           usedIds={usedIds}
-          overrideUsed={run.overrideUsed}
-          transferUsed={run.transferUsed}
+          eraReroll={eraRerollAvailable}
+          branchReroll={branchTarget !== null}
+          transferUsed={Boolean(run.transfersUsed[currentOrder.slot])}
           isRedo={run.redoSlot !== null && !run.returnToRoster}
           settings={settings}
           onDraft={onDraft}
-          onOverride={onOverride}
+          onRerollEra={onRerollEra}
+          onRerollBranch={onRerollBranch}
           onTransfer={onTransfer}
         />
       )}

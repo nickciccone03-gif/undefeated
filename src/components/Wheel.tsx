@@ -4,6 +4,7 @@ import { cellPicks } from '../game/engine'
 import type { Settings } from '../game/storage'
 import { yearLabel } from '../game/roster'
 import {
+  ERA_HINTS,
   ERA_LABELS,
   ERA_ORDER,
   SLOT_LABELS,
@@ -42,12 +43,14 @@ export function RequisitionDraft({
   totalRounds,
   picks,
   usedIds,
-  overrideUsed,
+  eraReroll,
+  branchReroll,
   transferUsed,
   isRedo,
   settings,
   onDraft,
-  onOverride,
+  onRerollEra,
+  onRerollBranch,
   onTransfer,
 }: {
   order: Requisition & { era: EraId }
@@ -55,12 +58,16 @@ export function RequisitionDraft({
   totalRounds: number
   picks: Partial<Record<SlotId, Pick>>
   usedIds: Set<string>
-  overrideUsed: boolean
+  /** This round's era re-roll is still available. */
+  eraReroll: boolean
+  /** This round's branch re-roll is still available. */
+  branchReroll: boolean
   transferUsed: boolean
   isRedo: boolean
   settings: Settings
   onDraft: (pick: Pick) => void
-  onOverride: () => void
+  onRerollEra: () => void
+  onRerollBranch: () => void
   onTransfer: (fromSlot: SlotId, pick: Pick) => void
 }) {
   const reduced =
@@ -142,20 +149,35 @@ export function RequisitionDraft({
         <div className="wheel__reel">
           <span className="wheel__label">ERA</span>
           <span className="wheel__value">{reelEra}</span>
+          {!spinning && <span className="wheel__hint">{ERA_HINTS[order.era]}</span>}
         </div>
         <span className="wheel__x">×</span>
         <div className="wheel__reel">
           <span className="wheel__label">BRANCH</span>
           <span className="wheel__value">{reelSlot}</span>
+          {!spinning && <span className="wheel__hint">the {SLOT_SHORT[order.slot]} chair</span>}
         </div>
       </div>
 
       {!spinning && (
         <>
           <div className="wheel__actions">
-            {!overrideUsed && (
-              <button className="btn btn--ghost btn--sm" onClick={onOverride}>
-                Era Override → {ERA_LABELS[order.altEra]} (1 per campaign)
+            {eraReroll && (
+              <button
+                className="btn btn--ghost btn--sm"
+                onClick={onRerollEra}
+                title="Spin the era again — this round only. You keep what you land on. One era re-roll per round."
+              >
+                ↻ Re-roll Era (1 per round)
+              </button>
+            )}
+            {branchReroll && (
+              <button
+                className="btn btn--ghost btn--sm"
+                onClick={onRerollBranch}
+                title="Spin the branch again — this round only. The branch you leave behind comes back up in a later round. One branch re-roll per round."
+              >
+                ↻ Re-roll Branch (1 per round)
               </button>
             )}
             {!transferUsed &&
@@ -164,9 +186,9 @@ export function RequisitionDraft({
                   key={pick.id}
                   className="btn btn--ghost btn--sm"
                   onClick={() => onTransfer(from, pick)}
-                  title={`Move ${pick.name} out of ${SLOT_LABELS[from]} into this slot, then re-draft ${SLOT_LABELS[from]}.`}
+                  title={`Move ${pick.name} out of ${SLOT_LABELS[from]} into this chair, then re-draft ${SLOT_LABELS[from]}. One branch transfer per round.`}
                 >
-                  Branch Transfer: {pick.name} ({SLOT_SHORT[from]} → {SLOT_SHORT[order.slot]})
+                  Branch Transfer: {pick.name} ({SLOT_SHORT[from]} → {SLOT_SHORT[order.slot]}) (1 per round)
                 </button>
               ))}
           </div>
