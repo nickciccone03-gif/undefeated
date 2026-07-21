@@ -243,6 +243,9 @@ export const GROUND: Pick[] = [
     origin: 'Roman Republic',
     year: -52,
     blurb: 'They show up, build a wall around your city, then a wall around their wall. Rude. Effective.',
+    conflict: 'Classical Antiquity',
+    descriptor:
+      'The disciplined heavy‑infantry backbone of Rome — engineers as much as soldiers, relentless on the march.',
     stats: s(8, 9, 6, 8, 7, 8, 5),
     terrain: { urban: 2, open: 2 },
     special: { trigger: 'urban', bonus: 1.0, label: 'Siegecraft, notarized' },
@@ -763,6 +766,9 @@ export const NAVY: Pick[] = [
     origin: 'Britain',
     year: 1805,
     blurb: 'England expects. The rest is cannon smoke and paperwork.',
+    conflict: 'Age of Sail',
+    descriptor:
+      'Britain’s globe‑spanning battle fleet, master of the seas through the age of sail.',
     stats: s(10, 8, 7, 9, 7, 9, 7),
     terrain: { naval: 3 },
     special: { trigger: 'blockade', bonus: 1.3, label: 'The blockade is a lifestyle' },

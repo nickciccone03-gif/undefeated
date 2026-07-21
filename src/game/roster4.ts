@@ -325,6 +325,9 @@ export const GROUND_1B: Pick[] = [
     origin: 'Britain / India',
     year: 1944,
     blurb: 'Marched into the jungle behind the lines with mules and radios. The mules kept the radios honest.',
+    conflict: 'World War II',
+    descriptor:
+      'British and Indian long‑range raiders who fought deep behind Japanese lines in the Burmese jungle.',
     stats: s(6, 6, 8, 4, 6, 9, 7),
     terrain: { jungle: 3 },
     special: { trigger: 'irregular', bonus: 1.2, label: 'Behind everything' },
@@ -342,6 +345,9 @@ export const GROUND_1B: Pick[] = [
     origin: 'France (all nationalities welcome)',
     year: 1978,
     blurb: 'Marches at 88 paces per minute, asks no questions, files no biographies.',
+    conflict: 'Modern Era',
+    descriptor:
+      'France’s volunteer corps of foreign nationals — a professional expeditionary force in service since 1831.',
     stats: s(8, 7, 7, 6, 6, 9, 6),
     terrain: { desert: 2 },
     special: { trigger: 'expedition', bonus: 1.2, label: 'Anywhere, by Tuesday' },
@@ -847,6 +853,9 @@ export const NAVY_1B: Pick[] = [
     origin: 'Germany',
     year: 1914,
     blurb: 'The gentleman raider: sank the cargo, saved the crews, apologized for the inconvenience.',
+    conflict: 'World War I',
+    descriptor:
+      'A German light cruiser that raided Allied shipping across the Indian Ocean while sparing captured crews.',
     stats: s(7, 4, 9, 5, 7, 8, 8),
     terrain: { naval: 2 },
     special: { trigger: 'irregular', bonus: 1.3, label: 'Politely everywhere' },
@@ -863,6 +872,9 @@ export const NAVY_1B: Pick[] = [
     origin: 'Britain',
     year: 1917,
     blurb: 'Warships aggressively disguised as boring. The tramp steamer has opinions and eight guns.',
+    conflict: 'World War I',
+    descriptor:
+      'Warships disguised as harmless merchant steamers to lure U‑boats into surfacing, then open fire.',
     stats: s(7, 5, 4, 5, 6, 8, 9),
     terrain: { naval: 2 },
     special: { trigger: 'intel', bonus: 1.2, label: 'The cargo is a broadside' },
@@ -880,6 +892,9 @@ export const NAVY_1B: Pick[] = [
     origin: 'United States',
     year: 1944,
     blurb: 'Escort carriers and tin cans versus battleships. They charged. This is not a metaphor.',
+    conflict: 'World War II',
+    descriptor:
+      'Outgunned US escort carriers and destroyers that turned back a far larger Japanese battle fleet off Samar.',
     stats: s(6, 4, 7, 5, 6, 10, 7),
     terrain: { naval: 3 },
     special: { trigger: 'defense', bonus: 1.3, label: 'The tin cans turn toward' },

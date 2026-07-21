@@ -1448,3 +1448,22 @@ button {
   opacity: 0.8;
   margin: 6px 0 10px;
 }
+
+/* Card identity strip + plain-English descriptor (card-identity-strip feature) */
+.card__strip {
+  font-family: var(--f-mono);
+  font-weight: 600;
+  font-size: 10.5px;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin: 0 0 6px;
+  line-height: 1.4;
+}
+
+.card__desc {
+  margin: 0;
+  font-size: 15.5px;
+  color: var(--ink);
+  min-height: 44px;
+}

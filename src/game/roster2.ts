@@ -318,6 +318,9 @@ export const EXPANSION: Pick[] = [
     origin: 'Britain',
     year: 1944,
     blurb: 'Swimming tanks, flail tanks, bridge tanks, flame tanks. The beach never stood a chance.',
+    conflict: 'World War II',
+    descriptor:
+      'Specialized British tanks — swimming, mine‑flailing, bridge‑laying — built to crack the D‑Day beaches.',
     stats: s(7, 8, 6, 6, 8, 6, 4),
     authenticity: 'historical',
     special: { trigger: 'amphibious', bonus: 1.3, label: 'A tank for every problem' },

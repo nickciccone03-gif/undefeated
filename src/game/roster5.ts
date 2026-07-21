@@ -132,6 +132,9 @@ export const INTEL_1B: Pick[] = [
     origin: 'Britain',
     year: 1917,
     blurb: 'Read the Zimmermann Telegram before its intended recipient did. Changed the war with a memo.',
+    conflict: 'World War I',
+    descriptor:
+      'The Royal Navy codebreaking bureau that decrypted the Zimmermann Telegram.',
     stats: s(3, 7, 4, 6, 9, 6, 10),
     terrain: { naval: 1 },
     special: { trigger: 'naval', bonus: 1.3, label: 'The enemy fleet RSVPs to us' },
@@ -365,6 +368,9 @@ export const LOGISTICS_1B: Pick[] = [
     origin: 'France',
     year: 1916,
     blurb: 'One road into Verdun, one truck every fourteen seconds, for months. The road held. So did Verdun.',
+    conflict: 'World War I',
+    descriptor:
+      'The single lifeline road that kept Verdun supplied — a truck every fourteen seconds for ten months.',
     stats: s(2, 9, 6, 10, 6, 9, 4),
     terrain: {},
     special: { trigger: 'defense', bonus: 1.3, label: 'The road does not close' },
@@ -605,6 +611,9 @@ export const WILDCARD_1B: Pick[] = [
     year: 1918,
     altSlot: 'intel',
     blurb: 'One pigeon, one message, one rescued battalion. Flew the last mile on determination and half a leg.',
+    conflict: 'World War I',
+    descriptor:
+      'A homing pigeon that carried the message that saved the trapped Lost Battalion, wounded in flight.',
     stats: s(1, 3, 9, 2, 2, 10, 8),
     terrain: {},
     special: { trigger: 'intel', bonus: 1.3, label: 'The message gets through' },

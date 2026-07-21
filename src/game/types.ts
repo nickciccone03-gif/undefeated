@@ -174,6 +174,17 @@ export interface Pick {
   /** Snapshot year. Negative = BCE. Era bucket derives from this via eraOf(). */
   year: number
   blurb: string
+  /**
+   * Real conflict or war for the card's identity strip, e.g. 'World War II'.
+   * When absent, the card falls back to the unit's era label (via eraOf).
+   */
+  conflict?: string
+  /**
+   * Plain-English one-line descriptor shown on the card face in place of the
+   * blurb. When absent, the comedic blurb is shown. The blurb always stays in
+   * the data for the debrief generator's lines.
+   */
+  descriptor?: string
   stats: Stats
   terrain?: Partial<Record<Terrain, number>>
   special?: Special

@@ -1,6 +1,34 @@
 import type { ReactNode } from 'react'
-import { STAT_KEYS, STAT_LABELS, TERRAIN_LABELS, type GameResult, type Pick, type Terrain } from '../game/types'
+import {
+  ERA_LABELS,
+  STAT_KEYS,
+  STAT_LABELS,
+  TERRAIN_LABELS,
+  eraOf,
+  type GameResult,
+  type Pick,
+  type SlotId,
+  type Terrain,
+} from '../game/types'
 import { yearLabel } from '../game/roster'
+
+/** Readable single-word slot type for the card identity strip. */
+const SLOT_WORD: Record<SlotId, string> = {
+  commander: 'Command',
+  ground: 'Ground',
+  armor: 'Armor',
+  air: 'Air',
+  navy: 'Navy',
+  intel: 'Intelligence',
+  logistics: 'Logistics',
+  wildcard: 'Wild Card',
+}
+
+/** ORIGIN · TYPE · CONFLICT orienting strip. Conflict falls back to the era label. */
+function idStrip(pick: Pick): string {
+  const conflict = pick.conflict ?? ERA_LABELS[eraOf(pick.year)]
+  return [pick.origin, SLOT_WORD[pick.slot], conflict].join(' · ')
+}
 
 export function ClassBar({ children }: { children: ReactNode }) {
   return <div className="classbar">{children}</div>
@@ -101,12 +129,12 @@ export function PickCard({
     <article className={`card ${chosen ? 'card--chosen' : ''} ${compact ? 'card--compact' : ''}`}>
       <header className="card__head">
         <div>
+          <p className="card__strip">{idStrip(pick)}</p>
           <h3 className="card__name">{pick.name}</h3>
-          <p className="card__origin">{pick.origin}</p>
         </div>
         <span className="card__year">{yearLabel(pick.year)}</span>
       </header>
-      <p className="card__blurb">“{pick.blurb}”</p>
+      <p className="card__desc">{pick.descriptor ?? pick.blurb}</p>
       {!compact && <StatBars pick={pick} />}
       {!compact && pick.slot === 'commander' && <CommandBars pick={pick} />}
       {!compact && <TerrainChips pick={pick} />}
