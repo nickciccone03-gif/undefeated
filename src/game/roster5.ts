@@ -31,6 +31,9 @@ export const INTEL_1B: Pick[] = [
     origin: 'Nizari Persia',
     year: 1090,
     blurb: 'Operated from a mountain fortress for 150 years. Deliverables: guaranteed. References: nervous.',
+    conflict: 'Crusades',
+    descriptor:
+      'A secretive sect that toppled enemies through targeted killings from mountain fortresses.',
     stats: s(6, 7, 6, 4, 5, 9, 9),
     terrain: { mountain: 2, night: 2 },
     special: { trigger: 'night', bonus: 1.2, label: 'The appointment keeps itself' },
@@ -47,6 +50,9 @@ export const INTEL_1B: Pick[] = [
     origin: 'Great Wall of China',
     year: 1211,
     blurb: 'Smoke by day, fire by night, news of the frontier moving faster than any horse for a thousand miles.',
+    conflict: 'Mongol Conquests',
+    descriptor:
+      'The Great Wall’s signal-fire towers, relaying warnings of raids across hundreds of miles.',
     stats: s(2, 6, 8, 5, 6, 6, 8),
     terrain: { mountain: 1, night: 1 },
     bridge: 1,
@@ -65,6 +71,9 @@ export const INTEL_1B: Pick[] = [
     origin: 'Venice',
     year: 1570,
     blurb: 'A republic run on ciphers, informants, and a mailbox shaped like a lion’s mouth. For tips.',
+    conflict: 'Renaissance Venice',
+    descriptor:
+      'Venice’s secretive security council, which ran spies and dealt swift, silent justice.',
     stats: s(4, 7, 5, 7, 8, 6, 9),
     terrain: { naval: 1, urban: 1 },
     special: { trigger: 'naval', bonus: 1.2, label: 'Every port has a correspondent' },
@@ -81,6 +90,9 @@ export const INTEL_1B: Pick[] = [
     origin: 'France',
     year: 1670,
     blurb: 'The Rossignol family code. Unbroken for two hundred years. Password hint: none.',
+    conflict: 'Grand Siècle',
+    descriptor:
+      'The unbreakable cipher of Louis XIV, unsolved for two centuries after it fell from use.',
     stats: s(2, 9, 4, 5, 9, 6, 9),
     terrain: {},
     special: { trigger: 'siege', bonus: 1.2, label: 'The fortress orders stay sealed' },
@@ -98,6 +110,9 @@ export const INTEL_1B: Pick[] = [
     origin: 'Britain',
     year: 1812,
     blurb: 'Broke Napoleon’s Great Paris Cipher with patience, captured mail, and one extremely tidy notebook.',
+    conflict: 'Napoleonic Wars',
+    descriptor:
+      'The British officer who cracked the French army’s grand cipher in the Peninsular War.',
     stats: s(3, 6, 6, 5, 7, 6, 10),
     terrain: {},
     special: { trigger: 'intel', bonus: 1.3, label: 'Reads the enemy’s mail at breakfast' },
@@ -114,6 +129,9 @@ export const INTEL_1B: Pick[] = [
     origin: 'France',
     year: 1794,
     blurb: 'Semaphore towers relaying Paris to the frontier in minutes. The internet, powered by arms and clerks.',
+    conflict: 'French Revolutionary Wars',
+    descriptor:
+      'A chain of semaphore towers that flashed messages across France in minutes.',
     stats: s(1, 5, 9, 6, 9, 5, 8),
     terrain: {},
     bridge: 1,
@@ -151,6 +169,9 @@ export const INTEL_1B: Pick[] = [
     origin: 'Occupied Belgium',
     year: 1917,
     blurb: 'A thousand-agent network counting enemy trains from kitchen windows. History’s politest surveillance state.',
+    conflict: 'World War I',
+    descriptor:
+      'A Belgian civilian spy network that tracked German troop trains behind the lines.',
     stats: s(2, 6, 5, 5, 5, 9, 10),
     terrain: {},
     special: { trigger: 'intel', bonus: 1.3, label: 'Every timetable, hand-copied' },
@@ -168,6 +189,9 @@ export const INTEL_1B: Pick[] = [
     year: 1918,
     altSlot: 'ground',
     blurb: 'Put the phone lines back in play in a language no eavesdropper on Earth had a dictionary for.',
+    conflict: 'World War I',
+    descriptor:
+      'Native American soldiers who baffled German eavesdroppers by speaking Choctaw over field phones.',
     stats: s(5, 6, 6, 4, 6, 8, 10),
     terrain: {},
     special: { trigger: 'trench', bonus: 1.2, label: 'The wire is safe again' },
@@ -185,6 +209,9 @@ export const INTEL_1B: Pick[] = [
     origin: 'Britain',
     year: 1943,
     blurb: 'A briefcase of fake plans delivered by tide. The enemy moved an army for a man who never was.',
+    conflict: 'World War II',
+    descriptor:
+      'The deception that planted false invasion plans on a corpse to fool the Germans over Sicily.',
     stats: s(2, 5, 3, 4, 7, 6, 10),
     terrain: { naval: 1 },
     special: { trigger: 'intel', bonus: 1.3, label: 'The decoy documents are load-bearing' },
@@ -205,6 +232,9 @@ export const LOGISTICS_1B: Pick[] = [
     origin: 'Spain',
     year: 1580,
     blurb: 'A thousand-kilometer military corridor with staging inns. The original deployment pipeline.',
+    conflict: 'Eighty Years’ War',
+    descriptor:
+      'The military corridor that marched Spanish armies from Italy to the Netherlands.',
     stats: s(2, 6, 7, 9, 6, 6, 5),
     terrain: { mountain: 1 },
     special: { trigger: 'supply', bonus: 1.2, label: 'The army walks in, pre-fed' },
@@ -221,6 +251,9 @@ export const LOGISTICS_1B: Pick[] = [
     origin: 'Dutch Republic',
     year: 1650,
     blurb: 'A corporation with a navy, an army, and a spreadsheet that outranks both.',
+    conflict: 'Dutch Golden Age',
+    descriptor:
+      'The Dutch trading company that fielded its own fleets, forts, and armies across Asia.',
     stats: s(5, 6, 7, 10, 7, 5, 7),
     terrain: { naval: 2 },
     special: { trigger: 'supply', bonus: 1.2, label: 'War, freight included' },
@@ -237,6 +270,9 @@ export const LOGISTICS_1B: Pick[] = [
     origin: 'Ming China',
     year: 1460,
     blurb: 'Eleven thousand barges moving an empire’s calories on schedule. The canal is the constitution.',
+    conflict: 'Ming Dynasty',
+    descriptor:
+      'The barge fleet that carried grain up the Grand Canal to feed the capital and its armies.',
     stats: s(1, 6, 5, 10, 6, 6, 4),
     terrain: { naval: 1 },
     special: { trigger: 'supply', bonus: 1.3, label: 'The rice arrives regardless' },
@@ -254,6 +290,9 @@ export const LOGISTICS_1B: Pick[] = [
     origin: 'France',
     year: 1810,
     blurb: 'Won Napoleon’s food-preservation prize by inventing canning. The tin opener arrives 45 years later.',
+    conflict: 'Napoleonic Wars',
+    descriptor:
+      'The cannery whose sealed jars first solved how to preserve food for armies on the march.',
     stats: s(1, 7, 5, 9, 8, 5, 3),
     terrain: {},
     special: { trigger: 'supply', bonus: 1.2, label: 'Summer, sealed in glass' },
@@ -270,6 +309,9 @@ export const LOGISTICS_1B: Pick[] = [
     origin: 'Britain',
     year: 1795,
     blurb: 'Beat scurvy with lemon juice and paperwork, doubling the effective size of the fleet for free.',
+    conflict: 'French Revolutionary Wars',
+    descriptor:
+      'The board that fed the Royal Navy, keeping fleets at sea for months on end.',
     stats: s(2, 7, 5, 9, 6, 6, 5),
     terrain: { naval: 2 },
     special: { trigger: 'blockade', bonus: 1.2, label: 'The blockade stays healthy' },
@@ -286,6 +328,9 @@ export const LOGISTICS_1B: Pick[] = [
     origin: 'Britain / Portugal',
     year: 1812,
     blurb: 'Nine thousand mules, paid in cash, on time. The enemy forages; we invoice.',
+    conflict: 'Napoleonic Wars',
+    descriptor:
+      'The pack mules that kept Wellington’s army supplied over the rough country of Spain.',
     stats: s(1, 6, 6, 9, 4, 8, 4),
     terrain: { mountain: 2 },
     special: { trigger: 'mountain', bonus: 1.2, label: 'The mules know the pass' },
@@ -303,6 +348,9 @@ export const LOGISTICS_1B: Pick[] = [
     origin: 'United States',
     year: 1863,
     blurb: 'Rebuilt burned bridges faster than the enemy could burn them, to the enemy’s documented despair.',
+    conflict: 'American Civil War',
+    descriptor:
+      'The engineer whose military railroads rebuilt bridges and moved Union armies at speed.',
     stats: s(3, 7, 8, 10, 8, 7, 5),
     terrain: {},
     special: { trigger: 'supply', bonus: 1.2, label: 'The bridge is back by Thursday' },
@@ -319,6 +367,9 @@ export const LOGISTICS_1B: Pick[] = [
     origin: 'Prussia',
     year: 1870,
     blurb: 'Mobilization as a train schedule: three armies, one timetable, zero excuses accepted.',
+    conflict: 'Franco-Prussian War',
+    descriptor:
+      'The staff section that used timetabled railways to mass Prussian armies at the front.',
     stats: s(2, 7, 9, 10, 8, 6, 6),
     terrain: {},
     special: { trigger: 'logistics', bonus: 1.2, label: 'H-hour is printed' },
@@ -335,6 +386,9 @@ export const LOGISTICS_1B: Pick[] = [
     origin: 'United States',
     year: 1860,
     blurb: 'Eighteen months of operation, 160 years of branding. The mail moved; the business model did not.',
+    conflict: 'American Frontier',
+    descriptor:
+      'The relay of horse riders that raced mail across the American West.',
     stats: s(1, 3, 10, 6, 4, 8, 6),
     terrain: { open: 2, desert: 1 },
     special: { trigger: 'expedition', bonus: 1.2, label: 'Ten days, coast to coast' },
@@ -351,6 +405,9 @@ export const LOGISTICS_1B: Pick[] = [
     origin: 'Britain',
     year: 1902,
     blurb: 'An empire measured in coal piles. The fleet goes where the depots already are.',
+    conflict: 'Pax Britannica',
+    descriptor:
+      'The worldwide chain of coaling stations that kept the Royal Navy’s steamships fueled.',
     stats: s(2, 8, 5, 10, 6, 5, 6),
     terrain: { naval: 2 },
     special: { trigger: 'naval', bonus: 1.2, label: 'Every ocean, pre-fueled' },
@@ -387,6 +444,9 @@ export const LOGISTICS_1B: Pick[] = [
     origin: 'United States',
     year: 1917,
     blurb: 'Fed an alliance by asking a continent to skip meatless Mondays. The continent said yes.',
+    conflict: 'World War I',
+    descriptor:
+      'The agency that rationed and shipped American food to feed the Allies.',
     stats: s(1, 7, 5, 10, 6, 7, 6),
     terrain: {},
     special: { trigger: 'coalition', bonus: 1.2, label: 'The allies eat too' },
@@ -403,6 +463,9 @@ export const LOGISTICS_1B: Pick[] = [
     origin: 'Egypt',
     year: 1917,
     blurb: 'Tens of thousands of camels hauling a desert campaign, one bad mood at a time.',
+    conflict: 'World War I',
+    descriptor:
+      'Camel-mounted troops who carried the desert war against the Ottomans across Sinai and Palestine.',
     stats: s(2, 6, 7, 9, 3, 8, 4),
     terrain: { desert: 3 },
     special: { trigger: 'desert', bonus: 1.3, label: 'The desert is a supply route now' },
@@ -419,6 +482,9 @@ export const LOGISTICS_1B: Pick[] = [
     origin: 'Britain / France',
     year: 1917,
     blurb: 'Toy-sized trains hauling real-sized war the last two miles nothing else could cross.',
+    conflict: 'World War I',
+    descriptor:
+      'The narrow-gauge railways that hauled shells and supplies up to the trench lines.',
     stats: s(2, 7, 6, 9, 6, 6, 4),
     terrain: {},
     special: { trigger: 'trench', bonus: 1.3, label: 'The last two miles run on rails' },
@@ -437,6 +503,9 @@ export const LOGISTICS_1B: Pick[] = [
     year: 1943,
     altSlot: 'ground',
     blurb: 'We build, we fight. The airstrip will be done before the argument about whether it’s possible.',
+    conflict: 'World War II',
+    descriptor:
+      'US Navy construction battalions that built airfields and ports under fire across the Pacific.',
     stats: s(5, 7, 6, 10, 8, 8, 4),
     terrain: { jungle: 2 },
     special: { trigger: 'amphibious', bonus: 1.2, label: 'The beach becomes a base' },
@@ -454,6 +523,9 @@ export const LOGISTICS_1B: Pick[] = [
     origin: 'United States',
     year: 1990,
     blurb: 'Moved a half-million-person army and its parking lot across the planet in five months.',
+    conflict: 'Gulf War',
+    descriptor:
+      'The cargo-ship fleet that moved the bulk of US armor and supplies to the Gulf.',
     stats: s(2, 7, 7, 10, 8, 6, 5),
     terrain: { naval: 2 },
     special: { trigger: 'expedition', bonus: 1.3, label: 'The army ships as cargo' },
@@ -470,6 +542,9 @@ export const LOGISTICS_1B: Pick[] = [
     origin: 'NATO',
     year: 1983,
     blurb: 'An annual rehearsal for moving America to Europe, so the real thing would be boring.',
+    conflict: 'Cold War',
+    descriptor:
+      'The NATO exercise that rehearsed rushing US divisions to Europe to counter a Soviet attack.',
     stats: s(3, 8, 7, 9, 7, 6, 6),
     terrain: {},
     special: { trigger: 'coalition', bonus: 1.3, label: 'The reinforcements are pre-rehearsed' },
@@ -486,6 +561,9 @@ export const LOGISTICS_1B: Pick[] = [
     origin: 'United States',
     year: 1970,
     blurb: 'Swallows tanks whole. The nose opens like it’s about to complain, then delivers an armored battalion.',
+    conflict: 'Cold War',
+    descriptor:
+      'The giant US transport plane that could airlift tanks across oceans.',
     stats: s(2, 6, 9, 10, 9, 5, 4),
     terrain: { air: 2 },
     special: { trigger: 'blitz', bonus: 1.2, label: 'Armor, airmailed' },
@@ -507,6 +585,9 @@ export const WILDCARD_1B: Pick[] = [
     year: 1324,
     altSlot: 'logistics',
     blurb: 'Crashed Cairo’s economy by walking through it generously. Economic warfare, allegedly by accident.',
+    conflict: 'Medieval Mali',
+    descriptor:
+      'The Mali emperor whose gold-laden pilgrimage was so lavish it upset economies along the way.',
     stats: s(2, 5, 6, 10, 5, 8, 6),
     terrain: { desert: 2 },
     special: { trigger: 'propaganda', bonus: 1.4, label: 'The flex is the campaign' },
@@ -524,6 +605,9 @@ export const WILDCARD_1B: Pick[] = [
     year: 1304,
     altSlot: 'armor',
     blurb: 'The greatest trebuchet ever built. The castle surrendered first; the king made them wait to be hit anyway.',
+    conflict: 'Wars of Scottish Independence',
+    descriptor:
+      'Edward I’s monstrous trebuchet, so feared a castle tried to surrender before it even fired.',
     stats: s(9, 3, 1, 4, 8, 6, 2),
     terrain: { urban: 2 },
     special: { trigger: 'siege', bonus: 1.3, label: 'Surrender not accepted (yet)' },
@@ -541,6 +625,9 @@ export const WILDCARD_1B: Pick[] = [
     origin: 'Holy Roman Empire',
     year: 1784,
     blurb: 'A war with one cannon shot, which hit a soup kettle. Casualties: the soup. Both sides went home.',
+    conflict: 'Kettle War',
+    descriptor:
+      'A near-bloodless standoff whose only casualty was a soup kettle struck by a single cannon shot.',
     stats: s(2, 2, 4, 3, 3, 4, 3),
     terrain: { naval: 1 },
     authenticity: 'historical',
@@ -559,6 +646,9 @@ export const WILDCARD_1B: Pick[] = [
     year: 1776,
     altSlot: 'navy',
     blurb: 'The first combat submarine: one man, one hand crank, one screw for attaching bombs. Achieved: legend.',
+    conflict: 'American Revolution',
+    descriptor:
+      'The hand-cranked submarine that made the first attempt to sink a warship from underwater.',
     stats: s(3, 3, 2, 2, 9, 9, 5),
     terrain: { naval: 2, night: 1 },
     authenticity: 'experimental',
@@ -576,6 +666,9 @@ export const WILDCARD_1B: Pick[] = [
     origin: 'France',
     year: 1807,
     blurb: 'The staged rabbit hunt where the rabbits charged the Emperor. Hundreds of them. He fled to the coach.',
+    conflict: 'Napoleonic Wars',
+    descriptor:
+      'The hunt where tame rabbits, mistaking Napoleon for their feeder, mobbed the emperor instead of fleeing.',
     stats: s(4, 1, 8, 2, 1, 9, 2),
     terrain: { open: 2 },
     authenticity: 'improvised',
@@ -594,6 +687,9 @@ export const WILDCARD_1B: Pick[] = [
     origin: 'No Man’s Land',
     year: 1914,
     blurb: 'The football match between the trenches. Final score disputed; the point, for one day, was not.',
+    conflict: 'World War I',
+    descriptor:
+      'The spontaneous Christmas truce when enemy troops met between the trenches to sing and swap gifts.',
     stats: s(1, 5, 4, 3, 2, 10, 5),
     terrain: { winter: 2 },
     special: { trigger: 'propaganda', bonus: 1.4, label: 'For one day, nobody shoots' },
@@ -631,6 +727,9 @@ export const WILDCARD_1B: Pick[] = [
     year: 1930,
     altSlot: 'armor',
     blurb: 'The finest fortifications ever built, in exactly the places the enemy chose not to visit.',
+    conflict: 'Interwar Period',
+    descriptor:
+      'France’s vast fortified border line, which Germany simply drove around in 1940.',
     stats: s(4, 10, 1, 7, 8, 6, 3),
     terrain: { urban: 2 },
     special: { trigger: 'defense', bonus: 1.4, label: 'Impregnable (where present)' },
@@ -649,6 +748,9 @@ export const WILDCARD_1B: Pick[] = [
     year: 1944,
     altSlot: 'logistics',
     blurb: 'A bear, formally enlisted with rank and paybook, who carried artillery shells at Monte Cassino. All true.',
+    conflict: 'World War II',
+    descriptor:
+      'A bear adopted by Polish soldiers that carried ammunition crates at Monte Cassino.',
     stats: s(5, 6, 5, 8, 1, 10, 3),
     terrain: { mountain: 2 },
     authenticity: 'historical',
@@ -666,6 +768,9 @@ export const WILDCARD_1B: Pick[] = [
     origin: 'The Sea (allegiance flexible)',
     year: 1941,
     blurb: 'The ship’s cat who survived three sinkings on both sides of the war, then retired ashore, done.',
+    conflict: 'World War II',
+    descriptor:
+      'The ship’s cat said to have survived the sinking of three warships in a single war.',
     stats: s(1, 10, 6, 2, 1, 9, 7),
     terrain: { naval: 3 },
     authenticity: 'legendary',
@@ -683,6 +788,9 @@ export const WILDCARD_1B: Pick[] = [
     origin: 'Scotland',
     year: 1944,
     blurb: 'Piped the invasion ashore at walking pace. Snipers reportedly held fire out of sheer disbelief.',
+    conflict: 'World War II',
+    descriptor:
+      'The bagpiper who strode the D-Day beach playing under fire to steady his comrades.',
     stats: s(1, 4, 5, 2, 1, 10, 3),
     terrain: {},
     authenticity: 'historical',
@@ -701,6 +809,9 @@ export const WILDCARD_1B: Pick[] = [
     year: 1943,
     altSlot: 'navy',
     blurb: 'An aircraft carrier made of ice and sawdust. A prototype floated on a Canadian lake for a year. Really.',
+    conflict: 'World War II',
+    descriptor:
+      'The abandoned plan to build an aircraft carrier out of reinforced ice.',
     stats: s(3, 9, 1, 3, 9, 4, 2),
     terrain: { naval: 2, winter: 3 },
     authenticity: 'experimental',
@@ -720,6 +831,9 @@ export const WILDCARD_1B: Pick[] = [
     year: 1967,
     altSlot: 'intel',
     blurb: 'The CIA’s twenty-million-dollar surveillance cat. Declassified, real, and famously uncooperative.',
+    conflict: 'Cold War',
+    descriptor:
+      'The CIA scheme to wire up a live cat as a mobile eavesdropping device.',
     stats: s(1, 4, 7, 1, 9, 2, 8),
     terrain: { urban: 2, night: 1 },
     authenticity: 'experimental',
@@ -738,6 +852,9 @@ export const WILDCARD_1B: Pick[] = [
     year: 1953,
     altSlot: 'armor',
     blurb: 'A cannon that fires nuclear shells. Fired one, once, in Nevada. Everyone agreed that was plenty.',
+    conflict: 'Cold War',
+    descriptor:
+      'The giant cannon that actually fired a live nuclear shell in a 1953 test.',
     stats: s(10, 4, 3, 3, 9, 5, 2),
     terrain: { open: 1 },
     authenticity: 'experimental',
@@ -755,6 +872,9 @@ export const WILDCARD_1B: Pick[] = [
     origin: 'United States / Greenland',
     year: 1960,
     blurb: 'A nuclear-powered city under the ice sheet, defeated in the end by its landlord: the ice.',
+    conflict: 'Cold War',
+    descriptor:
+      'A US base dug into the Greenland ice cap, secretly meant to hide nuclear missiles.',
     stats: s(2, 8, 2, 6, 10, 5, 6),
     terrain: { winter: 3 },
     authenticity: 'experimental',
@@ -773,6 +893,9 @@ export const WILDCARD_1B: Pick[] = [
     year: 1963,
     altSlot: 'intel',
     blurb: 'The red phone is a teletype, there is no phone, and it may be history’s highest-scoring weapon.',
+    conflict: 'Cold War',
+    descriptor:
+      'The direct link set up to let Washington and Moscow defuse a nuclear crisis in real time.',
     stats: s(1, 9, 3, 4, 8, 5, 9),
     terrain: {},
     bridge: 1,

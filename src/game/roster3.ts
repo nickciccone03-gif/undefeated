@@ -30,6 +30,9 @@ export const COMMANDERS_1B: Pick[] = [
     origin: 'Rome',
     year: -52,
     blurb: 'Builds a fortified camp every single night. Writes about it in the third person.',
+    conflict: 'Gallic Wars',
+    descriptor:
+      'The Roman general whose conquest of Gaul and march on Rome remade the Republic into an empire.',
     stats: s(9, 8, 8, 7, 7, 8, 7),
     terrain: { urban: 2, open: 1 },
     leadership: 9,
@@ -48,6 +51,9 @@ export const COMMANDERS_1B: Pick[] = [
     origin: 'Rome',
     year: -202,
     blurb: 'Studied Hannibal’s homework, corrected it, and handed it back at Zama.',
+    conflict: 'Second Punic War',
+    descriptor:
+      'The Roman commander who beat Hannibal at Zama and ended Carthage’s threat.',
     stats: s(9, 6, 7, 7, 6, 8, 8),
     terrain: { open: 2, desert: 1 },
     leadership: 9,
@@ -67,6 +73,9 @@ export const COMMANDERS_1B: Pick[] = [
     origin: 'Rashidun Caliphate',
     year: 636,
     blurb: 'Career record: forty-and-oh across two empires. Files “retreat” under “arriving somewhere else first.”',
+    conflict: 'Early Muslim Conquests',
+    descriptor:
+      'The undefeated Arab general whose victory at Yarmouk broke Byzantine power in Syria.',
     stats: s(10, 6, 9, 6, 5, 9, 7),
     terrain: { desert: 3, open: 1 },
     leadership: 9,
@@ -85,6 +94,9 @@ export const COMMANDERS_1B: Pick[] = [
     origin: 'Dai Viet',
     year: 1288,
     blurb: 'The Mongols went three-for-three against the planet, except at his house.',
+    conflict: 'Mongol Invasions of Vietnam',
+    descriptor:
+      'The Vietnamese prince who thrice repelled the Mongols, staking a river to wreck their fleet.',
     stats: s(8, 9, 7, 6, 7, 9, 9),
     terrain: { naval: 2, jungle: 2 },
     leadership: 9,
@@ -104,6 +116,9 @@ export const COMMANDERS_1B: Pick[] = [
     origin: 'Sengoku Japan',
     year: 1575,
     blurb: 'Unified half of Japan by being the only person taking the arquebus seriously.',
+    conflict: 'Sengoku Period',
+    descriptor:
+      'The warlord who used massed muskets at Nagashino and began the unification of Japan.',
     stats: s(9, 6, 7, 8, 9, 7, 7),
     terrain: { open: 2 },
     leadership: 8,
@@ -122,6 +137,9 @@ export const COMMANDERS_1B: Pick[] = [
     origin: 'Ottoman Empire',
     year: 1529,
     blurb: 'Thirteen campaigns, one nickname, zero modesty required. The Magnificent is a job title.',
+    conflict: 'Ottoman Wars',
+    descriptor:
+      'The sultan at the Ottoman peak, whose armies reached the gates of Vienna.',
     stats: s(8, 7, 6, 8, 8, 7, 7),
     terrain: { urban: 2 },
     leadership: 9,
@@ -140,6 +158,9 @@ export const COMMANDERS_1B: Pick[] = [
     origin: 'Sweden',
     year: 1631,
     blurb: 'Invented combined arms, then personally led every cavalry charge, over written staff objection.',
+    conflict: 'Thirty Years’ War',
+    descriptor:
+      'The Swedish king who modernized war with mobile artillery and combined arms.',
     stats: s(9, 6, 8, 6, 9, 8, 6),
     terrain: { open: 2, winter: 1 },
     leadership: 9,
@@ -159,6 +180,9 @@ export const COMMANDERS_1B: Pick[] = [
     origin: 'Continental America',
     year: 1781,
     blurb: 'Tactical record: mixed. Strategic record: there is a country now.',
+    conflict: 'American Revolution',
+    descriptor:
+      'The commander who held the Continental Army together and won independence at Yorktown.',
     stats: s(5, 7, 6, 4, 5, 10, 8),
     terrain: { winter: 2 },
     leadership: 10,
@@ -177,6 +201,9 @@ export const COMMANDERS_1B: Pick[] = [
     origin: 'Russia',
     year: 1799,
     blurb: 'Sixty-three battles, sixty-three wins. Train hard, fight easy, bayonets non-negotiable.',
+    conflict: 'French Revolutionary Wars',
+    descriptor:
+      'The Russian general who never lost a battle, famed for his fighting retreat across the Alps.',
     stats: s(9, 6, 9, 6, 4, 10, 6),
     terrain: { mountain: 2, winter: 2 },
     leadership: 10,
@@ -195,6 +222,9 @@ export const COMMANDERS_1B: Pick[] = [
     origin: 'Britain',
     year: 1815,
     blurb: 'Beat everyone Napoleon ever sent, then Napoleon, then entered politics — the true defeat.',
+    conflict: 'Napoleonic Wars',
+    descriptor:
+      'The British commander who, with Prussian help, finally defeated Napoleon at Waterloo.',
     stats: s(7, 10, 6, 9, 6, 8, 8),
     terrain: { open: 2 },
     leadership: 9,
@@ -214,6 +244,9 @@ export const COMMANDERS_1B: Pick[] = [
     origin: 'United States',
     year: 1864,
     blurb: 'Accepts three surrender terms: unconditional, unconditional, and unconditional.',
+    conflict: 'American Civil War',
+    descriptor:
+      'The Union general whose relentless campaigns ground down the Confederacy.',
     stats: s(8, 6, 7, 9, 7, 9, 5),
     terrain: { urban: 2 },
     leadership: 9,
@@ -232,6 +265,9 @@ export const COMMANDERS_1B: Pick[] = [
     origin: 'Prussia',
     year: 1870,
     blurb: 'Runs wars off a train timetable. Silent in seven languages; this blurb annoys him.',
+    conflict: 'Franco-Prussian War',
+    descriptor:
+      'The Prussian chief of staff who used railroads and telegraph to win swift, decisive wars.',
     stats: s(8, 6, 9, 9, 8, 6, 7),
     terrain: { open: 1 },
     leadership: 8,
@@ -251,6 +287,9 @@ export const COMMANDERS_1B: Pick[] = [
     origin: 'Italy',
     year: 1860,
     blurb: 'Liberated two continents on zero budget. The supply plan is, famously, a shirt.',
+    conflict: 'Italian Unification',
+    descriptor:
+      'The revolutionary general whose Redshirts conquered the south for a united Italy.',
     stats: s(8, 5, 8, 3, 4, 10, 6),
     terrain: { mountain: 1, jungle: 1 },
     leadership: 9,
@@ -269,6 +308,9 @@ export const COMMANDERS_1B: Pick[] = [
     origin: 'Meiji Japan',
     year: 1905,
     blurb: 'Turned the Baltic Fleet’s 18,000-mile cruise into a forty-minute appointment.',
+    conflict: 'Russo-Japanese War',
+    descriptor:
+      'The Japanese admiral who destroyed the Russian fleet at Tsushima.',
     stats: s(9, 7, 8, 7, 8, 8, 8),
     terrain: { naval: 3 },
     leadership: 9,
@@ -288,6 +330,9 @@ export const COMMANDERS_1B: Pick[] = [
     origin: 'United States',
     year: 1918,
     blurb: 'Built a two-million-man army from a standing start. Parking it in France remains in progress.',
+    conflict: 'World War I',
+    descriptor:
+      'The general who built and led the American Expeditionary Force in France.',
     stats: s(7, 6, 4, 7, 6, 8, 6),
     terrain: { open: 1 },
     leadership: 9,
@@ -306,6 +351,9 @@ export const COMMANDERS_1B: Pick[] = [
     origin: 'Ottoman Empire',
     year: 1915,
     blurb: 'Held Gallipoli against three empires’ worth of landings. His pocket watch is a decorated veteran.',
+    conflict: 'World War I',
+    descriptor:
+      'The commander whose defense of Gallipoli made his name — later founder of modern Turkey.',
     stats: s(7, 10, 6, 5, 5, 10, 7),
     terrain: { mountain: 2 },
     leadership: 9,
@@ -324,6 +372,9 @@ export const COMMANDERS_1B: Pick[] = [
     origin: 'Britain / Arab Revolt',
     year: 1917,
     blurb: 'Archaeology postdoc, accidental colonel. Demolishes one specific railway with scholarly precision.',
+    conflict: 'World War I',
+    descriptor:
+      'The British officer who led Arab guerrillas against Ottoman rule in the desert.',
     stats: s(6, 4, 9, 5, 6, 7, 9),
     terrain: { desert: 3 },
     leadership: 8,
@@ -342,6 +393,9 @@ export const COMMANDERS_1B: Pick[] = [
     origin: 'Australia',
     year: 1918,
     blurb: 'Civil engineer. Plans battles like bridge projects: on time, under budget, catered.',
+    conflict: 'World War I',
+    descriptor:
+      'The Australian general whose meticulous combined-arms attacks cracked German lines in 1918.',
     stats: s(8, 6, 6, 9, 9, 7, 7),
     terrain: { open: 1 },
     leadership: 8,
@@ -361,6 +415,9 @@ export const COMMANDERS_1B: Pick[] = [
     origin: 'Britain',
     year: 1942,
     blurb: 'Will not attack until victory is a foregone conclusion, then holds a press conference to confirm it.',
+    conflict: 'World War II',
+    descriptor:
+      'The British field marshal who beat Rommel at El Alamein.',
     stats: s(7, 8, 5, 9, 7, 8, 8),
     terrain: { desert: 2 },
     leadership: 8,
@@ -379,6 +436,9 @@ export const COMMANDERS_1B: Pick[] = [
     origin: 'Britain / India',
     year: 1944,
     blurb: 'Took the worst defeat in British history and filed the rematch. The Forgotten Army remembers him.',
+    conflict: 'World War II',
+    descriptor:
+      'The general who rebuilt a beaten army and drove the Japanese out of Burma.',
     stats: s(8, 8, 7, 9, 6, 9, 7),
     terrain: { jungle: 3 },
     leadership: 9,
@@ -398,6 +458,9 @@ export const COMMANDERS_1B: Pick[] = [
     origin: 'United States',
     year: 1950,
     blurb: 'Promised to return and did, with cameras. Intelligence estimates sold separately.',
+    conflict: 'Korean War',
+    descriptor:
+      'The US general whose Inchon landing reversed the course of the Korean War.',
     stats: s(9, 5, 8, 7, 7, 8, 3),
     terrain: { naval: 1, urban: 1 },
     leadership: 8,
@@ -416,6 +479,9 @@ export const COMMANDERS_1B: Pick[] = [
     origin: 'United States',
     year: 1951,
     blurb: 'Inherited a routed army in December, returned it in January, fixed. Wears grenades as jewelry.',
+    conflict: 'Korean War',
+    descriptor:
+      'The general who rallied a broken Eighth Army and stabilized the Korean front.',
     stats: s(7, 8, 7, 7, 6, 9, 7),
     terrain: { winter: 2, mountain: 1 },
     leadership: 9,
@@ -434,6 +500,9 @@ export const COMMANDERS_1B: Pick[] = [
     origin: 'Viet Minh',
     year: 1954,
     blurb: 'History teacher. Assigned Dien Bien Phu as homework; France did not do the reading.',
+    conflict: 'First Indochina War',
+    descriptor:
+      'The Vietnamese general who beat the French at Dien Bien Phu.',
     stats: s(8, 7, 8, 9, 5, 9, 8),
     terrain: { jungle: 2, mountain: 2 },
     leadership: 9,
@@ -452,6 +521,9 @@ export const COMMANDERS_1B: Pick[] = [
     origin: 'United States',
     year: 1991,
     blurb: 'Briefed the fastest land victory in modern history with a pointer and visible delight.',
+    conflict: 'Gulf War',
+    descriptor:
+      'The US commander whose sweeping ‘left hook’ routed Iraqi forces in a hundred hours.',
     stats: s(9, 6, 9, 8, 9, 7, 7),
     terrain: { desert: 3 },
     leadership: 9,

@@ -26,6 +26,9 @@ export const DEPTH_1B: Pick[] = [
     origin: 'Sengoku Japan',
     year: 1600,
     blurb: 'Won Japan by outliving everyone interesting. Patience is a siege weapon.',
+    conflict: 'Sengoku Period',
+    descriptor:
+      'The victor of Sekigahara, who founded the shogunate that ruled Japan for 250 years.',
     stats: s(7, 8, 5, 8, 7, 8, 9),
     terrain: { open: 1 },
     leadership: 9,
@@ -44,6 +47,9 @@ export const DEPTH_1B: Pick[] = [
     origin: 'Britain',
     year: 1805,
     blurb: 'Breaks the line, breaks the rules, expects every man to do his duty. Signals it, too.',
+    conflict: 'Napoleonic Wars',
+    descriptor:
+      'The British admiral whose bold tactics destroyed the Franco-Spanish fleet at Trafalgar.',
     stats: s(10, 5, 8, 6, 7, 9, 8),
     terrain: { naval: 3 },
     leadership: 10,
@@ -62,6 +68,9 @@ export const DEPTH_1B: Pick[] = [
     origin: 'Ethiopia',
     year: 1896,
     blurb: 'Bought the rifles, read the treaty’s fine print, and handed Europe its clearest defeat in Africa.',
+    conflict: 'First Italo-Ethiopian War',
+    descriptor:
+      'The emperor who crushed an invading Italian army at Adwa, keeping Ethiopia independent.',
     stats: s(8, 7, 6, 8, 7, 9, 9),
     terrain: { mountain: 2 },
     leadership: 9,
@@ -80,6 +89,9 @@ export const DEPTH_1B: Pick[] = [
     origin: 'France',
     year: 1918,
     blurb: '“My center is giving way, my right retreats. Situation excellent. I attack.”',
+    conflict: 'World War I',
+    descriptor:
+      'The Allied supreme commander who coordinated the offensives that ended the First World War.',
     stats: s(9, 6, 6, 7, 6, 10, 6),
     terrain: { open: 1 },
     leadership: 9,
@@ -98,6 +110,9 @@ export const DEPTH_1B: Pick[] = [
     origin: 'United States',
     year: 1958,
     blurb: 'Father of the nuclear navy. His job interviews are classified as psychological operations.',
+    conflict: 'Cold War',
+    descriptor:
+      'The relentless admiral who drove the creation of the nuclear-powered navy.',
     stats: s(6, 8, 5, 9, 10, 8, 8),
     terrain: { naval: 2 },
     leadership: 8,
@@ -117,6 +132,9 @@ export const DEPTH_1B: Pick[] = [
     origin: 'Venezuela / Colombia',
     year: 1819,
     blurb: 'Plains horsemen who crossed flooded llanos and frozen Andes in one campaign, mostly barefoot.',
+    conflict: 'South American Wars of Independence',
+    descriptor:
+      'The plains horsemen whose lancers helped Bolívar free northern South America from Spain.',
     stats: s(8, 4, 9, 4, 3, 9, 6),
     terrain: { open: 2, mountain: 1 },
     special: { trigger: 'expedition', bonus: 1.3, label: 'The impossible route is the plan' },
@@ -133,6 +151,9 @@ export const DEPTH_1B: Pick[] = [
     origin: 'United States',
     year: 1863,
     blurb: 'The black hats. Held the first morning at Gettysburg at a cost that made the nickname literal.',
+    conflict: 'American Civil War',
+    descriptor:
+      'A hard-fighting Union brigade in black hats, known for holding its ground at terrible cost.',
     stats: s(8, 8, 6, 6, 6, 10, 5),
     terrain: { open: 1 },
     special: { trigger: 'defense', bonus: 1.2, label: 'The first day holds' },
@@ -149,6 +170,9 @@ export const DEPTH_1B: Pick[] = [
     origin: 'United States',
     year: 1950,
     blurb: 'Surrounded ten-to-one at thirty below. “Attacking in a different direction,” and they meant it.',
+    conflict: 'Korean War',
+    descriptor:
+      'The US Marines who fought their way out of encirclement in the frozen Chosin Reservoir.',
     stats: s(8, 9, 6, 6, 6, 10, 5),
     terrain: { winter: 3, mountain: 2 },
     special: { trigger: 'winter', bonus: 1.3, label: 'The cold is also surrounded' },
@@ -166,6 +190,9 @@ export const DEPTH_1B: Pick[] = [
     origin: 'France',
     year: 1620,
     blurb: 'Door-removal specialists. The phrase “hoist with his own petard” is their safety record.',
+    conflict: 'Thirty Years’ War',
+    descriptor:
+      'Engineers who blew in fortress gates with a bell-shaped bomb — at deadly close range.',
     stats: s(7, 3, 5, 4, 6, 8, 4),
     terrain: { urban: 2 },
     special: { trigger: 'siege', bonus: 1.2, label: 'The gate is a suggestion' },
@@ -182,6 +209,9 @@ export const DEPTH_1B: Pick[] = [
     origin: 'Scotland',
     year: 1782,
     blurb: 'The Smasher: devastating within pistol range, decorative beyond it.',
+    conflict: 'Age of Sail',
+    descriptor:
+      'Short, heavy naval guns — ‘smashers’ — that were devastating at close range.',
     stats: s(9, 5, 6, 5, 6, 7, 3),
     terrain: { naval: 2 },
     special: { trigger: 'naval', bonus: 1.2, label: 'Get close. Closer.' },
@@ -199,6 +229,9 @@ export const DEPTH_1B: Pick[] = [
     origin: 'Mycenaean Greece',
     year: -1184,
     blurb: 'Troy fell at midnight; Argos knew by dawn. Eight mountaintop fires, one very good night.',
+    conflict: 'Trojan War',
+    descriptor:
+      'The chain of signal fires said to have flashed news of Troy’s fall across the Aegean.',
     stats: s(1, 4, 9, 3, 5, 5, 8),
     terrain: { mountain: 2, night: 2 },
     authenticity: 'legendary',
@@ -217,6 +250,9 @@ export const DEPTH_1B: Pick[] = [
     origin: 'Rhodes',
     year: -305,
     blurb: 'The professional coast guard of antiquity. Pirates filed formal complaints.',
+    conflict: 'Hellenistic Era',
+    descriptor:
+      'The island navy whose seamanship policed piracy and defied besieging fleets.',
     stats: s(7, 7, 8, 7, 7, 7, 7),
     terrain: { naval: 3 },
     special: { trigger: 'blockade', bonus: 1.2, label: 'Sea lanes, patrolled and invoiced' },
@@ -233,6 +269,9 @@ export const DEPTH_1B: Pick[] = [
     origin: 'The Baltic',
     year: 1370,
     blurb: 'A merchants’ guild with a navy. Declares war by invoice, wins by embargo.',
+    conflict: 'Medieval Baltic',
+    descriptor:
+      'The merchant league whose fleets and trade monopolies dominated the northern seas.',
     stats: s(6, 7, 6, 9, 6, 6, 7),
     terrain: { naval: 2 },
     special: { trigger: 'blockade', bonus: 1.3, label: 'Terms and conditions apply' },
@@ -249,6 +288,9 @@ export const DEPTH_1B: Pick[] = [
     origin: 'Ottoman Empire',
     year: 1538,
     blurb: 'The red-bearded admiral who made the Mediterranean an Ottoman lake with borrowed ships.',
+    conflict: 'Ottoman Wars',
+    descriptor:
+      'The corsair admiral whose fleet won Ottoman mastery of the Mediterranean at Preveza.',
     stats: s(8, 6, 9, 6, 6, 8, 8),
     terrain: { naval: 3 },
     special: { trigger: 'naval', bonus: 1.2, label: 'The lake has an owner' },
@@ -265,6 +307,9 @@ export const DEPTH_1B: Pick[] = [
     origin: 'United States',
     year: 1853,
     blurb: 'Four coal-smoking warships, zero shots fired, one country opened. Gunboat diplomacy’s showroom.',
+    conflict: 'Bakumatsu Japan',
+    descriptor:
+      'The US steam warships whose arrival forced isolated Japan to open to the world.',
     stats: s(7, 6, 6, 7, 9, 6, 5),
     terrain: { naval: 2 },
     special: { trigger: 'propaganda', bonus: 1.3, label: 'The smoke is the message' },
@@ -281,6 +326,9 @@ export const DEPTH_1B: Pick[] = [
     origin: 'Britain',
     year: 1918,
     blurb: 'Rammed concrete-filled cruisers into an enemy canal, on purpose, on St. George’s Day.',
+    conflict: 'World War I',
+    descriptor:
+      'The daring raid that tried to bottle up a German U-boat base by sinking ships in the harbor mouth.',
     stats: s(7, 5, 6, 4, 6, 10, 6),
     terrain: { naval: 2, night: 2 },
     special: { trigger: 'blockade', bonus: 1.3, label: 'The cork goes in the bottle' },
@@ -297,6 +345,9 @@ export const DEPTH_1B: Pick[] = [
     origin: 'United States',
     year: 1984,
     blurb: 'Battleships recalled from museum duty with missiles bolted on. The shells predate the crews.',
+    conflict: 'Cold War',
+    descriptor:
+      'The WWII battleships brought back into service with missiles for the Cold War fleet.',
     stats: s(9, 9, 5, 6, 7, 8, 4),
     terrain: { naval: 2 },
     special: { trigger: 'propaganda', bonus: 1.2, label: 'Grandpa is BACK' },
@@ -314,6 +365,9 @@ export const DEPTH_1B: Pick[] = [
     origin: 'Rome',
     year: 200,
     blurb: 'Grain officers who audited the wheat, the roads, and, incidentally, everyone.',
+    conflict: 'Roman Empire',
+    descriptor:
+      'Imperial couriers who doubled as Rome’s secret police and informers.',
     stats: s(3, 6, 7, 8, 5, 5, 9),
     terrain: { urban: 2 },
     special: { trigger: 'supply', bonus: 1.2, label: 'The ledger sees all' },
@@ -330,6 +384,9 @@ export const DEPTH_1B: Pick[] = [
     origin: 'Norman England',
     year: 1086,
     blurb: 'Counted every pig, plough, and pond in a kingdom. Nothing has escaped a census since.',
+    conflict: 'Norman Conquest',
+    descriptor:
+      'The great survey that catalogued England’s land and wealth for its new Norman rulers.',
     stats: s(1, 6, 5, 8, 5, 6, 9),
     terrain: {},
     special: { trigger: 'logistics', bonus: 1.2, label: 'Everything is inventory' },
@@ -346,6 +403,9 @@ export const DEPTH_1B: Pick[] = [
     origin: 'France',
     year: 1635,
     blurb: 'Richelieu’s mail room. Every letter arrives sealed, informative, and slightly late.',
+    conflict: 'Grand Siècle',
+    descriptor:
+      'The French ‘black chamber’ that secretly opened, read, and resealed the mail.',
     stats: s(2, 7, 4, 6, 7, 5, 10),
     terrain: { urban: 1 },
     special: { trigger: 'intel', bonus: 1.3, label: 'Steamed, read, resealed, delivered' },
@@ -362,6 +422,9 @@ export const DEPTH_1B: Pick[] = [
     origin: 'Britain',
     year: 1798,
     blurb: 'The world’s first modern secret service, run from a back room with tea and total recall.',
+    conflict: 'French Revolutionary Wars',
+    descriptor:
+      'Britain’s early secret service, set up to watch foreign agents and revolutionaries.',
     stats: s(2, 8, 5, 6, 6, 6, 10),
     terrain: { urban: 1 },
     special: { trigger: 'intel', bonus: 1.3, label: 'Every visitor is a file' },
@@ -379,6 +442,9 @@ export const DEPTH_1B: Pick[] = [
     origin: 'Achaemenid Persia',
     year: -480,
     blurb: 'Bridged the Hellespont on boats, dug a canal through a peninsula, and flogged the sea as HR policy.',
+    conflict: 'Greco-Persian Wars',
+    descriptor:
+      'The engineers who bridged the Hellespont with boats and cut a canal to move Xerxes’ vast army.',
     stats: s(2, 6, 5, 9, 7, 6, 4),
     terrain: { naval: 1 },
     special: { trigger: 'expedition', bonus: 1.3, label: 'The strait is now a road' },
@@ -395,6 +461,9 @@ export const DEPTH_1B: Pick[] = [
     origin: 'Spain / The Philippines',
     year: 1600,
     blurb: 'One ship a year, six months at sea, half the world’s silver aboard. The original supply chain.',
+    conflict: 'Age of Sail',
+    descriptor:
+      'The trans-Pacific treasure ships that linked Asia and the Americas for 250 years.',
     stats: s(3, 6, 5, 9, 7, 6, 4),
     terrain: { naval: 2 },
     special: { trigger: 'supply', bonus: 1.2, label: 'The annual ship arrives' },
@@ -411,6 +480,9 @@ export const DEPTH_1B: Pick[] = [
     origin: 'United States',
     year: 1804,
     blurb: 'Crossed an uncharted continent and back, losing one man and gaining one very large map.',
+    conflict: 'American Frontier',
+    descriptor:
+      'The Lewis and Clark expedition that mapped a route across the continent to the Pacific.',
     stats: s(3, 5, 7, 8, 5, 9, 8),
     terrain: { mountain: 2 },
     special: { trigger: 'expedition', bonus: 1.3, label: 'The map draws itself' },
@@ -427,6 +499,9 @@ export const DEPTH_1B: Pick[] = [
     origin: 'Russia',
     year: 1904,
     blurb: 'The longest supply line ever built. The war at the far end of it was not consulted.',
+    conflict: 'Russo-Japanese War',
+    descriptor:
+      'The railway that hauled Russian armies clear across Siberia to the Pacific front.',
     stats: s(2, 6, 7, 9, 7, 6, 3),
     terrain: { winter: 2, steppe: 2 },
     special: { trigger: 'supply', bonus: 1.2, label: 'Five thousand miles of track' },
@@ -443,6 +518,9 @@ export const DEPTH_1B: Pick[] = [
     origin: 'Britain',
     year: 1917,
     blurb: 'Took over the farms of a starving island and out-harvested the U-boat blockade.',
+    conflict: 'World War I',
+    descriptor:
+      'The women who took over Britain’s farms to keep the nation fed through the war.',
     stats: s(1, 8, 4, 10, 5, 9, 4),
     terrain: {},
     special: { trigger: 'blockade', bonus: 1.3, label: 'The harvest breaks the siege' },
@@ -459,6 +537,9 @@ export const DEPTH_1B: Pick[] = [
     origin: 'United States',
     year: 1955,
     blurb: 'Annual resupply of a continent that produces nothing, on purpose, in the dark, at sixty below.',
+    conflict: 'Cold War',
+    descriptor:
+      'The US operation that built and supplied research bases across Antarctica.',
     stats: s(1, 7, 6, 9, 8, 7, 4),
     terrain: { winter: 3 },
     special: { trigger: 'winter', bonus: 1.3, label: 'Winter is the route, not the obstacle' },
@@ -476,6 +557,9 @@ export const DEPTH_1B: Pick[] = [
     origin: 'France (the fish were neutral)',
     year: 1429,
     blurb: 'An actual battle fought over a convoy of Lenten fish. The barrel fort held. The fish were avenged.',
+    conflict: 'Hundred Years’ War',
+    descriptor:
+      'The odd skirmish fought over a supply convoy of salted fish during the siege of Orléans.',
     stats: s(4, 7, 3, 6, 3, 6, 3),
     terrain: { open: 1 },
     authenticity: 'historical',
@@ -493,6 +577,9 @@ export const DEPTH_1B: Pick[] = [
     origin: 'The Ypres Salient',
     year: 1916,
     blurb: 'A satirical newspaper printed in a shelled cellar by serving soldiers. The jokes held the line.',
+    conflict: 'World War I',
+    descriptor:
+      'The satirical trench newspaper written by British soldiers under shellfire.',
     stats: s(1, 6, 3, 4, 3, 10, 7),
     terrain: {},
     authenticity: 'historical',
@@ -511,6 +598,9 @@ export const DEPTH_1B: Pick[] = [
     year: 1943,
     altSlot: 'armor',
     blurb: 'A rocket-propelled explosive cartwheel that chased its own test audience down the beach. Cancelled. Beloved.',
+    conflict: 'World War II',
+    descriptor:
+      'A giant rocket-driven explosive wheel that careened wildly out of control in testing.',
     stats: s(6, 2, 7, 2, 4, 3, 1),
     terrain: {},
     authenticity: 'experimental',
@@ -528,6 +618,9 @@ export const DEPTH_1B: Pick[] = [
     origin: 'United States / South Korea',
     year: 1976,
     blurb: 'One tree removed by task force: engineers, an infantry escort, artillery on call, and air cover. The tree lost.',
+    conflict: 'Korean DMZ Conflict',
+    descriptor:
+      'The overwhelming show of force mounted just to cut down one tree in the DMZ.',
     stats: s(3, 7, 4, 8, 7, 6, 6),
     terrain: {},
     authenticity: 'historical',
@@ -546,6 +639,9 @@ export const DEPTH_1B: Pick[] = [
     year: 2021,
     altSlot: 'logistics',
     blurb: 'Parked sideways in the Suez Canal and paused the global economy. One ship. Six days. Everyone watched.',
+    conflict: 'The 2020s',
+    descriptor:
+      'The container ship that wedged sideways and blocked the Suez Canal, snarling global trade.',
     stats: s(1, 9, 1, 2, 7, 3, 2),
     terrain: { naval: 2 },
     authenticity: 'historical',

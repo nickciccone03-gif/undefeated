@@ -37,6 +37,9 @@ export const COMMANDERS: Pick[] = [
     origin: 'Mongol Empire',
     year: 1206,
     blurb: 'Has personally conquered more land than the rest of your draft class combined.',
+    conflict: 'Mongol Conquests',
+    descriptor:
+      'Founder of the Mongol Empire, whose cavalry armies conquered the largest contiguous land empire in history.',
     stats: s(9, 6, 10, 8, 5, 9, 9),
     terrain: { steppe: 3, open: 2, naval: -2 },
     leadership: 10,
@@ -55,6 +58,9 @@ export const COMMANDERS: Pick[] = [
     origin: 'France',
     year: 1805,
     blurb: 'Undefeated anywhere reachable by road. Do not ask about the winter thing.',
+    conflict: 'Napoleonic Wars',
+    descriptor:
+      'The French emperor and general whose maneuver warfare dominated Europe for over a decade.',
     stats: s(9, 6, 8, 5, 7, 8, 7),
     terrain: { open: 2, winter: -3 },
     leadership: 9,
@@ -73,6 +79,9 @@ export const COMMANDERS: Pick[] = [
     origin: 'Macedon',
     year: -331,
     blurb: 'Retired undefeated at 32, still visibly upset there wasn’t more map.',
+    conflict: 'Wars of Alexander the Great',
+    descriptor:
+      'The Macedonian king who never lost a battle and carved an empire from Greece to the Indus.',
     stats: s(10, 4, 9, 5, 6, 9, 7),
     terrain: { open: 2, desert: 1, mountain: 1 },
     leadership: 10,
@@ -90,6 +99,9 @@ export const COMMANDERS: Pick[] = [
     origin: 'State of Wu',
     year: -506,
     blurb: 'Wrote the book on this. Literally brings it to meetings.',
+    conflict: 'Ancient China',
+    descriptor:
+      'The strategist credited with The Art of War, the foundational treatise on deception and maneuver.',
     stats: s(6, 8, 7, 7, 4, 7, 10),
     terrain: { night: 2 },
     leadership: 8,
@@ -108,6 +120,9 @@ export const COMMANDERS: Pick[] = [
     origin: 'France',
     year: 1429,
     blurb: 'Nineteen years old, zero doubts. The morale bump is not a rounding error.',
+    conflict: 'Hundred Years’ War',
+    descriptor:
+      'The peasant girl whose visions rallied France and broke the English siege of Orléans.',
     stats: s(8, 7, 7, 5, 4, 10, 5),
     terrain: { urban: 2 },
     leadership: 9,
@@ -126,6 +141,9 @@ export const COMMANDERS: Pick[] = [
     origin: 'Carthage',
     year: -218,
     blurb: 'Took elephants over the Alps out of spite. Supply plan pending since 218 BCE.',
+    conflict: 'Second Punic War',
+    descriptor:
+      'The Carthaginian general who crossed the Alps with elephants and destroyed a Roman army at Cannae.',
     stats: s(9, 6, 8, 5, 5, 8, 9),
     terrain: { mountain: 3, winter: 1 },
     leadership: 9,
@@ -144,6 +162,9 @@ export const COMMANDERS: Pick[] = [
     origin: 'Joseon Korea',
     year: 1597,
     blurb: 'Thirteen ships against 133. It was not close. The 133 lost.',
+    conflict: 'Imjin War',
+    descriptor:
+      'The Korean admiral who never lost a naval battle, routing far larger Japanese fleets.',
     stats: s(8, 9, 7, 8, 8, 10, 8),
     terrain: { naval: 3 },
     leadership: 10,
@@ -162,6 +183,9 @@ export const COMMANDERS: Pick[] = [
     origin: 'United States',
     year: 1944,
     blurb: 'Advances faster than his supply line, his air cover, and occasionally his orders.',
+    conflict: 'World War II',
+    descriptor:
+      'The aggressive US general whose Third Army raced across France after the Normandy breakout.',
     stats: s(9, 5, 9, 6, 7, 8, 6),
     terrain: { open: 2, desert: 1 },
     leadership: 8,
@@ -180,6 +204,9 @@ export const COMMANDERS: Pick[] = [
     origin: 'Iceni Britain',
     year: 61,
     blurb: 'Burned Londinium to the ground once. Rome still flinches at red hair.',
+    conflict: 'Roman Conquest of Britain',
+    descriptor:
+      'The British queen who led a revolt that burned Roman London before being crushed.',
     stats: s(9, 3, 7, 2, 3, 10, 4),
     terrain: { open: 2 },
     leadership: 8,
@@ -198,6 +225,9 @@ export const COMMANDERS: Pick[] = [
     origin: 'Soviet Union',
     year: 1943,
     blurb: 'Never lost a battle he planned. Plans involve an amount of artillery you’re not ready for.',
+    conflict: 'World War II',
+    descriptor:
+      'The Soviet marshal who turned back the Germans at Moscow, Stalingrad, and Berlin.',
     stats: s(8, 9, 6, 8, 6, 9, 7),
     terrain: { winter: 3, urban: 2 },
     leadership: 9,
@@ -226,6 +256,9 @@ export const GROUND: Pick[] = [
     origin: 'Sparta',
     year: -480,
     blurb: 'Three hundred guys who never stopped talking about it.',
+    conflict: 'Greco-Persian Wars',
+    descriptor:
+      'Professional Greek heavy infantry, raised for war and famed for their stand at Thermopylae.',
     stats: s(8, 9, 4, 3, 3, 10, 3),
     terrain: { mountain: 2, open: 1, winter: -1 },
     special: { trigger: 'defense', bonus: 1.2, label: 'Excellent at doorways' },
@@ -262,6 +295,9 @@ export const GROUND: Pick[] = [
     origin: 'Mongol Empire',
     year: 1220,
     blurb: 'The retreat is fake. It is always fake. They know you know. It still works.',
+    conflict: 'Mongol Conquests',
+    descriptor:
+      'Horse archers who loosed arrows at a gallop, outriding and outshooting every foe.',
     stats: s(9, 5, 10, 8, 5, 8, 8),
     terrain: { steppe: 3, open: 2, naval: -3, urban: -2 },
     special: { trigger: 'steppe', bonus: 1.2, label: 'The feigned retreat (patented)' },
@@ -278,6 +314,9 @@ export const GROUND: Pick[] = [
     origin: 'Poland–Lithuania',
     year: 1683,
     blurb: 'Arrive late, wearing literal wings, win instantly. The soundtrack is implied.',
+    conflict: 'Ottoman Wars',
+    descriptor:
+      'Polish heavy lancers whose winged charge shattered the Ottoman siege of Vienna.',
     stats: s(10, 7, 8, 5, 5, 9, 4),
     terrain: { open: 3 },
     special: { trigger: 'defense', bonus: 1.3, label: 'Then the winged hussars arrived' },
@@ -294,6 +333,9 @@ export const GROUND: Pick[] = [
     origin: 'Ottoman Empire',
     year: 1520,
     blurb: 'Elite, professional, and unionized enough to overthrow you if payroll slips.',
+    conflict: 'Ottoman Wars',
+    descriptor:
+      'The sultan’s elite standing infantry, among the first corps issued firearms.',
     stats: s(8, 8, 6, 7, 7, 7, 6),
     terrain: { urban: 2 },
     lines: {
@@ -310,6 +352,9 @@ export const GROUND: Pick[] = [
     origin: 'United States',
     year: 1945,
     blurb: 'Will take the island. The island does not get a vote.',
+    conflict: 'World War II',
+    descriptor:
+      'US amphibious infantry who stormed the fortified islands of the Pacific.',
     stats: s(9, 8, 7, 8, 7, 10, 6),
     terrain: { naval: 2, jungle: 2 },
     special: { trigger: 'amphibious', bonus: 1.3, label: 'The beach is a doorway' },
@@ -327,6 +372,9 @@ export const GROUND: Pick[] = [
     origin: 'Vietnam',
     year: 1968,
     blurb: 'You control everything you can see. You can see nothing.',
+    conflict: 'Vietnam War',
+    descriptor:
+      'Guerrillas who waged a tunnel-and-ambush war against a far better-equipped enemy.',
     stats: s(6, 7, 8, 6, 4, 10, 9),
     terrain: { jungle: 3, night: 3, open: -2 },
     special: { trigger: 'jungle', bonus: 1.4, label: 'The jungle votes last' },
@@ -343,6 +391,9 @@ export const GROUND: Pick[] = [
     origin: 'Swiss Confederacy',
     year: 1476,
     blurb: 'The reason Switzerland gets to be “neutral” is that everyone else asked nicely.',
+    conflict: 'Burgundian Wars',
+    descriptor:
+      'Pike squares so disciplined they broke Burgundy and became Europe’s prized mercenaries.',
     stats: s(9, 8, 6, 5, 4, 9, 3),
     terrain: { mountain: 3 },
     special: { trigger: 'mountain', bonus: 1.0, label: 'Alpine home advantage' },
@@ -359,6 +410,9 @@ export const GROUND: Pick[] = [
     origin: 'Zulu Kingdom',
     year: 1879,
     blurb: 'Buffalo-horns formation. You are the buffalo’s problem now.',
+    conflict: 'Anglo-Zulu War',
+    descriptor:
+      'Fast, disciplined spear infantry who annihilated a British column at Isandlwana.',
     stats: s(9, 4, 9, 4, 2, 9, 6),
     terrain: { open: 2 },
     special: { trigger: 'blitz', bonus: 1.0, label: 'Encirclement at sprint speed' },
@@ -375,6 +429,9 @@ export const GROUND: Pick[] = [
     origin: 'Byzantine Empire',
     year: 988,
     blurb: 'Viking severance package: guard the emperor, get paid in gold, never retreat.',
+    conflict: 'Byzantine Wars',
+    descriptor:
+      'Norse and Rus axemen who served as the Byzantine emperor’s loyal bodyguard.',
     stats: s(9, 8, 5, 4, 4, 9, 4),
     terrain: { urban: 2, winter: 2 },
     lines: {
@@ -394,6 +451,9 @@ export const ARMOR: Pick[] = [
     origin: 'Carthage',
     year: -218,
     blurb: 'Terrifying until startled. Then equally terrifying, less selective.',
+    conflict: 'Second Punic War',
+    descriptor:
+      'Living shock weapons that trampled enemy lines — until foes learned to open ranks and let them pass.',
     stats: s(9, 7, 4, 2, 2, 5, 2),
     terrain: { open: 2, mountain: -2, winter: -2 },
     special: { trigger: 'open', bonus: 1.0, label: 'Stampede (directional, usually)' },
@@ -410,6 +470,9 @@ export const ARMOR: Pick[] = [
     origin: 'France',
     year: 1204,
     blurb: 'Hurls a 90 kg projectile over 300 meters. The superior siege engine. This is settled.',
+    conflict: 'Medieval Sieges',
+    descriptor:
+      'The counterweight siege engine that hurled stones heavy enough to breach castle walls.',
     stats: s(8, 3, 2, 4, 7, 4, 2),
     terrain: { urban: 3 },
     special: { trigger: 'urban', bonus: 1.2, label: '90 kg / 300 m (superior)' },
@@ -426,6 +489,9 @@ export const ARMOR: Pick[] = [
     origin: 'Ottoman Empire',
     year: 1453,
     blurb: 'Ended the Roman Empire. Reload time: one hour. Worth it.',
+    conflict: 'Fall of Constantinople',
+    descriptor:
+      'The giant Ottoman cannon that battered down the ancient walls of Constantinople.',
     stats: s(10, 3, 1, 2, 8, 4, 2),
     terrain: { urban: 3, naval: -2 },
     special: { trigger: 'urban', bonus: 1.3, label: 'Walls are negotiable now' },
@@ -442,6 +508,9 @@ export const ARMOR: Pick[] = [
     origin: 'France',
     year: 1809,
     blurb: 'Napoleon’s actual love language.',
+    conflict: 'Napoleonic Wars',
+    descriptor:
+      'Napoleon’s massed gun line, concentrating artillery to blast holes in enemy formations.',
     stats: s(9, 5, 6, 6, 7, 6, 4),
     terrain: { open: 2 },
     lines: {
@@ -457,6 +526,9 @@ export const ARMOR: Pick[] = [
     origin: 'Britain',
     year: 1917,
     blurb: 'Top speed: walking. Effect on morale: immeasurable.',
+    conflict: 'World War I',
+    descriptor:
+      'Britain’s first workable battle tank, built to crawl over trenches and crush barbed wire.',
     stats: s(7, 8, 3, 4, 8, 6, 2),
     terrain: { open: 1, urban: 1 },
     special: { trigger: 'trench', bonus: 1.3, label: 'Trenches are speed bumps' },
@@ -473,6 +545,9 @@ export const ARMOR: Pick[] = [
     origin: 'Soviet Union',
     year: 1943,
     blurb: 'Not elegant. Not comfortable. There are sixty thousand of them.',
+    conflict: 'World War II',
+    descriptor:
+      'The rugged, sloped-armor Soviet tank produced in numbers that overwhelmed the Wehrmacht.',
     stats: s(9, 8, 7, 6, 8, 8, 3),
     terrain: { winter: 3, open: 2 },
     special: { trigger: 'winter', bonus: 1.0, label: 'Starts in any weather' },
@@ -489,6 +564,9 @@ export const ARMOR: Pick[] = [
     origin: 'Soviet Union',
     year: 1944,
     blurb: 'Screams for eight seconds, deletes a grid square.',
+    conflict: 'World War II',
+    descriptor:
+      'Truck-mounted Soviet rocket launchers that saturated whole grid squares in seconds.',
     stats: s(10, 3, 7, 5, 7, 6, 2),
     terrain: { open: 2 },
     lines: {
@@ -504,6 +582,9 @@ export const ARMOR: Pick[] = [
     origin: 'United States',
     year: 1991,
     blurb: 'Drinks jet fuel like a suggestion. Your medieval supply corps is crying.',
+    conflict: 'Gulf War',
+    descriptor:
+      'The US main battle tank that destroyed Iraqi armor at range in the Gulf War.',
     stats: s(10, 10, 8, 3, 10, 7, 6),
     terrain: { desert: 3, jungle: -2 },
     special: { trigger: 'desert', bonus: 1.3, label: '73 Easting energy' },
@@ -520,6 +601,9 @@ export const ARMOR: Pick[] = [
     origin: 'Bohemia',
     year: 1420,
     blurb: 'Invented the armored column 500 years early, out of farm carts and audacity.',
+    conflict: 'Hussite Wars',
+    descriptor:
+      'Armored wagons chained into mobile forts bristling with early handguns and cannon.',
     stats: s(7, 9, 5, 6, 6, 8, 3),
     terrain: { open: 2 },
     special: { trigger: 'defense', bonus: 1.2, label: 'Instant fortress, just add wagons' },
@@ -536,6 +620,9 @@ export const ARMOR: Pick[] = [
     origin: 'Joseon Korea',
     year: 1593,
     blurb: 'Two hundred rockets per cart. The question was never “why.”',
+    conflict: 'Imjin War',
+    descriptor:
+      'A Korean cart that volley-fired over a hundred rocket-arrows at once.',
     stats: s(8, 4, 4, 5, 7, 5, 2),
     terrain: { urban: 2 },
     special: { trigger: 'defense', bonus: 1.1, label: '200 answers per cart' },
@@ -556,6 +643,9 @@ export const AIR: Pick[] = [
     origin: 'Revolutionary France',
     year: 1794,
     blurb: 'The first air force: one balloon, infinite audacity.',
+    conflict: 'French Revolutionary Wars',
+    descriptor:
+      'The first military aircraft — tethered balloons that spotted enemy lines at Fleurus.',
     stats: s(1, 2, 3, 3, 5, 4, 7),
     special: { trigger: 'intel', bonus: 1.0, label: 'The original eye in the sky' },
     lines: {
@@ -571,6 +661,9 @@ export const AIR: Pick[] = [
     origin: 'Germany',
     year: 1915,
     blurb: 'Majestic, flammable, punctual.',
+    conflict: 'World War I',
+    descriptor:
+      'German rigid airships that carried the first strategic bombing raids to British cities.',
     stats: s(4, 2, 5, 5, 7, 4, 6),
     terrain: { night: 1 },
     lines: {
@@ -586,6 +679,9 @@ export const AIR: Pick[] = [
     origin: 'Germany',
     year: 1917,
     blurb: 'Eighty confirmed victories and a paint job that says “come find out.”',
+    conflict: 'World War I',
+    descriptor:
+      'Von Richthofen’s mobile, brightly painted fighter wing that ruled the Western Front skies.',
     stats: s(7, 4, 8, 4, 7, 8, 4),
     terrain: { air: 3 },
     special: { trigger: 'airsup', bonus: 1.2, label: 'Dogfighting, the artisanal way' },
@@ -602,6 +698,9 @@ export const AIR: Pick[] = [
     origin: 'Britain',
     year: 1940,
     blurb: 'Never was so much owed by so many to so few — these few, specifically.',
+    conflict: 'World War II',
+    descriptor:
+      'The agile RAF fighter that helped win the Battle of Britain against the Luftwaffe.',
     stats: s(8, 7, 8, 6, 8, 9, 7),
     terrain: { air: 3 },
     special: { trigger: 'airsup', bonus: 1.3, label: 'Their finest hour, on repeat' },
@@ -619,6 +718,9 @@ export const AIR: Pick[] = [
     origin: 'France',
     year: 1914,
     blurb: 'Cher Ami flew 25 miles shot through the chest and still delivered. Your Wi-Fi drops in rain.',
+    conflict: 'World War I',
+    descriptor:
+      'Homing pigeons that carried vital messages when wire and radio failed at the front.',
     stats: s(1, 2, 7, 6, 2, 6, 8),
     bridge: 1,
     special: { trigger: 'intel', bonus: 1.2, label: 'Unjammable. Unbribable. Bird.' },
@@ -635,6 +737,9 @@ export const AIR: Pick[] = [
     origin: 'Soviet Union',
     year: 1951,
     blurb: 'Showed up over Korea and instantly obsoleted everyone’s paperwork.',
+    conflict: 'Korean War',
+    descriptor:
+      'Swept-wing Soviet jets that dueled US fighters over ‘MiG Alley’ in Korea.',
     stats: s(8, 6, 9, 5, 8, 6, 5),
     terrain: { air: 2 },
     lines: {
@@ -651,6 +756,9 @@ export const AIR: Pick[] = [
     origin: 'United States',
     year: 1968,
     blurb: 'The sound of the 20th century clearing its throat.',
+    conflict: 'Vietnam War',
+    descriptor:
+      'The helicopter that defined air-mobile war, ferrying troops in and out of jungle landing zones.',
     stats: s(7, 5, 10, 7, 7, 7, 5),
     terrain: { jungle: 3 },
     special: { trigger: 'jungle', bonus: 1.2, label: 'The LZ is wherever we say' },
@@ -668,6 +776,9 @@ export const AIR: Pick[] = [
     origin: 'United States',
     year: 1966,
     blurb: 'Outran every missile ever fired at it. Standard evasive maneuver: accelerate.',
+    conflict: 'Cold War',
+    descriptor:
+      'The SR-71 spy plane, so fast it simply outran missiles at the edge of space.',
     stats: s(1, 9, 10, 3, 10, 5, 10),
     special: { trigger: 'intel', bonus: 1.4, label: 'Sees everything, apologizes never' },
     lines: {
@@ -683,6 +794,9 @@ export const AIR: Pick[] = [
     origin: 'United States',
     year: 1991,
     blurb: 'Achieved air supremacy in 38 minutes, then spent the rest of the war showing off.',
+    conflict: 'Gulf War',
+    descriptor:
+      'The US air arm that won total air supremacy in the opening hours of the Gulf War.',
     stats: s(10, 8, 9, 6, 10, 7, 8),
     terrain: { air: 3, night: 2 },
     special: { trigger: 'airsup', bonus: 1.4, label: 'The sky is a home game' },
@@ -702,6 +816,9 @@ export const NAVY: Pick[] = [
     origin: 'Athens',
     year: -480,
     blurb: 'Democracy’s first flex. Rowed by citizens with opinions.',
+    conflict: 'Greco-Persian Wars',
+    descriptor:
+      'Fast Athenian oared warships that smashed the Persian fleet at Salamis.',
     stats: s(7, 4, 8, 4, 6, 8, 6),
     terrain: { naval: 3 },
     special: { trigger: 'naval', bonus: 1.0, label: 'Ramming speed (democratically ratified)' },
@@ -719,6 +836,9 @@ export const NAVY: Pick[] = [
     origin: 'Scandinavia',
     year: 865,
     blurb: 'Draft so shallow they can raid a river, a lake, or your feelings.',
+    conflict: 'Viking Age',
+    descriptor:
+      'Shallow-draft Norse ships that raided coasts and rowed up rivers deep inland.',
     stats: s(6, 4, 9, 5, 5, 9, 6),
     terrain: { naval: 2, night: 1 },
     special: { trigger: 'amphibious', bonus: 1.2, label: 'Any beach is a port' },
@@ -735,6 +855,9 @@ export const NAVY: Pick[] = [
     origin: 'Joseon Korea',
     year: 1597,
     blurb: 'An ironclad 250 years early, with a dragon head that breathes smoke. Overkill? Correct.',
+    conflict: 'Imjin War',
+    descriptor:
+      'Admiral Yi’s armored, spike-roofed warships that broke Japanese fleets off Korea.',
     stats: s(9, 10, 5, 5, 8, 8, 5),
     terrain: { naval: 3 },
     special: { trigger: 'blockade', bonus: 1.3, label: 'The strait is closed' },
@@ -751,6 +874,9 @@ export const NAVY: Pick[] = [
     origin: 'Spain',
     year: 1588,
     blurb: '130 ships, unbeatable on paper. Do not check the weather. Do not.',
+    conflict: 'Anglo-Spanish War',
+    descriptor:
+      'The great Spanish invasion fleet, scattered by English fireships and Atlantic storms.',
     stats: s(7, 7, 3, 3, 5, 5, 3),
     terrain: { naval: 2 },
     lines: {
@@ -786,6 +912,9 @@ export const NAVY: Pick[] = [
     origin: 'Ming China',
     year: 1421,
     blurb: 'Ships so large historians still argue. Came back with giraffes. GIRAFFES.',
+    conflict: 'Ming Voyages',
+    descriptor:
+      'Zheng He’s colossal fleet, projecting Ming power across the Indian Ocean.',
     stats: s(6, 7, 6, 10, 7, 6, 7),
     terrain: { naval: 2 },
     special: { trigger: 'supply', bonus: 1.3, label: 'The fleet IS the supply line' },
@@ -802,6 +931,9 @@ export const NAVY: Pick[] = [
     origin: 'Germany',
     year: 1917,
     blurb: 'Rude in a way the ocean had not previously experienced.',
+    conflict: 'World War I',
+    descriptor:
+      'German submarines whose unrestricted attacks nearly starved Britain of shipping.',
     stats: s(8, 3, 6, 5, 7, 6, 7),
     terrain: { naval: 2, night: 2 },
     special: { trigger: 'night', bonus: 1.0, label: 'Surfaces only for drama' },
@@ -819,6 +951,9 @@ export const NAVY: Pick[] = [
     origin: 'United States',
     year: 1944,
     blurb: 'A floating city that launches the end of your empire in waves.',
+    conflict: 'World War II',
+    descriptor:
+      'The US carrier task forces that wrested command of the Pacific from Japan.',
     stats: s(10, 8, 8, 9, 9, 8, 7),
     terrain: { naval: 3, air: 2 },
     special: { trigger: 'amphibious', bonus: 1.4, label: 'Islands are stepping stones' },
@@ -835,6 +970,9 @@ export const NAVY: Pick[] = [
     origin: 'The Caribbean',
     year: 1717,
     blurb: 'Lit fuses in his beard before meetings. HR was not consulted.',
+    conflict: 'Golden Age of Piracy',
+    descriptor:
+      'Blackbeard’s raiders, who preyed on Atlantic shipping on fearsome reputation as much as force.',
     stats: s(6, 4, 8, 3, 3, 7, 7),
     terrain: { naval: 2, night: 1 },
     special: { trigger: 'supply', bonus: 1.2, label: 'Your supplies now (finders keepers)' },
@@ -851,6 +989,9 @@ export const NAVY: Pick[] = [
     origin: 'Imperial Russia',
     year: 1905,
     blurb: 'Sailed 18,000 miles to lose in 45 minutes. Legendary commitment to the bit.',
+    conflict: 'Russo-Japanese War',
+    descriptor:
+      'The Russian fleet that sailed halfway around the world only to be annihilated at Tsushima.',
     stats: s(3, 4, 2, 4, 4, 5, 2),
     terrain: { naval: 1 },
     special: { trigger: 'expedition', bonus: 1.5, label: 'Extremely experienced travelers' },
@@ -870,6 +1011,9 @@ export const INTEL: Pick[] = [
     origin: 'Britain',
     year: 1942,
     blurb: 'Reads the enemy’s mail before the enemy does. Shortened a world war from a cottage.',
+    conflict: 'World War II',
+    descriptor:
+      'The British codebreaking center that cracked the German Enigma cipher.',
     stats: s(1, 5, 3, 6, 9, 6, 10),
     bridge: 2,
     special: { trigger: 'intel', bonus: 1.4, label: 'Your codes are our newsletter' },
@@ -887,6 +1031,9 @@ export const INTEL: Pick[] = [
     origin: 'Mongol Empire',
     year: 1240,
     blurb: 'Pony Express, but terrifying, and two centuries earlier.',
+    conflict: 'Mongol Conquests',
+    descriptor:
+      'The Mongol relay-station network that sped messages across the empire at astonishing speed.',
     stats: s(2, 3, 10, 9, 2, 7, 8),
     terrain: { steppe: 2 },
     bridge: 2,
@@ -904,6 +1051,9 @@ export const INTEL: Pick[] = [
     origin: 'Elizabethan England',
     year: 1587,
     blurb: 'Elizabeth I’s inbox zero. Every plot, pre-read.',
+    conflict: 'Elizabethan Era',
+    descriptor:
+      'Queen Elizabeth’s spymaster network that uncovered plots against the crown.',
     stats: s(1, 4, 4, 4, 3, 5, 10),
     special: { trigger: 'intel', bonus: 1.2, label: 'Your conspiracy has a subscriber' },
     lines: {
@@ -919,6 +1069,9 @@ export const INTEL: Pick[] = [
     origin: 'Revolutionary America',
     year: 1778,
     blurb: 'Invisible ink, numbered agents, and a laundry line that beat an empire.',
+    conflict: 'American Revolution',
+    descriptor:
+      'Washington’s secret ring that smuggled British movements out of occupied New York.',
     stats: s(1, 4, 5, 4, 3, 7, 9),
     special: { trigger: 'night', bonus: 1.0, label: 'The laundry knows' },
     lines: {
@@ -935,6 +1088,9 @@ export const INTEL: Pick[] = [
     origin: 'United States',
     year: 1944,
     blurb: 'The only battlefield code never broken. Not once. Not ever.',
+    conflict: 'World War II',
+    descriptor:
+      'Navajo Marines who relayed orders in an unbreakable code built from their language.',
     stats: s(3, 5, 6, 5, 6, 9, 10),
     special: { trigger: 'intel', bonus: 1.3, label: 'Unbroken, unbreakable' },
     lines: {
@@ -951,6 +1107,9 @@ export const INTEL: Pick[] = [
     origin: 'Sengoku Japan',
     year: 1580,
     blurb: 'You have already hired them. You found out just now.',
+    conflict: 'Sengoku Period',
+    descriptor:
+      'Iga’s covert agents, specialists in espionage, sabotage, and infiltration.',
     stats: s(5, 4, 8, 3, 5, 8, 9),
     terrain: { night: 3 },
     special: { trigger: 'night', bonus: 1.4, label: 'The night shift' },
@@ -967,6 +1126,9 @@ export const INTEL: Pick[] = [
     origin: 'United States',
     year: 1944,
     blurb: 'Inflatable tanks, fake radio traffic, sound trucks. Modern art’s greatest military victory.',
+    conflict: 'World War II',
+    descriptor:
+      'A US deception unit that faked whole armies with inflatable tanks and sound trucks.',
     stats: s(1, 6, 6, 5, 7, 6, 9),
     special: { trigger: 'propaganda', bonus: 1.4, label: 'The army that isn’t there' },
     lines: {
@@ -982,6 +1144,9 @@ export const INTEL: Pick[] = [
     origin: 'Byzantine Empire',
     year: 1000,
     blurb: 'Wins wars at dinner parties, three emperors deep.',
+    conflict: 'Byzantine Era',
+    descriptor:
+      'The Byzantine service that ran diplomacy, bribery, and espionage across the empire’s borders.',
     stats: s(1, 6, 3, 5, 4, 5, 10),
     terrain: { urban: 2 },
     special: { trigger: 'propaganda', bonus: 1.2, label: 'It’s complicated (byzantine, even)' },
@@ -998,6 +1163,9 @@ export const INTEL: Pick[] = [
     origin: 'United States',
     year: 1960,
     blurb: 'Photographs your secrets from 70,000 feet, files them alphabetically.',
+    conflict: 'Cold War',
+    descriptor:
+      'The high-altitude US spy plane that photographed targets deep inside Soviet territory.',
     stats: s(1, 4, 8, 4, 10, 4, 10),
     special: { trigger: 'intel', bonus: 1.0, label: 'Sees the whole board' },
     lines: {
@@ -1014,6 +1182,9 @@ export const INTEL: Pick[] = [
     origin: 'Ancient Greece',
     year: -550,
     blurb: 'Intelligence briefings, technically. Accuracy varies. Vibes immaculate.',
+    conflict: 'Ancient Greece',
+    descriptor:
+      'The priestess of Delphi whose cryptic prophecies swayed the war plans of Greek states.',
     stats: s(1, 3, 2, 2, 1, 5, 7),
     special: { trigger: 'absurd', bonus: 2.0, label: 'A great empire will fall (unspecified)' },
     lines: {
@@ -1032,6 +1203,9 @@ export const LOGISTICS: Pick[] = [
     origin: 'Roman Empire',
     year: 100,
     blurb: 'All roads lead to your supply depot. Still under warranty, 2,000 years later.',
+    conflict: 'Pax Romana',
+    descriptor:
+      'The paved road network that let Roman legions march and resupply across the empire.',
     stats: s(2, 6, 7, 10, 7, 6, 4),
     special: { trigger: 'supply', bonus: 1.3, label: 'Paved. Straight. Forever.' },
     lines: {
@@ -1047,6 +1221,9 @@ export const LOGISTICS: Pick[] = [
     origin: 'Mongol Empire',
     year: 1220,
     blurb: 'Five horses per rider. The original unlimited data plan.',
+    conflict: 'Mongol Conquests',
+    descriptor:
+      'The Mongol system of spare horses that let riders cover vast distances without pause.',
     stats: s(3, 3, 10, 9, 3, 7, 5),
     terrain: { steppe: 2, naval: -2 },
     special: { trigger: 'blitz', bonus: 1.2, label: 'The army IS the supply line' },
@@ -1063,6 +1240,9 @@ export const LOGISTICS: Pick[] = [
     origin: 'United States',
     year: 1944,
     blurb: 'Drove supplies to the front 24/7 until the front couldn’t outrun them.',
+    conflict: 'World War II',
+    descriptor:
+      'The round-the-clock US truck convoy that kept Allied armies fueled across France.',
     stats: s(3, 4, 8, 9, 6, 7, 3),
     special: { trigger: 'blitz', bonus: 1.3, label: 'The front never waits' },
     lines: {
@@ -1079,6 +1259,9 @@ export const LOGISTICS: Pick[] = [
     origin: 'United States',
     year: 1943,
     blurb: 'Builds a cargo ship in four days. The ocean is a conveyor belt now.',
+    conflict: 'World War II',
+    descriptor:
+      'US shipyards that mass-produced cargo ships faster than U-boats could sink them.',
     stats: s(2, 5, 4, 10, 7, 6, 3),
     terrain: { naval: 2 },
     special: { trigger: 'supply', bonus: 1.2, label: 'Ships faster than sinkings' },
@@ -1095,6 +1278,9 @@ export const LOGISTICS: Pick[] = [
     origin: 'Inca Empire',
     year: 1470,
     blurb: 'Messages over the Andes at a dead sprint, in knots. Literal knots.',
+    conflict: 'Inca Empire',
+    descriptor:
+      'Relay runners who sped messages and goods along thousands of miles of Andean road.',
     stats: s(2, 3, 9, 8, 3, 8, 7),
     terrain: { mountain: 3 },
     special: { trigger: 'mountain', bonus: 1.2, label: 'The Andes are a hallway' },
@@ -1111,6 +1297,9 @@ export const LOGISTICS: Pick[] = [
     origin: 'Achaemenid Persia',
     year: -500,
     blurb: 'Neither snow nor rain nor 2,500 kilometers. The original express shipping.',
+    conflict: 'Achaemenid Empire',
+    descriptor:
+      'The Persian royal highway that let couriers cross the empire in a week.',
     stats: s(2, 4, 7, 9, 3, 5, 6),
     terrain: { desert: 2 },
     special: { trigger: 'desert', bonus: 1.2, label: 'Ninety days to anywhere' },
@@ -1127,6 +1316,9 @@ export const LOGISTICS: Pick[] = [
     origin: 'Berlin Airlift',
     year: 1948,
     blurb: 'Supplied an entire city by air. Included candy. Especially the candy.',
+    conflict: 'Cold War',
+    descriptor:
+      'The round-the-clock flights that supplied blockaded West Berlin entirely by air.',
     stats: s(1, 4, 8, 10, 8, 7, 4),
     terrain: { air: 2, winter: 1 },
     special: { trigger: 'supply', bonus: 1.3, label: 'Gravity is a supply route' },
@@ -1143,6 +1335,9 @@ export const LOGISTICS: Pick[] = [
     origin: 'France',
     year: 1807,
     blurb: 'The plan is: the land will provide. The land has other plans.',
+    conflict: 'Napoleonic Wars',
+    descriptor:
+      'Napoleon’s practice of living off the land, freeing his armies to move fast and light.',
     stats: s(3, 3, 6, 4, 3, 5, 4),
     terrain: { winter: -3 },
     lines: {
@@ -1158,6 +1353,9 @@ export const LOGISTICS: Pick[] = [
     origin: 'Carthage',
     year: -218,
     blurb: 'Thirty-seven elephants enter the Alps. The number that exits is a sore subject.',
+    conflict: 'Second Punic War',
+    descriptor:
+      'The baggage train that hauled Hannibal’s army and its elephants over the Alps into Italy.',
     stats: s(3, 4, 4, 3, 2, 8, 3),
     terrain: { mountain: 2, winter: -2 },
     special: { trigger: 'mountain', bonus: 1.0, label: 'Has done this before, barely' },
@@ -1174,6 +1372,9 @@ export const LOGISTICS: Pick[] = [
     origin: 'Ayyubid Sultanate',
     year: 1187,
     blurb: 'Ships of the desert. Spit-based morale system.',
+    conflict: 'Crusades',
+    descriptor:
+      'Camel caravans that carried water and supplies across desert on campaign against the Crusaders.',
     stats: s(2, 4, 7, 8, 3, 7, 5),
     terrain: { desert: 3, winter: -2 },
     special: { trigger: 'desert', bonus: 1.3, label: 'The desert is a highway' },
@@ -1194,6 +1395,9 @@ export const WILDCARD: Pick[] = [
     origin: 'Byzantine Empire',
     year: 900,
     blurb: 'Burns on water. Recipe lost. Warranty void.',
+    conflict: 'Byzantine Wars',
+    descriptor:
+      'The Byzantine secret weapon — a liquid fire that burned on water and torched enemy fleets.',
     stats: s(9, 6, 3, 3, 8, 5, 3),
     terrain: { naval: 3 },
     special: { trigger: 'naval', bonus: 1.4, label: 'The sea is flammable now' },
@@ -1211,6 +1415,9 @@ export const WILDCARD: Pick[] = [
     origin: 'Syracuse',
     year: -212,
     blurb: 'Give him a lever and he will flip your flagship.',
+    conflict: 'Second Punic War',
+    descriptor:
+      'The war machines Archimedes built to defend Syracuse against the Roman siege.',
     stats: s(8, 8, 2, 2, 9, 4, 8),
     terrain: { naval: 2, urban: 2 },
     special: { trigger: 'defense', bonus: 1.4, label: 'Do not disturb his circles' },
@@ -1228,6 +1435,9 @@ export const WILDCARD: Pick[] = [
     origin: 'Roman Republic',
     year: -390,
     blurb: 'Woke up once, saved the Republic. Undefeated since 390 BCE.',
+    conflict: 'Gallic Sack of Rome',
+    descriptor:
+      'The sacred geese whose alarm cackling foiled a night attack on Rome’s citadel.',
     stats: s(2, 6, 4, 2, 1, 9, 9),
     terrain: { night: 3 },
     special: { trigger: 'night', bonus: 1.6, label: 'The geese are awake' },
@@ -1244,6 +1454,9 @@ export const WILDCARD: Pick[] = [
     origin: 'Australia',
     year: 1932,
     blurb: 'Australia deployed machine guns against these birds. Australia lost. Twice.',
+    conflict: 'The Emu War',
+    descriptor:
+      'The Australian troops sent — unsuccessfully — to cull tens of thousands of crop-raiding emus.',
     stats: s(5, 7, 9, 2, 1, 10, 3),
     terrain: { desert: 2, open: 1 },
     special: { trigger: 'absurd', bonus: 2.2, label: 'Undefeated vs. machine guns' },
@@ -1260,6 +1473,9 @@ export const WILDCARD: Pick[] = [
     origin: 'Ancient Greece',
     year: -275,
     blurb: 'Ancient anti-elephant weapon. Elephants hate them. Everyone hates them a little.',
+    conflict: 'Pyrrhic War',
+    descriptor:
+      'Squealing, sometimes-flaming pigs used to panic enemy war elephants.',
     stats: s(6, 4, 5, 2, 1, 7, 2),
     terrain: { open: 1 },
     special: { trigger: 'absurd', bonus: 1.6, label: 'Chaos, deployed squealing' },
@@ -1276,6 +1492,9 @@ export const WILDCARD: Pick[] = [
     origin: 'Scotland',
     year: 1746,
     blurb: 'Classified as a weapon of war. By the losing side.',
+    conflict: 'Jacobite Rising',
+    descriptor:
+      'Highland pipers whose war tunes rallied the clans and unnerved their foes.',
     stats: s(4, 4, 5, 3, 2, 10, 2),
     terrain: { mountain: 2, open: 1 },
     special: { trigger: 'propaganda', bonus: 1.3, label: 'The Drone of Dread' },
@@ -1293,6 +1512,9 @@ export const WILDCARD: Pick[] = [
     origin: 'England',
     year: 1415,
     blurb: 'Six arrows a minute, per archer, forever. The sky is a suggestion.',
+    conflict: 'Hundred Years’ War',
+    descriptor:
+      'English archers whose massed longbow volleys destroyed the French knights at Agincourt.',
     stats: s(9, 4, 6, 4, 4, 7, 4),
     terrain: { open: 2 },
     special: { trigger: 'open', bonus: 1.2, label: 'It is raining. It is arrows.' },

@@ -34,6 +34,9 @@ export const EXPANSION: Pick[] = [
     origin: 'Ayyubid Sultanate',
     year: 1187,
     blurb: 'Won the war, spared the city, invoiced only in reputation.',
+    conflict: 'Crusades',
+    descriptor:
+      'The sultan who united the Muslim world and retook Jerusalem after his victory at Hattin.',
     stats: s(8, 7, 8, 7, 5, 8, 8),
     terrain: { desert: 3 },
     leadership: 9,
@@ -52,6 +55,9 @@ export const EXPANSION: Pick[] = [
     origin: 'Mongol Empire',
     year: 1220,
     blurb: 'Won 65 pitched battles on two continents. The deep cut that beats the famous pick.',
+    conflict: 'Mongol Conquests',
+    descriptor:
+      'Genghis Khan’s chief strategist, who orchestrated sweeping campaigns across Asia and Europe.',
     stats: s(9, 7, 10, 8, 6, 8, 9),
     terrain: { steppe: 3, winter: 2 },
     leadership: 9,
@@ -71,6 +77,9 @@ export const EXPANSION: Pick[] = [
     origin: 'United States',
     year: 1944,
     blurb: 'Managed Patton, Montgomery, and de Gaulle simultaneously. The war was the easy part.',
+    conflict: 'World War II',
+    descriptor:
+      'The supreme Allied commander who planned and launched the D-Day invasion of Europe.',
     stats: s(6, 8, 6, 9, 7, 8, 7),
     leadership: 9,
     adaptability: 8,
@@ -88,6 +97,9 @@ export const EXPANSION: Pick[] = [
     origin: 'United States',
     year: 1944,
     blurb: 'Ran an ocean like a chessboard, promoted the codebreakers, said little, sank much.',
+    conflict: 'World War II',
+    descriptor:
+      'The US admiral who directed the Pacific Fleet’s island-hopping drive toward Japan.',
     stats: s(8, 8, 7, 8, 8, 7, 9),
     terrain: { naval: 3 },
     leadership: 9,
@@ -107,6 +119,9 @@ export const EXPANSION: Pick[] = [
     origin: 'United States',
     year: 2025,
     blurb: 'Logistics: concepts of a plan. Morale among believers: unmeasurable by science.',
+    conflict: 'The 2020s',
+    descriptor:
+      'The 45th and 47th US president, a dominant and divisive force in modern American politics.',
     stats: s(7, 4, 6, 2, 3, 9, 3),
     ruleset: 'current-affairs',
     tone: 'satirical',
@@ -126,6 +141,9 @@ export const EXPANSION: Pick[] = [
     origin: 'United States',
     year: 2021,
     blurb: 'Assembles forty-nation coalitions. The briefing runs long. The alliance holds.',
+    conflict: 'The 2020s',
+    descriptor:
+      'The 46th US president, whose term steered the Western response to the war in Ukraine.',
     stats: s(4, 7, 5, 7, 4, 7, 6),
     ruleset: 'current-affairs',
     tone: 'satirical',
@@ -145,6 +163,9 @@ export const EXPANSION: Pick[] = [
     origin: 'Russia',
     year: 2022,
     blurb: 'Doctrine of 1979, table length of seventy feet, timetable classified.',
+    conflict: 'The 2020s',
+    descriptor:
+      'Russia’s long-ruling president, who ordered the 2022 invasion of Ukraine.',
     stats: s(7, 8, 3, 2, 5, 6, 7),
     ruleset: 'current-affairs',
     tone: 'satirical',
@@ -164,6 +185,9 @@ export const EXPANSION: Pick[] = [
     origin: 'North Korea',
     year: 2020,
     blurb: 'The parade is immaculate. All other readiness metrics are classified.',
+    conflict: 'The 2020s',
+    descriptor:
+      'North Korea’s leader, who commands a nuclear-armed and heavily militarized state.',
     stats: s(6, 7, 4, 3, 5, 7, 6),
     ruleset: 'current-affairs',
     tone: 'satirical',
@@ -183,6 +207,9 @@ export const EXPANSION: Pick[] = [
     origin: 'China',
     year: 2021,
     blurb: 'The industrial base is the strategy. The five-year plan has a five-year plan.',
+    conflict: 'The 2020s',
+    descriptor:
+      'China’s paramount leader, overseeing a rapid expansion of its military and global reach.',
     stats: s(5, 7, 5, 9, 8, 6, 7),
     ruleset: 'current-affairs',
     tone: 'satirical',
@@ -202,6 +229,9 @@ export const EXPANSION: Pick[] = [
     origin: 'Ukraine',
     year: 2022,
     blurb: 'Career pivot of the century. The address is in a t-shirt; the ask is in every parliament.',
+    conflict: 'The 2020s',
+    descriptor:
+      'Ukraine’s wartime president, who rallied national resistance to the Russian invasion.',
     stats: s(5, 8, 6, 5, 6, 9, 7),
     ruleset: 'current-affairs',
     tone: 'satirical',
@@ -222,6 +252,9 @@ export const EXPANSION: Pick[] = [
     origin: 'Achaemenid Persia',
     year: -480,
     blurb: 'Always exactly ten thousand. The paperwork is the scariest part.',
+    conflict: 'Greco-Persian Wars',
+    descriptor:
+      'The Persian king’s elite guard, held at exactly ten thousand by replacing each casualty at once.',
     stats: s(7, 7, 6, 8, 5, 8, 5),
     terrain: { desert: 2, open: 1 },
     lines: {
@@ -237,6 +270,9 @@ export const EXPANSION: Pick[] = [
     origin: 'United States',
     year: 1944,
     blurb: 'Arrives from the ceiling, holds until relieved, complains the entire time. Elite.',
+    conflict: 'World War II',
+    descriptor:
+      'US paratroopers who dropped behind enemy lines on the eve of D-Day.',
     stats: s(8, 7, 9, 5, 7, 9, 6),
     terrain: { night: 2 },
     special: { trigger: 'amphibious', bonus: 1.1, label: 'Vertical envelopment' },
@@ -253,6 +289,9 @@ export const EXPANSION: Pick[] = [
     origin: 'Nepal',
     year: 1944,
     blurb: 'The war cry translates roughly to "the paperwork is already filed."',
+    conflict: 'World War II',
+    descriptor:
+      'Nepali soldiers in British service, renowned for ferocity and their kukri knives.',
     stats: s(9, 8, 8, 5, 5, 10, 6),
     terrain: { mountain: 3, jungle: 2 },
     special: { trigger: 'terrain', bonus: 1.2, label: 'The hill is the easy part' },
@@ -270,6 +309,9 @@ export const EXPANSION: Pick[] = [
     origin: 'Achaemenid Persia',
     year: -331,
     blurb: 'Terrifying on flat ground. There is a 45-degree workaround the enemy keeps finding.',
+    conflict: 'Wars of Alexander the Great',
+    descriptor:
+      'Persian chariots with blades fixed to their wheels, meant to carve through massed infantry.',
     stats: s(7, 3, 8, 3, 4, 5, 2),
     terrain: { open: 3, mountain: -3 },
     special: { trigger: 'open', bonus: 1.1, label: 'Lanes of consequence' },
@@ -286,6 +328,9 @@ export const EXPANSION: Pick[] = [
     origin: 'Syracuse',
     year: -212,
     blurb: 'Precision bolt delivery, invented by a man who preferred circles.',
+    conflict: 'Second Punic War',
+    descriptor:
+      'Torsion bolt-throwers that Archimedes tuned to pick off Roman ships and soldiers.',
     stats: s(7, 5, 3, 4, 7, 5, 4),
     terrain: { urban: 2 },
     special: { trigger: 'defense', bonus: 1.1, label: 'Pre-registered firing arcs' },
@@ -302,6 +347,9 @@ export const EXPANSION: Pick[] = [
     origin: 'United States',
     year: 1944,
     blurb: 'Not the best tank. The most tank. Arrives in quantities the enemy calls unfair.',
+    conflict: 'World War II',
+    descriptor:
+      'The reliable, mass-produced US medium tank that equipped Allied armies on every front.',
     stats: s(7, 6, 8, 9, 7, 8, 4),
     terrain: { open: 2 },
     special: { trigger: 'logistics', bonus: 1.1, label: 'Factories win wars' },
@@ -338,6 +386,9 @@ export const EXPANSION: Pick[] = [
     origin: 'France (American volunteers)',
     year: 1916,
     blurb: 'Volunteer pilots with two lion cub mascots named Whiskey and Soda. Historians checked. It’s true.',
+    conflict: 'World War I',
+    descriptor:
+      'American volunteer pilots who flew for France before the US entered the war.',
     stats: s(6, 4, 8, 4, 6, 8, 4),
     terrain: { air: 2 },
     lines: {
@@ -353,6 +404,9 @@ export const EXPANSION: Pick[] = [
     origin: 'United States',
     year: 1944,
     blurb: 'Red tails, escort record the bombers requested by name, excellence under double fire.',
+    conflict: 'World War II',
+    descriptor:
+      'The pioneering African American fighter pilots who escorted bombers over Europe.',
     stats: s(8, 8, 8, 5, 7, 10, 5),
     terrain: { air: 3 },
     special: { trigger: 'airsup', bonus: 1.2, label: 'The escort holds' },
@@ -369,6 +423,9 @@ export const EXPANSION: Pick[] = [
     origin: 'United States',
     year: 1942,
     blurb: 'Launched army bombers off a carrier with no plan for landing. Morale as a weapons system.',
+    conflict: 'World War II',
+    descriptor:
+      'The daring US bomber crews who launched from a carrier to strike Tokyo.',
     stats: s(5, 3, 7, 3, 7, 10, 5),
     authenticity: 'historical',
     special: { trigger: 'propaganda', bonus: 1.3, label: 'The message IS the mission' },
@@ -385,6 +442,9 @@ export const EXPANSION: Pick[] = [
     origin: 'Roman Republic',
     year: -249,
     blurb: 'Official air-superiority augury. If they eat, we sail. One admiral disagreed once. Once.',
+    conflict: 'First Punic War',
+    descriptor:
+      'The sacred chickens whose feeding omens were consulted before Roman battle.',
     stats: s(1, 3, 2, 2, 1, 7, 8),
     authenticity: 'historical',
     special: { trigger: 'naval', bonus: 1.2, label: 'If they eat, we sail' },
@@ -401,6 +461,9 @@ export const EXPANSION: Pick[] = [
     origin: 'Ancient China',
     year: -200,
     blurb: 'Signals, ranging, and psychological presence, on a string. Antiquity’s entire air force.',
+    conflict: 'Ancient China',
+    descriptor:
+      'Signal and measuring kites used by Chinese armies to send word and gauge distance.',
     stats: s(2, 2, 5, 2, 3, 5, 7),
     authenticity: 'historical',
     special: { trigger: 'intel', bonus: 1.0, label: 'Eyes above the wall' },
@@ -418,6 +481,9 @@ export const EXPANSION: Pick[] = [
     origin: 'United States',
     year: 1812,
     blurb: 'British cannonballs bounced off the hull. The crew kept the nickname and the receipts.',
+    conflict: 'War of 1812',
+    descriptor:
+      'USS Constitution, the frigate whose live-oak hull shrugged off British cannonballs.',
     stats: s(8, 9, 7, 5, 6, 8, 4),
     terrain: { naval: 3 },
     lines: {
@@ -433,6 +499,9 @@ export const EXPANSION: Pick[] = [
     origin: 'Barbary Coast',
     year: 1801,
     blurb: 'Speed, audacity, and an invoice. The original subscription model.',
+    conflict: 'Barbary Wars',
+    descriptor:
+      'North African raiders who seized shipping and captives across the Mediterranean.',
     stats: s(6, 4, 9, 4, 3, 7, 6),
     terrain: { naval: 2, night: 1 },
     special: { trigger: 'supply', bonus: 1.1, label: 'Tribute schedule' },
@@ -450,6 +519,9 @@ export const EXPANSION: Pick[] = [
     origin: 'Republic of Venice',
     year: 1204,
     blurb: 'A galley a day, assembly line, six centuries before assembly lines. Dante toured it. It made the Inferno.',
+    conflict: 'Medieval Venice',
+    descriptor:
+      'Venice’s state shipyard, an assembly line that could turn out a war galley in a day.',
     stats: s(5, 6, 5, 10, 7, 6, 6),
     terrain: { naval: 2 },
     special: { trigger: 'supply', bonus: 1.3, label: 'A galley a day' },
@@ -466,6 +538,9 @@ export const EXPANSION: Pick[] = [
     origin: 'United States',
     year: 1943,
     blurb: 'Plywood, torpedoes, and future senators. Fast enough to outrun consequences, mostly.',
+    conflict: 'World War II',
+    descriptor:
+      'Fast, small US torpedo boats that harried Japanese ships in Pacific waters.',
     stats: s(6, 3, 10, 4, 6, 8, 5),
     terrain: { naval: 2, night: 2 },
     special: { trigger: 'night', bonus: 1.1, label: 'The dark is a torpedo lane' },
@@ -483,6 +558,9 @@ export const EXPANSION: Pick[] = [
     origin: 'Britain',
     year: 1942,
     blurb: 'The Baker Street Irregulars: sabotage, forged papers, and exploding rats. All real.',
+    conflict: 'World War II',
+    descriptor:
+      'Churchill’s sabotage agency, sent to ‘set Europe ablaze’ behind enemy lines.',
     stats: s(5, 4, 7, 4, 7, 8, 9),
     terrain: { night: 2 },
     special: { trigger: 'irregular', bonus: 1.3, label: 'Set Europe ablaze (metaphorically, officially)' },
@@ -499,6 +577,9 @@ export const EXPANSION: Pick[] = [
     origin: 'Achaemenid Persia',
     year: -500,
     blurb: 'The original inspectorate: royal officials who saw everything and reported by fast road.',
+    conflict: 'Achaemenid Empire',
+    descriptor:
+      'The Persian king’s inspectors, whose reports kept watch on distant governors.',
     stats: s(1, 4, 6, 6, 2, 5, 9),
     terrain: { desert: 1 },
     special: { trigger: 'logistics', bonus: 1.0, label: 'The audit rides ahead' },
@@ -515,6 +596,9 @@ export const EXPANSION: Pick[] = [
     origin: 'United States / Britain',
     year: 1955,
     blurb: 'A quarter-mile eavesdropping tunnel under the border. Betrayed before groundbreaking; useful anyway.',
+    conflict: 'Cold War',
+    descriptor:
+      'A secret Anglo-American tunnel that tapped Soviet phone lines under East Berlin.',
     stats: s(1, 5, 3, 5, 8, 5, 9),
     authenticity: 'historical',
     special: { trigger: 'intel', bonus: 1.2, label: 'The wire under everything' },
@@ -532,6 +616,9 @@ export const EXPANSION: Pick[] = [
     origin: 'Britain',
     year: 1944,
     blurb: 'Brought the harbor to the invasion. Towed a port across the Channel in pieces.',
+    conflict: 'World War II',
+    descriptor:
+      'Prefabricated floating harbors towed across the Channel to supply the D-Day beaches.',
     stats: s(2, 6, 4, 10, 8, 6, 4),
     terrain: { naval: 2 },
     special: { trigger: 'amphibious', bonus: 1.4, label: 'BYO port' },
@@ -548,6 +635,9 @@ export const EXPANSION: Pick[] = [
     origin: 'United States',
     year: 1944,
     blurb: 'Goes anywhere, carries anything, breaks politely. The war’s actual MVP per every sergeant.',
+    conflict: 'World War II',
+    descriptor:
+      'The rugged little 4x4 that hauled troops, guns, and gear across every WWII front.',
     stats: s(3, 4, 9, 8, 6, 7, 3),
     lines: {
       win: 'The jeeps moved the ammunition, the wounded, the general, and the general’s dog, in that exact order of ceremony.',
@@ -564,6 +654,9 @@ export const EXPANSION: Pick[] = [
     origin: 'Everywhere, simultaneously',
     year: 2021,
     blurb: 'One operator, four hundred opinions with propellers.',
+    conflict: 'The 2020s',
+    descriptor:
+      'Coordinated swarms of cheap drones that are reshaping the modern battlefield.',
     stats: s(7, 3, 9, 4, 9, 3, 8),
     terrain: { air: 2, night: 1 },
     special: { trigger: 'intel', bonus: 1.1, label: 'Everything is footage now' },
@@ -580,6 +673,9 @@ export const EXPANSION: Pick[] = [
     origin: 'Medium Earth Orbit',
     year: 2020,
     blurb: 'Knows where everything is, including your mistakes, to within one meter.',
+    conflict: 'The 2020s',
+    descriptor:
+      'The satellite constellation that guides navigation and precision weapons worldwide.',
     stats: s(1, 5, 2, 8, 10, 3, 9),
     bridge: 1,
     special: { trigger: 'logistics', bonus: 1.2, label: 'Nobody is lost anymore (allegedly)' },
@@ -597,6 +693,9 @@ export const EXPANSION: Pick[] = [
     origin: 'An unmarked building',
     year: 2021,
     blurb: 'Wars begin with a password reset now.',
+    conflict: 'The 2020s',
+    descriptor:
+      'Military hackers who wage war on networks, infrastructure, and data.',
     stats: s(6, 6, 2, 3, 10, 3, 9),
     special: { trigger: 'intel', bonus: 1.3, label: 'Have you tried turning the enemy off' },
     lines: {
@@ -613,6 +712,9 @@ export const EXPANSION: Pick[] = [
     origin: 'Hannibal, in exile',
     year: -190,
     blurb: 'Hannibal catapulted pots of live vipers onto enemy decks. It worked. Historians double-checked.',
+    conflict: 'Roman–Seleucid War',
+    descriptor:
+      'Hannibal’s naval ploy of hurling pots of venomous snakes onto enemy decks.',
     stats: s(7, 3, 5, 2, 2, 6, 8),
     terrain: { naval: 2 },
     special: { trigger: 'naval', bonus: 1.3, label: 'Cargo: absolutely not' },
@@ -629,6 +731,9 @@ export const EXPANSION: Pick[] = [
     origin: 'United States',
     year: 2020,
     blurb: 'A real military branch. The members are called Guardians. The logo looked familiar. It is real.',
+    conflict: 'The 2020s',
+    descriptor:
+      'The US armed service dedicated to operations in orbit and beyond.',
     stats: s(3, 6, 2, 5, 10, 4, 9),
     bridge: 1,
     special: { trigger: 'airsup', bonus: 1.2, label: 'The orbital high ground' },
@@ -645,6 +750,9 @@ export const EXPANSION: Pick[] = [
     origin: 'Hellenistic Greece',
     year: -150,
     blurb: 'Fire signals that spell out words, letter by letter. Antiquity invented dial-up.',
+    conflict: 'Hellenistic Era',
+    descriptor:
+      'A torch-signaling system that could spell out any message across long distances.',
     stats: s(1, 3, 7, 4, 4, 4, 8),
     bridge: 2,
     authenticity: 'historical',
@@ -662,6 +770,9 @@ export const EXPANSION: Pick[] = [
     origin: 'Aegina',
     year: -444,
     blurb: 'Taurosthenes sent news of his Olympic victory home by pigeon in one day. Antiquity had airmail.',
+    conflict: 'Ancient Greece',
+    descriptor:
+      'The pigeons that carried Olympic results and news between the Greek city-states.',
     stats: s(1, 2, 8, 4, 1, 5, 7),
     bridge: 1,
     authenticity: 'historical',
@@ -679,6 +790,9 @@ export const EXPANSION: Pick[] = [
     origin: 'Roman Republic',
     year: -52,
     blurb: "Caesar's scouts and couriers. He knew what the enemy ate for breakfast, and when they'd run out.",
+    conflict: 'Gallic Wars',
+    descriptor:
+      'Rome’s scouts and military spies, who ranged ahead of the legions to gather intelligence.',
     stats: s(3, 4, 8, 4, 2, 7, 9),
     terrain: { night: 2 },
     bridge: 1,
